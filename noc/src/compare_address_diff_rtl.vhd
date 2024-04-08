@@ -2,7 +2,7 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 USE ieee.math_real.ALL;
-USE work.data_pkg.ALL;
+USE work.data_if_pkg.ALL;
 USE work.noc_defs_pkg.ALL;
 
 
@@ -19,7 +19,7 @@ entity compare_address_diff_rtl is
         -- Output Continue
         out_req : OUT STD_LOGIC;
         out_data : OUT STD_LOGIC;
-        out_ack : IN STD_LOGIC;
+        out_ack : IN STD_LOGIC
 
     );
 end entity compare_address_diff_rtl;

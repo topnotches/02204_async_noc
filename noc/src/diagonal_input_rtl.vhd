@@ -2,7 +2,7 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 USE ieee.math_real.ALL;
-USE work.data_pkg.ALL;
+USE work.data_if_pkg.ALL;
 USE work.noc_defs_pkg.ALL;
 
 ENTITY diagonal_input_rtl IS
@@ -10,8 +10,8 @@ ENTITY diagonal_input_rtl IS
         rst : IN STD_LOGIC;
 
         -- Local Address
-        in_local_address_x : IN STD_LOGIC_VECTOR(NOC_ADDRESS_WIDTH - 1 DOWNTO 0);
-        in_local_address_y : IN STD_LOGIC_VECTOR(NOC_ADDRESS_WIDTH - 1 DOWNTO 0);
+        in_local_address_x : IN STD_LOGIC_VECTOR(NOC_ADDRESS_WIDTH - 1 DOWNTO 0) := (OTHERS => '0');
+        in_local_address_y : IN STD_LOGIC_VECTOR(NOC_ADDRESS_WIDTH - 1 DOWNTO 0) := (OTHERS => '0');
 
         -- Input channel
         in_ack : OUT STD_LOGIC;
@@ -19,9 +19,9 @@ ENTITY diagonal_input_rtl IS
         in_data : IN STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 DOWNTO 0);
 
         -- Output Continue
-        out_req_we : OUT STD_LOGIC;
-        out_data_we : OUT STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 DOWNTO 0);
-        out_ack_we : IN STD_LOGIC;
+        out_req_continue : OUT STD_LOGIC;
+        out_data_continue : OUT STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 DOWNTO 0);
+        out_ack_continue : IN STD_LOGIC;
 
         -- Output West/East
         out_req_we : OUT STD_LOGIC;
@@ -34,9 +34,9 @@ ENTITY diagonal_input_rtl IS
         out_ack_ns : IN STD_LOGIC;
 
         -- Output Local
-        out_req_ns : OUT STD_LOGIC;
-        out_data_ns : OUT STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 DOWNTO 0);
-        out_ack_ns : IN STD_LOGIC
+        out_req_local : OUT STD_LOGIC;
+        out_data_local : OUT STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 DOWNTO 0);
+        out_ack_local : IN STD_LOGIC
     );
 END ENTITY diagonal_input_rtl;
 
@@ -101,7 +101,7 @@ ARCHITECTURE rtl OF diagonal_input_rtl IS
     -- INPUT
     SIGNAL stage_compare_x_input_ack : STD_LOGIC;
     SIGNAL stage_compare_x_input_req : STD_LOGIC;
-    SIGNAL stage_compare_x_input_data : STD_LOGIC_VECTOR(NOC_ADDRESS_WIDTH - 1 DOWNTO 0);
+    SIGNAL stage_compare_x_input_data : STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 DOWNTO 0);
 
     -- OUTPUT
     SIGNAL stage_compare_x_output_ack : STD_LOGIC;
@@ -112,7 +112,7 @@ ARCHITECTURE rtl OF diagonal_input_rtl IS
     -- INPUT
     SIGNAL stage_compare_y_input_ack : STD_LOGIC;
     SIGNAL stage_compare_y_input_req : STD_LOGIC;
-    SIGNAL stage_compare_y_input_data : STD_LOGIC_VECTOR(NOC_ADDRESS_WIDTH - 1 DOWNTO 0);
+    SIGNAL stage_compare_y_input_data : STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 DOWNTO 0);
 
     -- OUTPUT
     SIGNAL stage_compare_y_output_ack : STD_LOGIC;
@@ -122,9 +122,9 @@ BEGIN
 
     stage_0_click : ENTITY work.click_element(Behavioral)
         GENERIC MAP(
-            DATA_WIDTH => NOC_DATA_WIDTH, -- Replace YOUR_DATA_WIDTH with your desired value
-            VALUE => YOUR_VALUE, -- Replace YOUR_VALUE with your desired value
-            PHASE_INIT => '0' -- Set PHASE_INIT to '0' as per your requirements
+            DATA_WIDTH => NOC_DIAGONAL_STAGE_0_CLICK_WIDTH,
+            VALUE => NOC_DIAGONAL_STAGE_0_CLICK_VALUE,
+            PHASE_INIT => NOC_DIAGONAL_STAGE_0_CLICK_PHASE -- Set PHASE_INIT to '0' as per your requirements
         )
         PORT MAP
         (
@@ -139,11 +139,11 @@ BEGIN
 
     stage_1_fork : ENTITY work.reg_fork(Behavioral)
         GENERIC MAP(
-            DATA_WIDTH => TBD,
-            VALUE => TBD,
-            PHASE_INIT_A => TBD,
-            PHASE_INIT_B => TBD,
-            PHASE_INIT_C => TBD
+            DATA_WIDTH => NOC_DIAGONAL_STAGE_0_FORK_WIDTH,
+            VALUE => NOC_DIAGONAL_STAGE_0_FORK_VALUE,
+            PHASE_INIT_A => NOC_DIAGONAL_STAGE_0_FORK_PHASE_A,
+            PHASE_INIT_B => NOC_DIAGONAL_STAGE_0_FORK_PHASE_B,
+            PHASE_INIT_C => NOC_DIAGONAL_STAGE_0_FORK_PHASE_C
         )
         PORT MAP(
             rst => rst,
@@ -162,13 +162,12 @@ BEGIN
         );
 
     -- Stage demux
-    stage_demux_0 : ENTITY work.reg_fork(Behavioral)
+    stage_demux_0 : ENTITY work.demux(Behavioral)
         GENERIC MAP(
-            DATA_WIDTH => TBD,
-            VALUE => TBD,
-            PHASE_INIT_A => TBD,
-            PHASE_INIT_B => TBD,
-            PHASE_INIT_C => TBD
+            DEMUX_DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
+            PHASE_INIT_A => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_A,
+            PHASE_INIT_B => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_B,
+            PHASE_INIT_C => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_C
         )
         PORT MAP(
             rst => rst,
@@ -189,13 +188,12 @@ BEGIN
             outC_data => stage_demux_0_sel_1_data,
             outC_ack => stage_demux_0_sel_1_ack
         );
-    stage_demux_1 : ENTITY work.reg_fork(Behavioral)
+    stage_demux_1 : ENTITY work.demux(Behavioral)
         GENERIC MAP(
-            DATA_WIDTH => TBD,
-            VALUE => TBD,
-            PHASE_INIT_A => TBD,
-            PHASE_INIT_B => TBD,
-            PHASE_INIT_C => TBD
+            DEMUX_DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_1_WIDTH,
+            PHASE_INIT_A => NOC_DIAGONAL_STAGE_DEMUX_1_PHASE_A,
+            PHASE_INIT_B => NOC_DIAGONAL_STAGE_DEMUX_1_PHASE_B,
+            PHASE_INIT_C => NOC_DIAGONAL_STAGE_DEMUX_1_PHASE_C
         )
         PORT MAP(
             rst => rst,
@@ -216,13 +214,12 @@ BEGIN
             outC_data => stage_demux_1_sel_1_data,
             outC_ack => stage_demux_1_sel_1_ack
         );
-    stage_demux_2 : ENTITY work.reg_fork(Behavioral)
+    stage_demux_2 : ENTITY work.demux(Behavioral)
         GENERIC MAP(
-            DATA_WIDTH => TBD,
-            VALUE => TBD,
-            PHASE_INIT_A => TBD,
-            PHASE_INIT_B => TBD,
-            PHASE_INIT_C => TBD
+            DEMUX_DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_2_WIDTH,
+            PHASE_INIT_A => NOC_DIAGONAL_STAGE_DEMUX_2_PHASE_A,
+            PHASE_INIT_B => NOC_DIAGONAL_STAGE_DEMUX_2_PHASE_B,
+            PHASE_INIT_C => NOC_DIAGONAL_STAGE_DEMUX_2_PHASE_C
         )
         PORT MAP(
             rst => rst,
@@ -245,13 +242,13 @@ BEGIN
         );
 
     -- compare addresses
-    compare_fork : ENTITY work.reg_fork(Behavioral)
+    stage_compare_fork : ENTITY work.reg_fork(Behavioral)
         GENERIC MAP(
-            DATA_WIDTH => TBD,
-            VALUE => TBD,
-            PHASE_INIT_A => TBD,
-            PHASE_INIT_B => TBD,
-            PHASE_INIT_C => TBD
+            DATA_WIDTH => NOC_DIAGONAL_STAGE_COMPARE_FORK_WIDTH,
+            VALUE => NOC_DIAGONAL_STAGE_COMPARE_FORK_VALUE,
+            PHASE_INIT_A => NOC_DIAGONAL_STAGE_COMPARE_FORK_PHASE_A,
+            PHASE_INIT_B => NOC_DIAGONAL_STAGE_COMPARE_FORK_PHASE_B,
+            PHASE_INIT_C => NOC_DIAGONAL_STAGE_COMPARE_FORK_PHASE_C
         )
         PORT MAP(
             rst => rst,
@@ -270,10 +267,10 @@ BEGIN
         );
 
     -- generate compare selectors
-    compare_x : ENTITY work.compare_slv_diff_rtl(rtl)
+    stage_compare_x : ENTITY work.compare_address_diff_rtl(rtl)
         PORT MAP
         (
-            in_local_address => in_local_address,
+            in_local_address => in_local_address_x,
             in_ack => stage_compare_x_input_ack,
             in_req => stage_compare_x_input_req,
             in_data => slv_to_data_if(stage_compare_x_input_data).x,
@@ -282,10 +279,10 @@ BEGIN
             out_ack => stage_compare_x_output_ack
         );
 
-    compare_y : ENTITY work.compare_slv_diff_rtl(rtl)
+    stage_compare_y : ENTITY work.compare_address_diff_rtl(rtl)
         PORT MAP
         (
-            in_local_address => in_local_address,
+            in_local_address => in_local_address_y,
             in_ack => stage_compare_y_input_ack,
             in_req => stage_compare_y_input_req,
             in_data => slv_to_data_if(stage_compare_y_input_data).y,
