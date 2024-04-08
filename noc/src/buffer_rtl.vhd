@@ -2,14 +2,14 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 USE ieee.math_real.ALL;
-USE work.data_pkg.ALL;
+USE work.data_if_pkg.ALL;
 USE work.noc_defs_pkg.ALL;
 
-entity buffer_rtl is 
-    generic (
-        buffer_length: integer := 0;
+ENTITY buffer_rtl IS
+    GENERIC (
+        buffer_length: integer := 0
     );
-    port(
+    PORT(
         --Reset input
         rst: IN STD_LOGIC;
 
@@ -21,17 +21,17 @@ entity buffer_rtl is
         -- Output channels
         out_ack : IN STD_LOGIC;
         out_req : OUT STD_LOGIC;
-        out_data : OUT STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 downto 0);
+        out_data : OUT STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 downto 0)
     );
-end entity buffer_rtl;
+END ENTITY buffer_rtl;
 
 ARCHITECTURE RTL OF buffer_rtl IS
 
-    signal buffer_ack_array : STD_LOGIC_VECTOR( 0 to buffer_length) := (others => '0');
-    signal buffer_req_array : STD_LOGIC_VECTOR( 0 to buffer_length) := (others => '0');
+    SIGNAL buffer_ack_array : STD_LOGIC_VECTOR( 0 TO buffer_length) := (others => '0');
+    SIGNAL buffer_req_array : STD_LOGIC_VECTOR( 0 TO buffer_length) := (others => '0');
 
-    type data_array is array ( 0 to buffer_length - 1 ) of STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 downto 0) := (others => (others => '0'));
-    signal buffer_data_array : data_array;
+    TYPE data_array IS ARRAY (0 TO buffer_length) OF STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 downto 0);
+    SIGNAL buffer_data_array : data_array  := (others => (others => '0'));
 BEGIN
     in_ack <= buffer_ack_array(0);
     buffer_req_array(0) <= in_req;
@@ -42,10 +42,10 @@ BEGIN
     out_data <= buffer_data_array(buffer_data_array'length - 1);
 
     click_elements_generation : FOR i IN 0 TO buffer_length - 1 GENERATE
-        click_element : ENTITY work.click_element(Behavioutal)
+        click_element : ENTITY work.click_element(Behavioral)
         GENERIC MAP(
             DATA_WIDTH => NOC_DATA_WIDTH, -- Replace YOUR_DATA_WIDTH with your desired value
-            VALUE => '0', -- Replace YOUR_VALUE with your desired value
+            VALUE => 0, -- Replace YOUR_VALUE with your desired value
             PHASE_INIT => '0' -- Set PHASE_INIT to '0' as per your requirements
         )
         PORT MAP(
