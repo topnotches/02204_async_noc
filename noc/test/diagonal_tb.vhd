@@ -9,11 +9,11 @@ end diagonal_tb;
 
 architecture behavioral of diagonal_tb is
   -- Assuming NOC_ADDRESS_WIDTH, NOC_DATA_WIDTH are previously defined constants
-  signal rst_signal : std_logic := '0';
+  signal rst_signal : std_logic := '1';
 
   signal in_local_address_x_signal : std_logic_vector(NOC_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
   signal in_local_address_y_signal : std_logic_vector(NOC_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
-  )
+
   signal in_ack_signal  : std_logic                                     := '0';
   signal in_req_signal  : std_logic                                     := '0';
   signal in_data_signal : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
@@ -33,7 +33,7 @@ architecture behavioral of diagonal_tb is
   signal out_req_local_signal  : std_logic                                     := '0';
   signal out_data_local_signal : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
   signal out_ack_local_signal  : std_logic                                     := '0';
-  type a8_data_if_t is array (natural 0 to 3) of data_if;
+  type a8_data_if_t is array (natural range 0 to 3) of data_if;
   signal sa8_data_if_stimuli : a8_data_if_t := (init_data_if(0, 0),
   init_data_if(0, 1),
   init_data_if(1, 0),
@@ -68,32 +68,30 @@ begin
       out_data_local => out_data_local_signal,
       out_ack_local  => out_ack_local_signal
     );
-
-  process (all)
+  -- Testbench for diagonal input
+  TB : block
   begin
+    process
+      constant DATA_PREP_DELAY : time := NOC_MISC_DELAY_10_NS;
 
-    -- Testbench for diagonal input
-    TB : block
-    begin
-      process
-        constant DATA_PREP_DELAY : time := NOC_MISC_DELAY_10_NS;
-
-        procedure insert_data_package_from_stim_vector(index_sel_data : in natural) is
-        begin
-
-          in_data_signal <= data_if_to_slv(sa8_data_if_stimuli(index_sel_data));
-          wait DATA_PREP_DELAY;
-          in_req_signal <= '1';
-          wait until in_ack_signal = '1';
-          in_req_signal <= '0';
-        end procedure;
+      procedure insert_data_package_from_stim_vector(index_sel_data : in natural) is
       begin
-        insert_data_package_from_stim_vector(0);
-        insert_data_package_from_stim_vector(1);
-        insert_data_package_from_stim_vector(2);
-        insert_data_package_from_stim_vector(3);
-      end block;
+
+        in_data_signal <= data_if_to_slv(sa8_data_if_stimuli(index_sel_data));
+        wait for DATA_PREP_DELAY;
+        in_req_signal <= '1';
+        wait until in_ack_signal = '1';
+        in_req_signal <= '0';
+        wait until in_ack_signal = '0';
+      end procedure;
+    begin
+      wait for 100 ns;
+      insert_data_package_from_stim_vector(0);
+      insert_data_package_from_stim_vector(1);
+      insert_data_package_from_stim_vector(2);
+      insert_data_package_from_stim_vector(3);
     end process;
-    -- Reset Signal Goes Low
-    rst_signal <= '0' after 50 ns;
-  end architecture;
+  end block;
+  -- Reset Signal Goes Low
+  rst_signal <= '0' after 50 ns;
+end architecture;

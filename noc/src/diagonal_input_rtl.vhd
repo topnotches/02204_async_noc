@@ -44,90 +44,90 @@ end entity diagonal_input_rtl;
 architecture rtl of diagonal_input_rtl is
 
   -- Stage 0 Signals
-  signal stage_0_ack  : std_logic;
-  signal stage_0_req  : std_logic;
-  signal stage_0_data : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+  signal stage_0_ack  : std_logic                                     := '0';
+  signal stage_0_req  : std_logic                                     := '0';
+  signal stage_0_data : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
 
   -- Stage 1 Signals (fork)
 
   -- Port Path
-  signal stage_1_port_ack  : std_logic;
-  signal stage_1_port_req  : std_logic;
-  signal stage_1_port_data : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+  signal stage_1_port_ack  : std_logic                                     := '0';
+  signal stage_1_port_req  : std_logic                                     := '0';
+  signal stage_1_port_data : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
   -- Compare Path
-  signal stage_1_compare_ack  : std_logic;
-  signal stage_1_compare_req  : std_logic;
-  signal stage_1_compare_data : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+  signal stage_1_compare_ack  : std_logic                                     := '0';
+  signal stage_1_compare_req  : std_logic                                     := '0';
+  signal stage_1_compare_data : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
 
   -- Stage DEMUX
   -- DEMUX 0
-  signal stage_demux_0_sel_0_ack  : std_logic;
-  signal stage_demux_0_sel_0_req  : std_logic;
-  signal stage_demux_0_sel_0_data : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0);
+  signal stage_demux_0_sel_0_ack  : std_logic                                                       := '0';
+  signal stage_demux_0_sel_0_req  : std_logic                                                       := '0';
+  signal stage_demux_0_sel_0_data : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
 
-  signal stage_demux_0_sel_1_ack  : std_logic;
-  signal stage_demux_0_sel_1_req  : std_logic;
-  signal stage_demux_0_sel_1_data : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0);
+  signal stage_demux_0_sel_1_ack  : std_logic                                                       := '0';
+  signal stage_demux_0_sel_1_req  : std_logic                                                       := '0';
+  signal stage_demux_0_sel_1_data : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
 
   -- DEMUX 1
-  signal stage_demux_1_sel_0_ack  : std_logic;
-  signal stage_demux_1_sel_0_req  : std_logic;
-  signal stage_demux_1_sel_0_data : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_1_WIDTH - 1 downto 0);
+  signal stage_demux_1_sel_0_ack  : std_logic                                                       := '0';
+  signal stage_demux_1_sel_0_req  : std_logic                                                       := '0';
+  signal stage_demux_1_sel_0_data : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_1_WIDTH - 1 downto 0) := (others => '0');
 
-  signal stage_demux_1_sel_1_ack  : std_logic;
-  signal stage_demux_1_sel_1_req  : std_logic;
-  signal stage_demux_1_sel_1_data : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_1_WIDTH - 1 downto 0);
+  signal stage_demux_1_sel_1_ack  : std_logic                                                       := '0';
+  signal stage_demux_1_sel_1_req  : std_logic                                                       := '0';
+  signal stage_demux_1_sel_1_data : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_1_WIDTH - 1 downto 0) := (others => '0');
 
   -- DEMUX 2
-  signal stage_demux_2_sel_0_ack  : std_logic;
-  signal stage_demux_2_sel_0_req  : std_logic;
-  signal stage_demux_2_sel_0_data : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_2_WIDTH - 1 downto 0);
+  signal stage_demux_2_sel_0_ack  : std_logic                                                       := '0';
+  signal stage_demux_2_sel_0_req  : std_logic                                                       := '0';
+  signal stage_demux_2_sel_0_data : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_2_WIDTH - 1 downto 0) := (others => '0');
 
-  signal stage_demux_2_sel_1_ack  : std_logic;
-  signal stage_demux_2_sel_1_req  : std_logic;
-  signal stage_demux_2_sel_1_data : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_2_WIDTH - 1 downto 0);
+  signal stage_demux_2_sel_1_ack  : std_logic                                                       := '0';
+  signal stage_demux_2_sel_1_req  : std_logic                                                       := '0';
+  signal stage_demux_2_sel_1_data : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_2_WIDTH - 1 downto 0) := (others => '0');
 
   -- Stage Compare
 
   -- Fork
-  signal stage_compare_x_ack  : std_logic;
-  signal stage_compare_x_req  : std_logic;
-  signal stage_compare_x_data : std_logic_vector(NOC_DIAGONAL_STAGE_COMPARE_FORK_WIDTH - 1 downto 0);
+  signal stage_compare_x_ack  : std_logic                                                            := '0';
+  signal stage_compare_x_req  : std_logic                                                            := '0';
+  signal stage_compare_x_data : std_logic_vector(NOC_DIAGONAL_STAGE_COMPARE_FORK_WIDTH - 1 downto 0) := (others => '0');
 
-  signal stage_compare_y_ack  : std_logic;
-  signal stage_compare_y_req  : std_logic;
-  signal stage_compare_y_data : std_logic_vector(NOC_DIAGONAL_STAGE_COMPARE_FORK_WIDTH - 1 downto 0);
+  signal stage_compare_y_ack  : std_logic                                                            := '0';
+  signal stage_compare_y_req  : std_logic                                                            := '0';
+  signal stage_compare_y_data : std_logic_vector(NOC_DIAGONAL_STAGE_COMPARE_FORK_WIDTH - 1 downto 0) := (others => '0');
 
   -- Compare X
   -- INPUT
-  signal stage_compare_x_input_ack  : std_logic;
-  signal stage_compare_x_input_req  : std_logic;
-  signal stage_compare_x_input_data : std_logic_vector(stage_compare_x_data'length - 1 downto 0);
+  signal stage_compare_x_input_ack  : std_logic                                                  := '0';
+  signal stage_compare_x_input_req  : std_logic                                                  := '0';
+  signal stage_compare_x_input_data : std_logic_vector(stage_compare_x_data'length - 1 downto 0) := (others => '0');
 
   -- OUTPUT
-  signal stage_compare_x_output_ack  : std_logic;
-  signal stage_compare_x_output_req  : std_logic;
-  signal stage_compare_x_output_data : std_logic;
+  signal stage_compare_x_output_ack  : std_logic := '0';
+  signal stage_compare_x_output_req  : std_logic := '0';
+  signal stage_compare_x_output_data : std_logic := '0';
 
   -- Compare Y
   -- INPUT
-  signal stage_compare_y_input_ack  : std_logic;
-  signal stage_compare_y_input_req  : std_logic;
-  signal stage_compare_y_input_data : std_logic_vector(stage_compare_y_data'length - 1 downto 0);
+  signal stage_compare_y_input_ack  : std_logic                                                  := '0';
+  signal stage_compare_y_input_req  : std_logic                                                  := '0';
+  signal stage_compare_y_input_data : std_logic_vector(stage_compare_y_data'length - 1 downto 0) := (others => '0');
 
   -- OUTPUT
-  signal stage_compare_y_output_ack  : std_logic;
-  signal stage_compare_y_output_req  : std_logic;
-  signal stage_compare_y_output_data : std_logic_vector(NOC_DIAGONAL_STAGE_COMPARE_Y_FORK_WIDTH - 1 downto 0);
+  signal stage_compare_y_output_ack  : std_logic                                                              := '0';
+  signal stage_compare_y_output_req  : std_logic                                                              := '0';
+  signal stage_compare_y_output_data : std_logic_vector(NOC_DIAGONAL_STAGE_COMPARE_Y_FORK_WIDTH - 1 downto 0) := (others => '0');
 
   -- Y Select Fork Stage
-  signal stage_select_y_0_ack  : std_logic;
-  signal stage_select_y_0_req  : std_logic;
-  signal stage_select_y_0_data : std_logic_vector(NOC_DIAGONAL_STAGE_COMPARE_Y_FORK_WIDTH - 1 downto 0);
+  signal stage_select_y_0_ack  : std_logic                                                              := '0';
+  signal stage_select_y_0_req  : std_logic                                                              := '0';
+  signal stage_select_y_0_data : std_logic_vector(NOC_DIAGONAL_STAGE_COMPARE_Y_FORK_WIDTH - 1 downto 0) := (others => '0');
 
-  signal stage_select_y_1_ack  : std_logic;
-  signal stage_select_y_1_req  : std_logic;
-  signal stage_select_y_1_data : std_logic_vector(NOC_DIAGONAL_STAGE_COMPARE_Y_FORK_WIDTH - 1 downto 0);
+  signal stage_select_y_1_ack  : std_logic                                                              := '0';
+  signal stage_select_y_1_req  : std_logic                                                              := '0';
+  signal stage_select_y_1_data : std_logic_vector(NOC_DIAGONAL_STAGE_COMPARE_Y_FORK_WIDTH - 1 downto 0) := (others => '0');
 begin
 
   out_req_continue        <= stage_demux_1_sel_0_req;
