@@ -7,7 +7,7 @@ USE work.noc_defs_pkg.ALL;
 
 entity buffer_rtl is 
     generic (
-        buffer_length: integer;
+        buffer_length: integer := 0;
     );
     port(
         --Reset input
@@ -26,73 +26,36 @@ entity buffer_rtl is
 end entity buffer_rtl;
 
 ARCHITECTURE RTL OF buffer_rtl IS
-    
-    signal buffer_ack_array : STD_LOGIC_VECTOR( 0 to buffer_length - 1 );
-    signal buffer_req_array : STD_LOGIC_VECTOR( 0 to buffer_length - 1 );
-    
-    type data_array is array ( 0 to buffer_length - 1 ) of STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 downto 0);
+
+    signal buffer_ack_array : STD_LOGIC_VECTOR( 0 to buffer_length) := (others => '0');
+    signal buffer_req_array : STD_LOGIC_VECTOR( 0 to buffer_length) := (others => '0');
+
+    type data_array is array ( 0 to buffer_length - 1 ) of STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 downto 0) := (others => (others => '0'));
     signal buffer_data_array : data_array;
-
-    type click_element_array is array (natural range <>) of work.clickElement;
-    signal clickElements : click_element_array(0 to buffer_length - 1);
 BEGIN
+    in_ack <= buffer_ack_array(0);
+    buffer_req_array(0) <= in_req;
+    buffer_data_array(0) <= in_data;
 
-    -- Input click element that is connected to the input of the buffer and the first element in the width long arrays
-    input_click : ENTITY work.click_element(Behavioral)
-    GENERIC MAP(
-        DATA_WIDTH => NOC_DATA_WIDTH, -- Replace YOUR_DATA_WIDTH with your desired value
-        VALUE => YOUR_VALUE, -- Replace YOUR_VALUE with your desired value
-        PHASE_INIT => '0' -- Set PHASE_INIT to '0' as per your requirements
-    )
-    PORT MAP
-    (
-        rst => rst,
-        in_ack => in_ack,
-        in_req => in_req,
-        in_data => in_data,
-        out_ack => buffer_ack_array[0],
-        out_req => buffer_req_array[0],
-        out_data => data_array[0],
-    );
+    buffer_ack_array(buffer_ack_array'length - 1) <= out_ack;
+    out_req <= buffer_req_array(buffer_req_array'length-1); 
+    out_data <= buffer_data_array(buffer_data_array'length - 1);
 
-    -- IDK if this makes any sense xd
-    -- Generating click elements from the lists and buffer, except the first and last one which is connected to the input and output of the buffer itself
-    middle_clicks : FOR i IN 1 TO buffer_length - 2 GENERATE
-        mid_click_element : ENTITY work.click_element(Behavioral)
+    click_elements_generation : FOR i IN 0 TO buffer_length - 1 GENERATE
+        click_element : ENTITY work.click_element(Behavioutal)
         GENERIC MAP(
             DATA_WIDTH => NOC_DATA_WIDTH, -- Replace YOUR_DATA_WIDTH with your desired value
-            VALUE => YOUR_VALUE, -- Replace YOUR_VALUE with your desired value
+            VALUE => '0', -- Replace YOUR_VALUE with your desired value
             PHASE_INIT => '0' -- Set PHASE_INIT to '0' as per your requirements
         )
-        PORT MAP
-        (
+        PORT MAP(
             rst => rst,
-            in_ack => buffer_ack_array[i-1],
-            in_req => buffer_req_array[i-1],
-            in_data => data_array[i-1],
-            out_ack => buffer_ack_array[i+1],
-            out_req => buffer_req_array[i+1],
-            out_data => data_array[i+1],
+            in_ack => buffer_ack_array(i),
+            in_req => buffer_req_array(i),
+            in_data => buffer_data_array(i),
+            out_ack => buffer_ack_array(i+1),
+            out_req => buffer_req_array(i+1),
+            out_data => buffer_data_array(i+1)
         );
     END GENERATE;
-
-    -- Output click element 
-    -- Has the input from the last element in the buffers signals lists and data array
-    -- The output is connected to the output of the buffer
-    output_click : ENTITY work.click_element(Behavioral)
-    GENERIC MAP(
-        DATA_WIDTH => NOC_DATA_WIDTH, -- Replace YOUR_DATA_WIDTH with your desired value
-        VALUE => YOUR_VALUE, -- Replace YOUR_VALUE with your desired value
-        PHASE_INIT => '0' -- Set PHASE_INIT to '0' as per your requirements
-    )
-    PORT MAP(
-        rst => rst,
-        in_ack => buffer_ack_array[buffer_length - 1],
-        in_req => buffer_req_array[buffer_length - 1],
-        in_data => data_array[buffer_length - 1],
-        out_ack => out_ack,
-        out_req => out_req,
-        out_data => out_data
-    );
-
 END ARCHITECTURE RTL;
