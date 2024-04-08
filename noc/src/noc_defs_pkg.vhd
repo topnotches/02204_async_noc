@@ -1,66 +1,72 @@
 -- noc_defs package
-LIBRARY ieee;
-USE ieee.std_logic_1164.ALL;
-USE ieee.numeric_std.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
-PACKAGE noc_defs_pkg IS
+package noc_defs_pkg is
 
-    -- Miscellaneous NOC Parameters
-    CONSTANT NOC_MISC_DELAY_0_5_NS : time := 0.5 ns;
-    CONSTANT NOC_MISC_DELAY_1_NS : time := 1 ns;
-    CONSTANT NOC_MISC_DELAY_2_NS : time := 2 ns;
-    CONSTANT NOC_MISC_DELAY_5_NS : time := 5 ns;
-    CONSTANT NOC_MISC_DELAY_10_NS : time := 10 ns;
-    CONSTANT NOC_MISC_DELAY_15_NS : time := 15 ns;
-    CONSTANT NOC_MISC_DELAY_20_NS : time := 20 ns;
-    CONSTANT NOC_MISC_DELAY_25_NS : time := 25 ns;
-    CONSTANT NOC_MISC_DELAY_30_NS : time := 30 ns;
-    CONSTANT NOC_MISC_DELAY_35_NS : time := 35 ns;
-    CONSTANT NOC_MISC_DELAY_40_NS : time := 40 ns;
-    CONSTANT NOC_MISC_DELAY_45_NS : time := 45 ns;
-    CONSTANT NOC_MISC_DELAY_50_NS : time := 50 ns;
-    CONSTANT NOC_MISC_DELAY_100_NS : time := 100 ns;
-    CONSTANT NOC_MISC_DELAY_200_NS : time := 200 ns;
+  -- Miscellaneous NOC Parameters
+  constant NOC_MISC_DELAY_0_5_NS : time := 0.5 ns;
+  constant NOC_MISC_DELAY_1_NS   : time := 1 ns;
+  constant NOC_MISC_DELAY_2_NS   : time := 2 ns;
+  constant NOC_MISC_DELAY_5_NS   : time := 5 ns;
+  constant NOC_MISC_DELAY_10_NS  : time := 10 ns;
+  constant NOC_MISC_DELAY_15_NS  : time := 15 ns;
+  constant NOC_MISC_DELAY_20_NS  : time := 20 ns;
+  constant NOC_MISC_DELAY_25_NS  : time := 25 ns;
+  constant NOC_MISC_DELAY_30_NS  : time := 30 ns;
+  constant NOC_MISC_DELAY_35_NS  : time := 35 ns;
+  constant NOC_MISC_DELAY_40_NS  : time := 40 ns;
+  constant NOC_MISC_DELAY_45_NS  : time := 45 ns;
+  constant NOC_MISC_DELAY_50_NS  : time := 50 ns;
+  constant NOC_MISC_DELAY_100_NS : time := 100 ns;
+  constant NOC_MISC_DELAY_200_NS : time := 200 ns;
 
-    -- Define Global NoC Parameters
-    CONSTANT NOC_DATA_WIDTH : NATURAL := 4;
-    CONSTANT NOC_ADDRESS_WIDTH : NATURAL := 2;
-    CONSTANT NOC_ADDRESS_COMPARE_DELAY : NATURAL := 2;
+  -- Define Global NoC Parameters
+  constant NOC_DATA_WIDTH            : natural := 4;
+  constant NOC_ADDRESS_WIDTH         : natural := 2;
+  constant NOC_ADDRESS_COMPARE_DELAY : natural := 2;
 
-    -- Define Diagonal Input NoC Parameters
-    CONSTANT NOC_DIAGONAL_STAGE_0_CLICK_WIDTH : NATURAL := NOC_DATA_WIDTH;
-    CONSTANT NOC_DIAGONAL_STAGE_0_CLICK_VALUE : NATURAL := 10;
-    CONSTANT NOC_DIAGONAL_STAGE_0_CLICK_PHASE : STD_LOGIC := '1';
-    
-    CONSTANT NOC_DIAGONAL_STAGE_0_FORK_WIDTH : NATURAL := NOC_DATA_WIDTH;
-    CONSTANT NOC_DIAGONAL_STAGE_0_FORK_VALUE : NATURAL := 10;
-    CONSTANT NOC_DIAGONAL_STAGE_0_FORK_PHASE_A : STD_LOGIC := '0';
-    CONSTANT NOC_DIAGONAL_STAGE_0_FORK_PHASE_B : STD_LOGIC := '1';
-    CONSTANT NOC_DIAGONAL_STAGE_0_FORK_PHASE_C : STD_LOGIC := '1';
+  -- Define Diagonal Input NoC Parameters
+  constant NOC_DIAGONAL_STAGE_0_CLICK_WIDTH : natural   := NOC_DATA_WIDTH;
+  constant NOC_DIAGONAL_STAGE_0_CLICK_VALUE : natural   := 0;
+  constant NOC_DIAGONAL_STAGE_0_CLICK_PHASE : std_logic := '1';
 
-    CONSTANT NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH : NATURAL := NOC_DATA_WIDTH;
-    CONSTANT NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_A : STD_LOGIC := '0';
-    CONSTANT NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_B : STD_LOGIC := '1';
-    CONSTANT NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_C : STD_LOGIC := '1';
+  constant NOC_DIAGONAL_STAGE_0_FORK_WIDTH   : natural   := NOC_DIAGONAL_STAGE_0_CLICK_WIDTH;
+  constant NOC_DIAGONAL_STAGE_0_FORK_VALUE   : natural   := 10;
+  constant NOC_DIAGONAL_STAGE_0_FORK_PHASE_A : std_logic := '0';
+  constant NOC_DIAGONAL_STAGE_0_FORK_PHASE_B : std_logic := '1';
+  constant NOC_DIAGONAL_STAGE_0_FORK_PHASE_C : std_logic := '1';
 
-    CONSTANT NOC_DIAGONAL_STAGE_DEMUX_1_WIDTH : NATURAL := NOC_DATA_WIDTH;
-    CONSTANT NOC_DIAGONAL_STAGE_DEMUX_1_PHASE_A : STD_LOGIC := '0';
-    CONSTANT NOC_DIAGONAL_STAGE_DEMUX_1_PHASE_B : STD_LOGIC := '1';
-    CONSTANT NOC_DIAGONAL_STAGE_DEMUX_1_PHASE_C : STD_LOGIC := '1';
+  constant NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH   : natural   := NOC_DIAGONAL_STAGE_0_FORK_WIDTH;
+  constant NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_A : std_logic := '0';
+  constant NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_B : std_logic := '1';
+  constant NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_C : std_logic := '1';
 
-    CONSTANT NOC_DIAGONAL_STAGE_DEMUX_2_WIDTH : NATURAL := NOC_DATA_WIDTH;
-    CONSTANT NOC_DIAGONAL_STAGE_DEMUX_2_PHASE_A : STD_LOGIC := '0';
-    CONSTANT NOC_DIAGONAL_STAGE_DEMUX_2_PHASE_B : STD_LOGIC := '1';
-    CONSTANT NOC_DIAGONAL_STAGE_DEMUX_2_PHASE_C : STD_LOGIC := '1';
+  constant NOC_DIAGONAL_STAGE_DEMUX_1_WIDTH   : natural   := NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH;
+  constant NOC_DIAGONAL_STAGE_DEMUX_1_PHASE_A : std_logic := '0';
+  constant NOC_DIAGONAL_STAGE_DEMUX_1_PHASE_B : std_logic := '1';
+  constant NOC_DIAGONAL_STAGE_DEMUX_1_PHASE_C : std_logic := '1';
 
-    CONSTANT NOC_DIAGONAL_STAGE_COMPARE_FORK_WIDTH : NATURAL := NOC_DATA_WIDTH;
-    CONSTANT NOC_DIAGONAL_STAGE_COMPARE_FORK_VALUE : NATURAL := 10;
-    CONSTANT NOC_DIAGONAL_STAGE_COMPARE_FORK_PHASE_A : STD_LOGIC := '0';
-    CONSTANT NOC_DIAGONAL_STAGE_COMPARE_FORK_PHASE_B : STD_LOGIC := '1';
-    CONSTANT NOC_DIAGONAL_STAGE_COMPARE_FORK_PHASE_C : STD_LOGIC := '1';
+  constant NOC_DIAGONAL_STAGE_DEMUX_2_WIDTH   : natural   := NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH;
+  constant NOC_DIAGONAL_STAGE_DEMUX_2_PHASE_A : std_logic := '0';
+  constant NOC_DIAGONAL_STAGE_DEMUX_2_PHASE_B : std_logic := '1';
+  constant NOC_DIAGONAL_STAGE_DEMUX_2_PHASE_C : std_logic := '1';
 
-END PACKAGE noc_defs_pkg;
+  constant NOC_DIAGONAL_STAGE_COMPARE_FORK_WIDTH   : natural   := NOC_DIAGONAL_STAGE_0_CLICK_WIDTH;
+  constant NOC_DIAGONAL_STAGE_COMPARE_FORK_VALUE   : natural   := 10;
+  constant NOC_DIAGONAL_STAGE_COMPARE_FORK_PHASE_A : std_logic := '0';
+  constant NOC_DIAGONAL_STAGE_COMPARE_FORK_PHASE_B : std_logic := '1';
+  constant NOC_DIAGONAL_STAGE_COMPARE_FORK_PHASE_C : std_logic := '1';
 
-PACKAGE BODY noc_defs_pkg IS
+  constant NOC_DIAGONAL_STAGE_COMPARE_Y_FORK_WIDTH   : natural   := 1;
+  constant NOC_DIAGONAL_STAGE_COMPARE_Y_FORK_VALUE   : natural   := 10;
+  constant NOC_DIAGONAL_STAGE_COMPARE_Y_FORK_PHASE_A : std_logic := '0';
+  constant NOC_DIAGONAL_STAGE_COMPARE_Y_FORK_PHASE_B : std_logic := '1';
+  constant NOC_DIAGONAL_STAGE_COMPARE_Y_FORK_PHASE_C : std_logic := '1';
 
-END PACKAGE BODY noc_defs_pkg;
+end package noc_defs_pkg;
+
+package body noc_defs_pkg is
+
+end package body noc_defs_pkg;
