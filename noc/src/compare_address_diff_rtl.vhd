@@ -42,6 +42,9 @@ begin
     );
 
     compare : ENTITY work.compare_slv_diff_rtl(rtl)
+    GENERIC MAP(
+        COMPARE_LENGTH => NOC_ADDRESS_WIDTH
+    )
     PORT MAP
     (
         comp_a => in_data,
