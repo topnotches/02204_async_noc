@@ -1,7 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use work.noc_defs.all;
+use work.noc_defs_pkg.all;
 
 package data_if_pkg is
     type data_if is record
@@ -9,6 +9,7 @@ package data_if_pkg is
         y : std_logic_vector(NOC_ADDRESS_WIDTH - 1 downto 0);
     end record;
 
+    function init_data_if(x_val, y_val: natural) return data_if;
 
     function slv_to_data_if(slv : std_logic_vector) return data_if;
 
@@ -17,6 +18,14 @@ package data_if_pkg is
 end package data_if_pkg;
 
 package body data_if_pkg is
+
+    function init_data_if(x_val, y_val: natural) return data_if is
+        variable init_data : data_if;
+    begin
+        init_data.x := std_logic_vector(to_unsigned(x_val, NOC_ADDRESS_WIDTH));
+        init_data.y := std_logic_vector(to_unsigned(y_val, NOC_ADDRESS_WIDTH));
+        return init_data;
+    end function init_data_if;
 
     function slv_to_data_if(slv : std_logic_vector) return data_if is
         variable d_if : data_if;
