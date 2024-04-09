@@ -1,27 +1,35 @@
-LIBRARY ieee;
-USE ieee.std_logic_1164.ALL;
-USE ieee.numeric_std.ALL;
-USE ieee.math_real.ALL;
-USE work.noc_defs_pkg.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+use ieee.math_real.all;
+use work.noc_defs_pkg.all;
 
-ENTITY compare_slv_diff_rtl IS
-    PORT (
-        comp_a : IN STD_LOGIC_VECTOR(NOC_ADDRESS_WIDTH - 1 DOWNTO 0);
-        comp_b : IN STD_LOGIC_VECTOR(NOC_ADDRESS_WIDTH - 1 DOWNTO 0);
-        is_diff : OUT STD_LOGIC
+entity compare_slv_diff_rtl is
+  generic
+  (
+    COMPARE_LENGTH : natural := 1
+  );
+  port
+  (
+    comp_a  : in std_logic_vector(COMPARE_LENGTH - 1 downto 0);
+    comp_b  : in std_logic_vector(COMPARE_LENGTH - 1 downto 0);
+    is_diff : out std_logic
 
-    );
-END ENTITY;
+  );
+end entity;
 
-ARCHITECTURE rtl OF compare_slv_diff_rtl IS
-    
-    SIGNAL slv_bitwise_xor : STD_LOGIC_VECTOR(NOC_ADDRESS_WIDTH - 1 DOWNTO 0);
+architecture rtl of compare_slv_diff_rtl is
 
-BEGIN
-    XOR_GEN : FOR i IN 0 TO (NOC_ADDRESS_WIDTH - 1) GENERATE
-        slv_bitwise_xor(i) <= comp_a(i) XOR comp_b(i);
-    END GENERATE;
+  signal slv_bitwise_xor : std_logic_vector(COMPARE_LENGTH - 1 downto 0);
 
+begin
+  XOR_GEN : for i in 0 to (COMPARE_LENGTH - 1) generate
+    slv_bitwise_xor(i) <= comp_a(i) xor comp_b(i);
+  end generate;
 
-    is_diff <= OR slv_bitwise_xor;
-END ARCHITECTURE;
+  -- Note, only supported in VHDL-2008.
+  -- For reference in Vivado:
+  -- https://vhdlwhiz.com/snippets/vivado-set-vhdl-2019-or-2008-for-all-vhd-files/
+  is_diff <= or slv_bitwise_xor;
+
+end architecture;

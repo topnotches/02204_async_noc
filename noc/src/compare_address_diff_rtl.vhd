@@ -1,54 +1,61 @@
-LIBRARY ieee;
-USE ieee.std_logic_1164.ALL;
-USE ieee.numeric_std.ALL;
-USE ieee.math_real.ALL;
-USE work.data_if_pkg.ALL;
-USE work.noc_defs_pkg.ALL;
-
-
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+use ieee.math_real.all;
+use work.data_if_pkg.all;
+use work.noc_defs_pkg.all;
 entity compare_address_diff_rtl is
-    port (
-        -- Local Address
-        in_local_address : IN STD_LOGIC_VECTOR(NOC_ADDRESS_WIDTH - 1 DOWNTO 0);
+  generic
+  (
+    COMPARE_DELAY : natural := NOC_ADDRESS_COMPARE_DELAY
+  );
+  port
+  (
+    -- Local Address
+    in_local_address : in std_logic_vector(NOC_ADDRESS_WIDTH - 1 downto 0);
 
-        -- Input channel
-        in_ack : OUT STD_LOGIC;
-        in_req : IN STD_LOGIC;
-        in_data : IN STD_LOGIC_VECTOR(NOC_ADDRESS_WIDTH - 1 DOWNTO 0);
+    -- Input channel
+    in_ack  : out std_logic;
+    in_req  : in std_logic;
+    in_data : in std_logic_vector(NOC_ADDRESS_WIDTH - 1 downto 0);
 
-        -- Output Continue
-        out_req : OUT STD_LOGIC;
-        out_data : OUT STD_LOGIC;
-        out_ack : IN STD_LOGIC
+    -- Output Continue
+    out_req  : out std_logic;
+    out_data : out std_logic;
+    out_ack  : in std_logic
 
-    );
+  );
 end entity compare_address_diff_rtl;
 
 architecture rtl of compare_address_diff_rtl is
-    signal delayed_req : std_logic;
+  signal delayed_req : std_logic;
 begin
 
-    out_req <= delayed_req;
-    in_ack <= out_ack;
+  out_req <= delayed_req;
+  in_ack  <= out_ack;
 
-    delay : ENTITY work.delay_element(lut)
-    GENERIC MAP(
-        size => NOC_ADDRESS_COMPARE_DELAY
+  delay : entity work.delay_element(lut)
+    generic
+    map(
+    size => COMPARE_DELAY
     )
-    PORT MAP
+    port map
     (
-        d => in_req,
-        z => delayed_req
+      d => in_req,
+      z => delayed_req
     );
 
-    compare : ENTITY work.compare_slv_diff_rtl(rtl)
-    PORT MAP
+  compare : entity work.compare_slv_diff_rtl(rtl)
+    generic
+    map(
+    COMPARE_LENGTH => NOC_ADDRESS_WIDTH
+    )
+    port
+    map
     (
-        comp_a => in_data,
-        comp_b => in_local_address,
-        is_diff => out_data
+    comp_a  => in_data,
+    comp_b  => in_local_address,
+    is_diff => out_data
     );
-
-    
 
 end architecture;

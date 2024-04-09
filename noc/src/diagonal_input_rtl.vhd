@@ -1,294 +1,362 @@
-LIBRARY ieee;
-USE ieee.std_logic_1164.ALL;
-USE ieee.numeric_std.ALL;
-USE ieee.math_real.ALL;
-USE work.data_if_pkg.ALL;
-USE work.noc_defs_pkg.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+use ieee.math_real.all;
+use work.data_if_pkg.all;
+use work.noc_defs_pkg.all;
 
-ENTITY diagonal_input_rtl IS
-    PORT (
-        rst : IN STD_LOGIC;
+entity diagonal_input_rtl is
+  port
+  (
+    rst : in std_logic;
 
-        -- Local Address
-        in_local_address_x : IN STD_LOGIC_VECTOR(NOC_ADDRESS_WIDTH - 1 DOWNTO 0) := (OTHERS => '0');
-        in_local_address_y : IN STD_LOGIC_VECTOR(NOC_ADDRESS_WIDTH - 1 DOWNTO 0) := (OTHERS => '0');
+    -- Local Address
+    in_local_address_x : in std_logic_vector(NOC_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
+    in_local_address_y : in std_logic_vector(NOC_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
 
-        -- Input channel
-        in_ack : OUT STD_LOGIC;
-        in_req : IN STD_LOGIC;
-        in_data : IN STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 DOWNTO 0);
+    -- Input channel
+    in_ack  : out std_logic;
+    in_req  : in std_logic;
+    in_data : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-        -- Output Continue
-        out_req_continue : OUT STD_LOGIC;
-        out_data_continue : OUT STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 DOWNTO 0);
-        out_ack_continue : IN STD_LOGIC;
+    -- Output Continue
+    out_req_continue  : out std_logic;
+    out_data_continue : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    out_ack_continue  : in std_logic;
 
-        -- Output West/East
-        out_req_we : OUT STD_LOGIC;
-        out_data_we : OUT STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 DOWNTO 0);
-        out_ack_we : IN STD_LOGIC;
+    -- Output West/East
+    out_req_we  : out std_logic;
+    out_data_we : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    out_ack_we  : in std_logic;
 
-        -- Output North/South
-        out_req_ns : OUT STD_LOGIC;
-        out_data_ns : OUT STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 DOWNTO 0);
-        out_ack_ns : IN STD_LOGIC;
+    -- Output North/South
+    out_req_ns  : out std_logic;
+    out_data_ns : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    out_ack_ns  : in std_logic;
 
-        -- Output Local
-        out_req_local : OUT STD_LOGIC;
-        out_data_local : OUT STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 DOWNTO 0);
-        out_ack_local : IN STD_LOGIC
+    -- Output Local
+    out_req_local  : out std_logic;
+    out_data_local : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    out_ack_local  : in std_logic
+  );
+end entity diagonal_input_rtl;
+
+architecture rtl of diagonal_input_rtl is
+
+  -- Stage 0 Signals
+  signal stage_0_ack  : std_logic                                     := '0';
+  signal stage_0_req  : std_logic                                     := '0';
+  signal stage_0_data : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
+
+  -- Stage 1 Signals (fork)
+
+  -- Port Path
+  signal stage_1_port_ack  : std_logic                                     := '0';
+  signal stage_1_port_req  : std_logic                                     := '0';
+  signal stage_1_port_data : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
+  -- Compare Path
+  signal stage_1_compare_ack  : std_logic                                     := '0';
+  signal stage_1_compare_req  : std_logic                                     := '0';
+  signal stage_1_compare_data : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
+
+  -- Stage DEMUX
+  -- DEMUX 0
+  signal stage_demux_0_sel_0_ack  : std_logic                                                       := '0';
+  signal stage_demux_0_sel_0_req  : std_logic                                                       := '0';
+  signal stage_demux_0_sel_0_data : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+
+  signal stage_demux_0_sel_1_ack  : std_logic                                                       := '0';
+  signal stage_demux_0_sel_1_req  : std_logic                                                       := '0';
+  signal stage_demux_0_sel_1_data : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+
+  -- DEMUX 1
+  signal stage_demux_1_sel_0_ack  : std_logic                                                       := '0';
+  signal stage_demux_1_sel_0_req  : std_logic                                                       := '0';
+  signal stage_demux_1_sel_0_data : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_1_WIDTH - 1 downto 0) := (others => '0');
+
+  signal stage_demux_1_sel_1_ack  : std_logic                                                       := '0';
+  signal stage_demux_1_sel_1_req  : std_logic                                                       := '0';
+  signal stage_demux_1_sel_1_data : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_1_WIDTH - 1 downto 0) := (others => '0');
+
+  -- DEMUX 2
+  signal stage_demux_2_sel_0_ack  : std_logic                                                       := '0';
+  signal stage_demux_2_sel_0_req  : std_logic                                                       := '0';
+  signal stage_demux_2_sel_0_data : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_2_WIDTH - 1 downto 0) := (others => '0');
+
+  signal stage_demux_2_sel_1_ack  : std_logic                                                       := '0';
+  signal stage_demux_2_sel_1_req  : std_logic                                                       := '0';
+  signal stage_demux_2_sel_1_data : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_2_WIDTH - 1 downto 0) := (others => '0');
+
+  -- Stage Compare
+
+  -- Fork
+  signal stage_compare_x_ack  : std_logic                                                            := '0';
+  signal stage_compare_x_req  : std_logic                                                            := '0';
+  signal stage_compare_x_data : std_logic_vector(NOC_DIAGONAL_STAGE_COMPARE_FORK_WIDTH - 1 downto 0) := (others => '0');
+
+  signal stage_compare_y_ack  : std_logic                                                            := '0';
+  signal stage_compare_y_req  : std_logic                                                            := '0';
+  signal stage_compare_y_data : std_logic_vector(NOC_DIAGONAL_STAGE_COMPARE_FORK_WIDTH - 1 downto 0) := (others => '0');
+
+  -- Compare X
+  -- INPUT
+  signal stage_compare_x_input_ack  : std_logic                                                  := '0';
+  signal stage_compare_x_input_req  : std_logic                                                  := '0';
+  signal stage_compare_x_input_data : std_logic_vector(stage_compare_x_data'length - 1 downto 0) := (others => '0');
+
+  -- OUTPUT
+  signal stage_compare_x_output_ack  : std_logic := '0';
+  signal stage_compare_x_output_req  : std_logic := '0';
+  signal stage_compare_x_output_data : std_logic := '0';
+
+  -- Compare Y
+  -- INPUT
+  signal stage_compare_y_input_ack  : std_logic                                                  := '0';
+  signal stage_compare_y_input_req  : std_logic                                                  := '0';
+  signal stage_compare_y_input_data : std_logic_vector(stage_compare_y_data'length - 1 downto 0) := (others => '0');
+
+  -- OUTPUT
+  signal stage_compare_y_output_ack  : std_logic                                                              := '0';
+  signal stage_compare_y_output_req  : std_logic                                                              := '0';
+  signal stage_compare_y_output_data : std_logic_vector(NOC_DIAGONAL_STAGE_COMPARE_Y_FORK_WIDTH - 1 downto 0) := (others => '0');
+
+  -- Y Select Fork Stage
+  signal stage_select_y_0_ack  : std_logic                                                              := '0';
+  signal stage_select_y_0_req  : std_logic                                                              := '0';
+  signal stage_select_y_0_data : std_logic_vector(NOC_DIAGONAL_STAGE_COMPARE_Y_FORK_WIDTH - 1 downto 0) := (others => '0');
+
+  signal stage_select_y_1_ack  : std_logic                                                              := '0';
+  signal stage_select_y_1_req  : std_logic                                                              := '0';
+  signal stage_select_y_1_data : std_logic_vector(NOC_DIAGONAL_STAGE_COMPARE_Y_FORK_WIDTH - 1 downto 0) := (others => '0');
+begin
+
+  out_req_continue        <= stage_demux_1_sel_0_req;
+  out_data_continue       <= stage_demux_1_sel_0_data;
+  stage_demux_1_sel_0_ack <= out_ack_continue;
+
+  out_req_we              <= stage_demux_1_sel_1_req;
+  out_data_we             <= stage_demux_1_sel_1_data;
+  stage_demux_1_sel_1_ack <= out_ack_we;
+
+  out_req_ns              <= stage_demux_2_sel_0_req;
+  out_data_ns             <= stage_demux_2_sel_0_data;
+  stage_demux_2_sel_0_ack <= out_ack_ns;
+
+  out_req_local           <= stage_demux_2_sel_1_req;
+  out_data_local          <= stage_demux_2_sel_1_data;
+  stage_demux_2_sel_1_ack <= out_ack_local;
+
+  stage_0_click : entity work.click_element(Behavioral)
+    generic
+    map(
+    DATA_WIDTH => NOC_DIAGONAL_STAGE_0_CLICK_WIDTH,
+    VALUE      => NOC_DIAGONAL_STAGE_0_CLICK_VALUE,
+    PHASE_INIT => NOC_DIAGONAL_STAGE_0_CLICK_PHASE -- Set PHASE_INIT to '0' as per your requirements
+    )
+    port map
+    (
+      rst      => rst, -- Connect rst port to your reset signal
+      in_ack   => in_ack, -- Connect in_ack port to your signal for in_ack
+      in_req   => in_req, -- Connect in_req port to your signal for in_req
+      in_data  => in_data, -- Connect in_data port to your signal for in_data
+      out_req  => stage_0_req, -- Connect out_req port to your signal for out_req
+      out_data => stage_0_data, -- Connect out_data port to your signal for out_data
+      out_ack  => stage_0_ack -- Connect out_ack port to your signal for out_ack
     );
-END ENTITY diagonal_input_rtl;
 
-ARCHITECTURE rtl OF diagonal_input_rtl IS
+  stage_1_fork : entity work.reg_fork(Behavioral)
+    generic
+    map(
+    DATA_WIDTH   => NOC_DIAGONAL_STAGE_0_FORK_WIDTH,
+    VALUE        => NOC_DIAGONAL_STAGE_0_FORK_VALUE,
+    PHASE_INIT_A => NOC_DIAGONAL_STAGE_0_FORK_PHASE_A,
+    PHASE_INIT_B => NOC_DIAGONAL_STAGE_0_FORK_PHASE_B,
+    PHASE_INIT_C => NOC_DIAGONAL_STAGE_0_FORK_PHASE_C
+    )
+    port
+    map(
+    rst => rst,
+    --Input channel
+    inA_req  => stage_0_req,
+    inA_data => stage_0_data,
+    inA_ack  => stage_0_ack,
+    --Output Port Path
+    outB_req  => stage_1_port_req,
+    outB_data => stage_1_port_data,
+    outB_ack  => stage_1_port_ack,
+    --Output Compare Path 
+    outC_req  => stage_1_compare_req,
+    outC_data => stage_1_compare_data,
+    outC_ack  => stage_1_compare_ack
+    );
 
-    -- Stage 0 Signals
-    SIGNAL stage_0_ack : STD_LOGIC;
-    SIGNAL stage_0_req : STD_LOGIC;
-    SIGNAL stage_0_data : STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 DOWNTO 0);
+  -- Stage demux
+  stage_demux_0 : entity work.demux(Behavioral)
+    generic
+    map(
+    DEMUX_DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
+    PHASE_INIT_A     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_A,
+    PHASE_INIT_B     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_B,
+    PHASE_INIT_C     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_C
+    )
+    port
+    map(
+    rst => rst,
+    -- Input port
+    inA_req  => stage_1_port_req,
+    inA_data => stage_1_port_data,
+    inA_ack  => stage_1_port_ack,
+    -- Select port 
+    inSel_req => stage_compare_x_output_req,
+    inSel_ack => stage_compare_x_output_ack,
+    selector  => stage_compare_x_output_data,
+    -- Output channel 1
+    outB_req  => stage_demux_0_sel_0_req,
+    outB_data => stage_demux_0_sel_0_data,
+    outB_ack  => stage_demux_0_sel_0_ack,
+    -- Output channel 2
+    outC_req  => stage_demux_0_sel_1_req,
+    outC_data => stage_demux_0_sel_1_data,
+    outC_ack  => stage_demux_0_sel_1_ack
+    );
+  stage_demux_1 : entity work.demux(Behavioral)
+    generic
+    map(
+    DEMUX_DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_1_WIDTH,
+    PHASE_INIT_A     => NOC_DIAGONAL_STAGE_DEMUX_1_PHASE_A,
+    PHASE_INIT_B     => NOC_DIAGONAL_STAGE_DEMUX_1_PHASE_B,
+    PHASE_INIT_C     => NOC_DIAGONAL_STAGE_DEMUX_1_PHASE_C
+    )
+    port
+    map(
+    rst => rst,
+    -- Input port
+    inA_req  => stage_demux_0_sel_0_req,
+    inA_data => stage_demux_0_sel_0_data,
+    inA_ack  => stage_demux_0_sel_0_ack,
+    -- Select port 
+    inSel_req => stage_select_y_0_req,
+    inSel_ack => stage_select_y_0_ack,
+    selector  => stage_select_y_0_data(0),
+    -- Output channel 1
+    outB_req  => stage_demux_1_sel_0_req,
+    outB_data => stage_demux_1_sel_0_data,
+    outB_ack  => stage_demux_1_sel_0_ack,
+    -- Output channel 2
+    outC_req  => stage_demux_1_sel_1_req,
+    outC_data => stage_demux_1_sel_1_data,
+    outC_ack  => stage_demux_1_sel_1_ack
+    );
+  stage_demux_2 : entity work.demux(Behavioral)
+    generic
+    map(
+    DEMUX_DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_2_WIDTH,
+    PHASE_INIT_A     => NOC_DIAGONAL_STAGE_DEMUX_2_PHASE_A,
+    PHASE_INIT_B     => NOC_DIAGONAL_STAGE_DEMUX_2_PHASE_B,
+    PHASE_INIT_C     => NOC_DIAGONAL_STAGE_DEMUX_2_PHASE_C
+    )
+    port
+    map(
+    rst => rst,
+    -- Input port
+    inA_req  => stage_demux_0_sel_1_req,
+    inA_data => stage_demux_0_sel_1_data,
+    inA_ack  => stage_demux_0_sel_1_ack,
+    -- Select port 
+    inSel_req => stage_select_y_1_req,
+    inSel_ack => stage_select_y_1_ack,
+    selector  => stage_select_y_1_data(0),
+    -- Output channel 1
+    outB_req  => stage_demux_2_sel_0_req,
+    outB_data => stage_demux_2_sel_0_data,
+    outB_ack  => stage_demux_2_sel_0_ack,
+    -- Output channel 2
+    outC_req  => stage_demux_2_sel_1_req,
+    outC_data => stage_demux_2_sel_1_data,
+    outC_ack  => stage_demux_2_sel_1_ack
+    );
 
-    -- Stage 1 Signals (fork)
+  -- compare addresses
+  stage_compare_fork : entity work.reg_fork(Behavioral)
+    generic
+    map(
+    DATA_WIDTH   => NOC_DIAGONAL_STAGE_COMPARE_FORK_WIDTH,
+    VALUE        => NOC_DIAGONAL_STAGE_COMPARE_FORK_VALUE,
+    PHASE_INIT_A => NOC_DIAGONAL_STAGE_COMPARE_FORK_PHASE_A,
+    PHASE_INIT_B => NOC_DIAGONAL_STAGE_COMPARE_FORK_PHASE_B,
+    PHASE_INIT_C => NOC_DIAGONAL_STAGE_COMPARE_FORK_PHASE_C
+    )
+    port
+    map(
+    rst => rst,
+    --Input channel
+    inA_req  => stage_1_compare_req,
+    inA_data => stage_1_compare_data,
+    inA_ack  => stage_1_compare_ack,
+    --Output X Path
+    outB_req  => stage_compare_x_input_req,
+    outB_data => stage_compare_x_input_data,
+    outB_ack  => stage_compare_x_input_ack,
+    --Output Y Path 
+    outC_req  => stage_compare_y_input_req,
+    outC_data => stage_compare_y_input_data,
+    outC_ack  => stage_compare_y_input_ack
+    );
 
-    -- Port Path
-    SIGNAL stage_1_port_ack : STD_LOGIC;
-    SIGNAL stage_1_port_req : STD_LOGIC;
-    SIGNAL stage_1_port_data : STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 DOWNTO 0);
-    -- Compare Path
-    SIGNAL stage_1_compare_ack : STD_LOGIC;
-    SIGNAL stage_1_compare_req : STD_LOGIC;
-    SIGNAL stage_1_compare_data : STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 DOWNTO 0);
+  -- generate compare selectors
+  stage_compare_x : entity work.compare_address_diff_rtl(rtl)
+    port
+    map
+    (
+    in_local_address => in_local_address_x,
+    in_ack           => stage_compare_x_input_ack,
+    in_req           => stage_compare_x_input_req,
+    in_data          => slv_to_data_if(stage_compare_x_input_data).x,
+    out_req          => stage_compare_x_output_req,
+    out_data         => stage_compare_x_output_data,
+    out_ack          => stage_compare_x_output_ack
+    );
 
-    -- Stage DEMUX
-    -- DEMUX 0
-    SIGNAL stage_demux_0_sel_0_ack : STD_LOGIC;
-    SIGNAL stage_demux_0_sel_0_req : STD_LOGIC;
-    SIGNAL stage_demux_0_sel_0_data : STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 DOWNTO 0);
+  stage_compare_y : entity work.compare_address_diff_rtl(rtl)
+    generic
+    map (
+    COMPARE_DELAY => 2
+    )
+    port
+    map
+    (
+    in_local_address => in_local_address_y,
+    in_ack           => stage_compare_y_input_ack,
+    in_req           => stage_compare_y_input_req,
+    in_data          => slv_to_data_if(stage_compare_y_input_data).y,
+    out_req          => stage_compare_y_output_req,
+    out_data         => stage_compare_y_output_data(0),
+    out_ack          => stage_compare_y_output_ack
+    );
 
-    SIGNAL stage_demux_0_sel_1_ack : STD_LOGIC;
-    SIGNAL stage_demux_0_sel_1_req : STD_LOGIC;
-    SIGNAL stage_demux_0_sel_1_data : STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 DOWNTO 0);
-
-    -- DEMUX 1
-    SIGNAL stage_demux_1_sel_0_ack : STD_LOGIC;
-    SIGNAL stage_demux_1_sel_0_req : STD_LOGIC;
-    SIGNAL stage_demux_1_sel_0_data : STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 DOWNTO 0);
-
-    SIGNAL stage_demux_1_sel_1_ack : STD_LOGIC;
-    SIGNAL stage_demux_1_sel_1_req : STD_LOGIC;
-    SIGNAL stage_demux_1_sel_1_data : STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 DOWNTO 0);
-
-    -- DEMUX 2
-    SIGNAL stage_demux_2_sel_0_ack : STD_LOGIC;
-    SIGNAL stage_demux_2_sel_0_req : STD_LOGIC;
-    SIGNAL stage_demux_2_sel_0_data : STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 DOWNTO 0);
-
-    SIGNAL stage_demux_2_sel_1_ack : STD_LOGIC;
-    SIGNAL stage_demux_2_sel_1_req : STD_LOGIC;
-    SIGNAL stage_demux_2_sel_1_data : STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 DOWNTO 0);
-
-    -- Stage Compare
-
-    -- Fork
-    SIGNAL stage_compare_x_ack : STD_LOGIC;
-    SIGNAL stage_compare_x_req : STD_LOGIC;
-    SIGNAL stage_compare_x_data : STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 DOWNTO 0);
-
-    SIGNAL stage_compare_y_ack : STD_LOGIC;
-    SIGNAL stage_compare_y_req : STD_LOGIC;
-    SIGNAL stage_compare_y_data : STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 DOWNTO 0);
-
-    -- Compare X
-    -- INPUT
-    SIGNAL stage_compare_x_input_ack : STD_LOGIC;
-    SIGNAL stage_compare_x_input_req : STD_LOGIC;
-    SIGNAL stage_compare_x_input_data : STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 DOWNTO 0);
-
-    -- OUTPUT
-    SIGNAL stage_compare_x_output_ack : STD_LOGIC;
-    SIGNAL stage_compare_x_output_req : STD_LOGIC;
-    SIGNAL stage_compare_x_output_data : STD_LOGIC;
-
-    -- Compare Y
-    -- INPUT
-    SIGNAL stage_compare_y_input_ack : STD_LOGIC;
-    SIGNAL stage_compare_y_input_req : STD_LOGIC;
-    SIGNAL stage_compare_y_input_data : STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 DOWNTO 0);
-
-    -- OUTPUT
-    SIGNAL stage_compare_y_output_ack : STD_LOGIC;
-    SIGNAL stage_compare_y_output_req : STD_LOGIC;
-    SIGNAL stage_compare_y_output_data : STD_LOGIC;
-BEGIN
-
-    stage_0_click : ENTITY work.click_element(Behavioral)
-        GENERIC MAP(
-            DATA_WIDTH => NOC_DIAGONAL_STAGE_0_CLICK_WIDTH,
-            VALUE => NOC_DIAGONAL_STAGE_0_CLICK_VALUE,
-            PHASE_INIT => NOC_DIAGONAL_STAGE_0_CLICK_PHASE -- Set PHASE_INIT to '0' as per your requirements
-        )
-        PORT MAP
-        (
-            rst => rst, -- Connect rst port to your reset signal
-            in_ack => in_ack, -- Connect in_ack port to your signal for in_ack
-            in_req => in_req, -- Connect in_req port to your signal for in_req
-            in_data => in_data, -- Connect in_data port to your signal for in_data
-            out_req => stage_0_req, -- Connect out_req port to your signal for out_req
-            out_data => stage_0_data, -- Connect out_data port to your signal for out_data
-            out_ack => stage_0_ack -- Connect out_ack port to your signal for out_ack
-        );
-
-    stage_1_fork : ENTITY work.reg_fork(Behavioral)
-        GENERIC MAP(
-            DATA_WIDTH => NOC_DIAGONAL_STAGE_0_FORK_WIDTH,
-            VALUE => NOC_DIAGONAL_STAGE_0_FORK_VALUE,
-            PHASE_INIT_A => NOC_DIAGONAL_STAGE_0_FORK_PHASE_A,
-            PHASE_INIT_B => NOC_DIAGONAL_STAGE_0_FORK_PHASE_B,
-            PHASE_INIT_C => NOC_DIAGONAL_STAGE_0_FORK_PHASE_C
-        )
-        PORT MAP(
-            rst => rst,
-            --Input channel
-            inA_req => stage_0_req,
-            inA_data => stage_0_data,
-            inA_ack => stage_0_ack,
-            --Output Port Path
-            outB_req => stage_1_port_req,
-            outB_data => stage_1_port_data,
-            outB_ack => stage_1_port_ack,
-            --Output Compare Path 
-            outC_req => stage_1_compare_req,
-            outC_data => stage_1_compare_data,
-            outC_ack => stage_1_compare_ack
-        );
-
-    -- Stage demux
-    stage_demux_0 : ENTITY work.demux(Behavioral)
-        GENERIC MAP(
-            DEMUX_DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
-            PHASE_INIT_A => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_A,
-            PHASE_INIT_B => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_B,
-            PHASE_INIT_C => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_C
-        )
-        PORT MAP(
-            rst => rst,
-            -- Input port
-            inA_req => stage_1_compare_req,
-            inA_data => stage_1_compare_data,
-            inA_ack => stage_1_compare_ack,
-            -- Select port 
-            inSel_req => stage_compare_x_output_req,
-            inSel_ack => stage_compare_x_output_ack,
-            selector => stage_compare_x_output_data,
-            -- Output channel 1
-            outB_req => stage_demux_0_sel_0_req,
-            outB_data => stage_demux_0_sel_0_data,
-            outB_ack => stage_demux_0_sel_0_ack,
-            -- Output channel 2
-            outC_req => stage_demux_0_sel_1_req,
-            outC_data => stage_demux_0_sel_1_data,
-            outC_ack => stage_demux_0_sel_1_ack
-        );
-    stage_demux_1 : ENTITY work.demux(Behavioral)
-        GENERIC MAP(
-            DEMUX_DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_1_WIDTH,
-            PHASE_INIT_A => NOC_DIAGONAL_STAGE_DEMUX_1_PHASE_A,
-            PHASE_INIT_B => NOC_DIAGONAL_STAGE_DEMUX_1_PHASE_B,
-            PHASE_INIT_C => NOC_DIAGONAL_STAGE_DEMUX_1_PHASE_C
-        )
-        PORT MAP(
-            rst => rst,
-            -- Input port
-            inA_req => stage_demux_0_sel_0_req,
-            inA_data => stage_demux_0_sel_0_data,
-            inA_ack => stage_demux_0_sel_0_ack,
-            -- Select port 
-            inSel_req => stage_compare_y_output_req,
-            inSel_ack => stage_compare_y_output_ack,
-            selector => stage_compare_y_output_data,
-            -- Output channel 1
-            outB_req => stage_demux_1_sel_0_req,
-            outB_data => stage_demux_1_sel_0_data,
-            outB_ack => stage_demux_1_sel_0_ack,
-            -- Output channel 2
-            outC_req => stage_demux_1_sel_1_req,
-            outC_data => stage_demux_1_sel_1_data,
-            outC_ack => stage_demux_1_sel_1_ack
-        );
-    stage_demux_2 : ENTITY work.demux(Behavioral)
-        GENERIC MAP(
-            DEMUX_DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_2_WIDTH,
-            PHASE_INIT_A => NOC_DIAGONAL_STAGE_DEMUX_2_PHASE_A,
-            PHASE_INIT_B => NOC_DIAGONAL_STAGE_DEMUX_2_PHASE_B,
-            PHASE_INIT_C => NOC_DIAGONAL_STAGE_DEMUX_2_PHASE_C
-        )
-        PORT MAP(
-            rst => rst,
-            -- Input port
-            inA_req => stage_demux_0_sel_1_req,
-            inA_data => stage_demux_0_sel_1_data,
-            inA_ack => stage_demux_0_sel_1_ack,
-            -- Select port 
-            inSel_req => stage_compare_y_output_req,
-            inSel_ack => stage_compare_y_output_ack,
-            selector => stage_compare_y_output_data,
-            -- Output channel 1
-            outB_req => stage_demux_2_sel_0_req,
-            outB_data => stage_demux_2_sel_0_data,
-            outB_ack => stage_demux_2_sel_0_ack,
-            -- Output channel 2
-            outC_req => stage_demux_2_sel_1_req,
-            outC_data => stage_demux_2_sel_1_data,
-            outC_ack => stage_demux_2_sel_1_ack
-        );
-
-    -- compare addresses
-    stage_compare_fork : ENTITY work.reg_fork(Behavioral)
-        GENERIC MAP(
-            DATA_WIDTH => NOC_DIAGONAL_STAGE_COMPARE_FORK_WIDTH,
-            VALUE => NOC_DIAGONAL_STAGE_COMPARE_FORK_VALUE,
-            PHASE_INIT_A => NOC_DIAGONAL_STAGE_COMPARE_FORK_PHASE_A,
-            PHASE_INIT_B => NOC_DIAGONAL_STAGE_COMPARE_FORK_PHASE_B,
-            PHASE_INIT_C => NOC_DIAGONAL_STAGE_COMPARE_FORK_PHASE_C
-        )
-        PORT MAP(
-            rst => rst,
-            --Input channel
-            inA_req => stage_1_compare_req,
-            inA_data => stage_1_compare_data,
-            inA_ack => stage_1_compare_ack,
-            --Output X Path
-            outB_req => stage_compare_x_input_req,
-            outB_data => stage_compare_x_input_data,
-            outB_ack => stage_compare_x_input_ack,
-            --Output Y Path 
-            outC_req => stage_compare_y_input_req,
-            outC_data => stage_compare_y_input_data,
-            outC_ack => stage_compare_y_input_ack
-        );
-
-    -- generate compare selectors
-    stage_compare_x : ENTITY work.compare_address_diff_rtl(rtl)
-        PORT MAP
-        (
-            in_local_address => in_local_address_x,
-            in_ack => stage_compare_x_input_ack,
-            in_req => stage_compare_x_input_req,
-            in_data => slv_to_data_if(stage_compare_x_input_data).x,
-            out_req => stage_compare_x_output_req,
-            out_data => stage_compare_x_output_data,
-            out_ack => stage_compare_x_output_ack
-        );
-
-    stage_compare_y : ENTITY work.compare_address_diff_rtl(rtl)
-        PORT MAP
-        (
-            in_local_address => in_local_address_y,
-            in_ack => stage_compare_y_input_ack,
-            in_req => stage_compare_y_input_req,
-            in_data => slv_to_data_if(stage_compare_y_input_data).y,
-            out_req => stage_compare_y_output_req,
-            out_data => stage_compare_y_output_data,
-            out_ack => stage_compare_y_output_ack
-        );
-
-END ARCHITECTURE;
+  stage_compare_y_fork : entity work.reg_fork(Behavioral)
+    generic
+    map(
+    DATA_WIDTH   => NOC_DIAGONAL_STAGE_COMPARE_Y_FORK_WIDTH,
+    VALUE        => NOC_DIAGONAL_STAGE_COMPARE_Y_FORK_VALUE,
+    PHASE_INIT_A => NOC_DIAGONAL_STAGE_COMPARE_Y_FORK_PHASE_A,
+    PHASE_INIT_B => NOC_DIAGONAL_STAGE_COMPARE_Y_FORK_PHASE_B,
+    PHASE_INIT_C => NOC_DIAGONAL_STAGE_COMPARE_Y_FORK_PHASE_C
+    )
+    port
+    map(
+    rst => rst,
+    --Input channel
+    inA_req  => stage_compare_y_output_req,
+    inA_data => stage_compare_y_output_data,
+    inA_ack  => stage_compare_y_output_ack,
+    --Output Y 0 
+    outB_req  => stage_select_y_0_req,
+    outB_data => stage_select_y_0_data,
+    outB_ack  => stage_select_y_0_ack,
+    --Output Y 1
+    outC_req  => stage_select_y_1_req,
+    outC_data => stage_select_y_1_data,
+    outC_ack  => stage_select_y_1_ack
+    );
+end architecture;
