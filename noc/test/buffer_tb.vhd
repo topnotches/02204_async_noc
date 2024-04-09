@@ -55,7 +55,7 @@ BEGIN
 
         wait until rising_edge(out_req_signal);
         wait for 1 ns;
-        out_act_signal <= '1';
+        out_ack_signal <= '1';
 
         wait for 10 ns;
         in_req_signal <= '0';
@@ -64,7 +64,7 @@ BEGIN
 
         wait until falling_edge(out_req_signal);
         wait for 1 ns;
-        out_act_signal <= '0';
+        out_ack_signal <= '0';
 
         wait;
     END PROCESS;
