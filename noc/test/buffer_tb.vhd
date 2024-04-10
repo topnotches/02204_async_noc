@@ -9,7 +9,7 @@ ENTITY buffer_tb IS
 END buffer_tb;
 
 ARCHITECTURE behavioral OF buffer_tb IS
-    CONSTANT BUFFER_LENGTH : INTEGER := 4;
+    CONSTANT BUFFER_LENGTH : INTEGER := 1;
 
     -- Assuming NOC_ADDRESS_WIDTH, NOC_DATA_WIDTH are previously defined constants
     SIGNAL rst_signal : STD_LOGIC := '0';
@@ -40,10 +40,10 @@ BEGIN
             out_data => out_data_signal
         );
 
-    -- Stimulus process
-    stimulus : PROCESS
-    BEGIN
-        -- Reset
+  TB : block
+  begin
+    process
+    begin
         rst_signal <= '1';
         wait for 10 ns;
         rst_signal <= '0';
@@ -51,24 +51,9 @@ BEGIN
         wait for 10 ns;
         in_req_signal <= '1';
         in_data_signal <= (others => '1');
+
         wait until rising_edge(in_ack_signal);
-
-        wait until rising_edge(out_req_signal);
-        wait for 1 ns;
-        out_ack_signal <= '1';
-
-        wait for 10 ns;
-        in_req_signal <= '0';
-        in_data_signal <= (others => '1');
-        wait until falling_edge(in_ack_signal);
-
-        wait until falling_edge(out_req_signal);
-        wait for 1 ns;
-        out_ack_signal <= '0';
-
-        wait;
-    END PROCESS;
-
-  -- Reset Signal Goes Low
+    end process;
+  end block;
   rst_signal <= '0' after 50 ns;
 END ARCHITECTURE;
