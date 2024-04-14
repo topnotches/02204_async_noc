@@ -9,7 +9,7 @@ ENTITY buffer_tb IS
 END buffer_tb;
 
 ARCHITECTURE behavioral OF buffer_tb IS
-    CONSTANT BUFFER_LENGTH : INTEGER := 1;
+    CONSTANT BUFFER_LENGTH : INTEGER := 4;
 
     -- Assuming NOC_ADDRESS_WIDTH, NOC_DATA_WIDTH are previously defined constants
     SIGNAL rst_signal : STD_LOGIC := '0';
@@ -40,20 +40,71 @@ BEGIN
             out_data => out_data_signal
         );
 
+  -- Testbench for diagonal input
   TB : block
   begin
     process
+      constant DATA_PREP_DELAY : time := NOC_MISC_DELAY_10_NS;
+
+      procedure insert_data(data : in std_logic_vector) is
+      begin
+        in_data_signal <= data;
+        wait for DATA_PREP_DELAY;
+        in_req_signal <= '1';
+        wait for DATA_PREP_DELAY;
+        in_req_signal <= '0';
+        wait for DATA_PREP_DELAY;
+      end procedure;
     begin
         rst_signal <= '1';
         wait for 10 ns;
         rst_signal <= '0';
+      wait for 10 ns;      
+      insert_data("1111");
+      insert_data("1010");
 
-        wait for 10 ns;
-        in_req_signal <= '1';
-        in_data_signal <= (others => '1');
+      wait for 10 ns;
+      out_ack_signal <= '1';
 
-        wait until rising_edge(in_ack_signal);
+      wait for 10 ns;
+      out_ack_signal <= '0';
+      
+      wait for 10 ns;  
+      insert_data("0101");
+      insert_data("0010");
+      
+      wait;
     end process;
   end block;
-  rst_signal <= '0' after 50 ns;
-END ARCHITECTURE;
+
+--  TB_PROCESS : PROCESS
+--  begin
+--    rst_signal <= '1';
+--    wait for 10 ns;
+--    rst_signal <= '0';
+--
+--    wait for 10 ns;
+--    in_req_signal <= '1';
+--    in_data_signal <= (others => '1');
+--    wait until in_ack_signal = '1';
+--
+--    in_req_signal <= '0';
+--    in_data_signal <= "0001";
+--    wait until in_ack_signal = '0';
+--
+--    in_req_signal <= '1';
+--    in_data_signal <= "0010";
+--    wait until in_ack_signal = '1';
+--
+--    in_req_signal <= '0';
+--    in_data_signal <= "0100";
+--    wait until in_ack_signal = '0';
+--
+--    in_req_signal <= '1';
+--    in_data_signal <= "1000";
+--    wait until in_ack_signal = '1';
+--
+--    wait;
+--  end PROCESS TB_PROCESS;
+
+END ARCHITECTURE behavioral;
