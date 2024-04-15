@@ -2,52 +2,51 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use ieee.math_real.all;
-entity router_rtl I
+use work.noc_defs_pkg.all;
+
+entity router_rtl IS
   generic
   (
-    left   : std_logic;
-    right  : std_logic;
-    top    : std_logic;
-    bottom : std_logic;
+    left            : std_logic     := '0';
+    right           : std_logic     := '0';
+    top             : std_logic     := '0';
+    bottom          : std_logic     := '0';
+    address_x       : std_logic_vector(NOC_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
+    address_y       : std_logic_vector(NOC_ADDRESS_WIDTH - 1 downto 0) := (others => '0')
   );
   port
   (
     rst : in std_logic;
 
-    -- Local Address
-    in_local_address_x : in std_logic_vector(NOC_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
-    in_local_address_y : in std_logic_vector(NOC_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
-
     -- DIAGONAL INPUT CHANNELS
+    in_north_east_ack   : out std_logic;
+    in_north_east_req   : in std_logic;
+    in_north_east_data  : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-    in_north_east_ack  : out std_logic;
-    in_north_east_req  : in std_logic;
-    in_north_east_data : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    in_south_east_ack   : out std_logic;
+    in_south_east_req   : in std_logic;
+    in_south_east_data  : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-    in_south_east_ack  : out std_logic;
-    in_south_east_req  : in std_logic;
-    in_south_east_data : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
-
-    in_south_west_ack  : out std_logic;
-    in_south_west_req  : in std_logic;
-    in_south_west_data : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    in_south_west_ack   : out std_logic;
+    in_south_west_req   : in std_logic;
+    in_south_west_data  : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
     -- STRAIGTH INPUT CHANNELS
-    in_north_ack  : out std_logic;
-    in_north_req  : in std_logic;
-    in_north_data : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    in_north_ack        : out std_logic;
+    in_north_req        : in std_logic;
+    in_north_data       : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-    in_east_ack  : out std_logic;
-    in_east_req  : in std_logic;
-    in_east_data : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    in_east_ack         : out std_logic;
+    in_east_req         : in std_logic;
+    in_east_data        : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-    in_south_ack  : out std_logic;
-    in_south_req  : in std_logic;
-    in_south_data : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    in_south_ack        : out std_logic;
+    in_south_req        : in std_logic;
+    in_south_data       : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-    in_west_ack  : out std_logic;
-    in_west_req  : in std_logic;
-    in_west_data : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    in_west_ack         : out std_logic;
+    in_west_req         : in std_logic;
+    in_west_data        : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
     -- DIAGONAL OUTPUT CHANNELS
     out_north_west_ack  : out std_logic;
@@ -67,26 +66,26 @@ entity router_rtl I
     out_south_west_data : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
     -- STRAIGHT OUTPUT CHANNELS
-    out_north_ack  : out std_logic;
-    out_north_req  : in std_logic;
-    out_north_data : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    out_north_ack       : out std_logic;
+    out_north_req       : in std_logic;
+    out_north_data      : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-    out_east_ack  : out std_logic;
-    out_east_req  : in std_logic;
-    out_east_data : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    out_east_ack        : out std_logic;
+    out_east_req        : in std_logic;
+    out_east_data       : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-    out_south_ack  : out std_logic;
-    out_south_req  : in std_logic;
-    out_south_data : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    out_south_ack       : out std_logic;
+    out_south_req       : in std_logic;
+    out_south_data      : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-    out_west_ack  : out std_logic;
-    out_west_req  : in std_logic;
-    out_west_data : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    out_west_ack        : out std_logic;
+    out_west_req        : in std_logic;
+    out_west_data       : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
     -- Output Local
-    out_req_local  : out std_logic;
-    out_data_local : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
-    out_ack_local  : in std_logic
+    out_req_local       : out std_logic;
+    out_data_local      : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    out_ack_local       : in std_logic
   );
 end entity router_rtl;
 
@@ -101,7 +100,7 @@ architecture rtl of router_rtl is
     signal north_to_local_req   : std_logic                                                       := '0';
     signal north_to_local_data  : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
 
-    -- SOUTH STRAIGHT SIGNALS
+    -- EAST STRAIGHT SIGNALS
     signal east_to_west_ack     : std_logic                                                       := '0';
     signal east_to_west_req     : std_logic                                                       := '0';
     signal east_to_west_data    : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
@@ -196,38 +195,6 @@ architecture rtl of router_rtl is
     signal south_west_to_local_req          : std_logic                                                       := '0';
     signal south_west_to_local_data         : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
 begin
-
-    diagonal_south_east_input_component : entity work.diagonal_input(rtl)
-    port map
-    (
-        rst => rst,
-        in_local_address_x => in_local_address_x,
-        in_local_address_y => in_local_address_y,
-        in_ack => in_south_east_ack,
-        in_req => in_south_east_req,
-        in_data => in_south_east_data,
-
-        -- Output Continue north west
-        out_ack_continue => out_north_west_ack,
-        out_req_continue => out_north_west_req,
-        out_data_continue => out_north_west_data,
-    
-        -- Output West ???
-        out_ack_we => out_west_ack,
-        out_req_we => out_west_req,
-        out_data_we => out_west_data,
-    
-        -- Output North ????
-        out_ack_ns => out_north_ack,
-        out_req_ns => out_north_req,
-        out_data_ns => out_north_data
-    
-        -- Output Local
-        out_req_local => out_ack_local,
-        out_data_local => out_data_local,
-        out_ack_local => out_ack_local
-    );
-
   --    diagonal_output_generation: GENERATE
   --        location_sum = left + right + top + bottom;
   --
@@ -272,8 +239,195 @@ begin
   --INPUTS
 
   generate_middle_router : generate
+    -- Diagonal inputs
+    south_east_input : entity work.diagonal_input(rtl)
+    port map
+    (
+      rst                   => rst,
+      in_local_address_x    => address_x,
+      in_local_address_y    => address_y,
+      in_ack                => in_south_east_ack,
+      in_req                => in_south_east_req,
+      in_data               => in_south_east_data,
+      -- Output Continue north west
+      out_ack_continue      => south_east_to_north_west_ack,
+      out_req_continue      => south_east_to_north_west_req,
+      out_data_continue     => south_east_to_north_west_data,
+      -- Output West
+      out_ack_we            => south_east_to_west_ack,
+      out_req_we            => south_east_to_west_req,
+      out_data_we           => south_east_to_west_data,
+      -- Output North
+      out_ack_ns            => south_east_to_north_ack,
+      out_req_ns            => south_east_to_north_req,
+      out_data_ns           => south_east_to_north_data,
+      -- Output Local
+      out_ack_local         => south_east_to_local_ack,
+      out_req_local         => south_east_to_local_req,
+      out_data_local        => south_east_to_local_data
+    );
 
-  end generate;
+    north_east_input : entity work.diagonal_input(rtl)
+    port map
+    (
+      rst                   => rst,
+      in_local_address_x    => address_x,
+      in_local_address_y    => address_y,
+      in_ack                => in_north_east_ack,
+      in_req                => in_north_east_req,
+      in_data               => in_north_east_data,
+      -- Output continue south west
+      out_ack_continue      => north_east_to_south_west_ack,
+      out_req_continue      => north_east_to_south_west_req,
+      out_data_continue     => north_east_to_south_west_data,
+      -- Output West
+      out_ack_we            => north_east_to_west_ack,
+      out_req_we            => north_east_to_west_req,
+      out_data_we           => north_east_to_west_data,
+      -- Output South
+      out_ack_ns            => north_east_to_south_ack,
+      out_req_ns            => north_east_to_south_req,
+      out_data_ns           => north_east_to_south_data,
+      -- Output Local
+      out_ack_local         => north_east_to_local_ack,
+      out_req_local         => north_east_to_local_req,
+      out_data_local        => north_east_to_local_data
+    );
+
+    north_west_input : entity work.diagonal_input(rtl)
+    port map
+    (
+      rst                   => rst,
+      in_local_address_x    => address_x,
+      in_local_address_y    => address_y,
+      in_ack                => in_north_west_ack,
+      in_req                => in_north_west_req,
+      in_data               => in_north_west_data,
+      -- Output continue south east
+      out_ack_continue      => north_west_to_south_east_ack,
+      out_req_continue      => north_west_to_south_east_req,
+      out_data_continue     => north_west_to_south_east_data,
+      -- Output East
+      out_ack_we            => north_west_to_east_ack,
+      out_req_we            => north_west_to_east_req,
+      out_data_we           => north_west_to_east_data,
+      -- Output South
+      out_ack_ns            => north_west_to_south_ack,
+      out_req_ns            => north_west_to_south_req,
+      out_data_ns           => north_west_to_south_data,
+      -- Output Local
+      out_ack_local         => north_west_to_local_ack,
+      out_req_local         => north_west_to_local_req,
+      out_data_local        => north_west_to_local_data
+    );
+
+    south_west_input : entity work.diagonal_input(rtl)
+    port map
+    (
+      rst                   => rst,
+      in_local_address_x    => address_x,
+      in_local_address_y    => address_y,
+      in_ack                => in_south_west_ack,
+      in_req                => in_south_west_req,
+      in_data               => in_south_west_data,
+      -- Output continue south east
+      out_ack_continue      => south_west_to_north_east_ack,
+      out_req_continue      => south_west_to_north_east_req,
+      out_data_continue     => south_west_to_north_east_data,
+      -- Output East
+      out_ack_we            => south_west_to_east_ack,
+      out_req_we            => south_west_to_east_req,
+      out_data_we           => south_west_to_east_data,
+      -- Output South
+      out_ack_ns            => south_west_to_north_ack,
+      out_req_ns            => south_west_to_north_req,
+      out_data_ns           => south_west_to_north_data,
+      -- Output Local
+      out_ack_local         => south_west_to_local_ack,
+      out_req_local         => south_west_to_local_req,
+      out_data_local        => south_west_to_local_data
+    );
+
+    -- Straigth inputs
+    north_input : entity work.straight_input(rtl) is
+    port map
+    (
+      rst                   => rst,
+      in_local_address_x    => address_x,
+      in_local_address_y    => address_y,
+      in_ack                => in_north_ack,
+      in_req                => in_north_req,
+      in_data               => in_north_data,
+      -- Output continue south
+      out_ack_continue      => north_to_south_ack,
+      out_req_continue      => north_to_south_req,
+      out_data_continue     => north_to_south_data,
+      -- Output Local
+      out_ack_local         => north_to_local_ack,
+      out_req_local         => north_to_local_req,
+      out_data_local        => north_to_local_data
+    );
+
+    east_input : entity work.straight_input(rtl) is
+        port map
+        (
+          rst                   => rst,
+          in_local_address_x    => address_x,
+          in_local_address_y    => address_y,
+          in_ack                => in_east_ack,
+          in_req                => in_east_req,
+          in_data               => in_east_data,
+          -- Output continue west
+          out_ack_continue      => east_to_west_ack,
+          out_req_continue      => east_to_west_req,
+          out_data_continue     => east_to_west_data,
+          -- Output Local
+          out_ack_local         => east_to_local_ack,
+          out_req_local         => east_to_local_req,
+          out_data_local        => east_to_local_data
+        );
+
+    south_input : entity work.straight_input(rtl) is
+        port map
+        (
+          rst                   => rst,
+          in_local_address_x    => address_x,
+          in_local_address_y    => address_y,
+          in_ack                => in_south_ack,
+          in_req                => in_south_req,
+          in_data               => in_south_data,
+          -- Output continue north
+          out_ack_continue      => south_to_north_ack,
+          out_req_continue      => south_to_north_req,
+          out_data_continue     => south_to_north_data,
+          -- Output Local
+          out_ack_local         => north_to_local_ack,
+          out_req_local         => north_to_local_req,
+          out_data_local        => north_to_local_data
+        );
+
+    west_input : entity work.straight_input(rtl) is
+       port map
+       (
+         rst                   => rst,
+         in_local_address_x    => address_x,
+         in_local_address_y    => address_y,
+         in_ack                => in_west_ack,
+         in_req                => in_west_req,
+         in_data               => in_west_data,
+         -- Output continue east
+         out_ack_continue      => west_to_east_ack,
+         out_req_continue      => west_to_east_req,
+         out_data_continue     => west_to_east_data,
+         -- Output Local
+         out_ack_local         => west_to_local_ack,
+         out_req_local         => west_to_local_req,
+         out_data_local        => west_to_local_data
+       );
+
+
+
+        end generate;
 
   generate_east_edge_router: generate
 

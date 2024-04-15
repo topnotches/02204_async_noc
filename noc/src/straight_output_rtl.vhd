@@ -5,7 +5,7 @@ use ieee.math_real.all;
 use work.data_if_pkg.all;
 use work.noc_defs_pkg.all;
 
-entity diagonal_output_rtl is
+entity straight_output_rtl is
   port
   (
     rst : in std_logic;
@@ -20,12 +20,22 @@ entity diagonal_output_rtl is
     in_req_local        : in std_logic;
     in_data_local       : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
+    -- West/East input channel
+    in_ack_we           : out std_logic;
+    in_req_we           : in std_logic;
+    in_data_we          : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+
+    -- North/South input channel
+    in_ack_ns           : out std_logic;
+    in_req_ns           : in std_logic;
+    in_data_ns          : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+
     -- Output channel
     out_ack             : in std_logic
     out_req             : out std_logic;
     out_data            : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
   );
-end entity diagonal_output_rtl;
+end entity straight_output_rtl;
 
-architecture rtl of diagonal_output_rtl is
+architecture rtl of straight_output_rtl is
 end architecture;
