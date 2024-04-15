@@ -10,7 +10,10 @@ entity straight_output_rtl is
   (
     rst : in std_logic;
 
-    -- Diagonal input channel
+
+    -- TODO : FIX 2 diagonal channels needed and only on straight!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
+    -- Diagonal input channel 1
     in_ack_diagonal     : out std_logic;
     in_req_diagonal     : in std_logic;
     in_data_diagonal    : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
