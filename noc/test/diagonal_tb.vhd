@@ -88,16 +88,21 @@ begin
       insert_data_package_from_stim_vector(0);
       wait for 50 ns;
       out_ack_local_signal <= not out_ack_local_signal;
-      wait for 50 ns;
 
       insert_data_package_from_stim_vector(1);
       wait for 100 ns;
+      out_ack_ns_signal <= not out_ack_ns_signal;
+      wait for 50 ns;
 
       insert_data_package_from_stim_vector(2);
       wait for 100 ns;
+      out_ack_we_signal <= not out_ack_we_signal;
+      wait for 50 ns;
 
       insert_data_package_from_stim_vector(3);
       wait for 100 ns;
+      out_ack_continue_signal <= not out_ack_continue_signal;
+      wait for 50 ns;
 
     end process;
   end block;

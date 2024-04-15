@@ -25,7 +25,7 @@ package noc_defs_pkg is
   -- Define Global NoC Parameters
   constant NOC_DATA_WIDTH            : natural := 4;
   constant NOC_ADDRESS_WIDTH         : natural := 2;
-  constant NOC_ADDRESS_COMPARE_DELAY : natural := 2;
+  constant NOC_ADDRESS_COMPARE_DELAY : natural := 10;
 
   -- Define Diagonal Input NoC Parameters
   constant NOC_DIAGONAL_STAGE_0_CLICK_WIDTH : natural   := NOC_DATA_WIDTH;
@@ -59,11 +59,17 @@ package noc_defs_pkg is
   constant NOC_DIAGONAL_STAGE_COMPARE_FORK_PHASE_B : std_logic := '0';
   constant NOC_DIAGONAL_STAGE_COMPARE_FORK_PHASE_C : std_logic := '0';
 
-  constant NOC_DIAGONAL_STAGE_COMPARE_Y_FORK_WIDTH   : natural   := 1;
-  constant NOC_DIAGONAL_STAGE_COMPARE_Y_FORK_VALUE   : natural   := 10;
-  constant NOC_DIAGONAL_STAGE_COMPARE_Y_FORK_PHASE_A : std_logic := '0';
-  constant NOC_DIAGONAL_STAGE_COMPARE_Y_FORK_PHASE_B : std_logic := '0';
-  constant NOC_DIAGONAL_STAGE_COMPARE_Y_FORK_PHASE_C : std_logic := '0';
+  constant NOC_DIAGONAL_STAGE_COMPARE_X_FORK_WIDTH   : natural   := 1;
+  constant NOC_DIAGONAL_STAGE_COMPARE_X_FORK_VALUE   : natural   := 10;
+  constant NOC_DIAGONAL_STAGE_COMPARE_X_FORK_PHASE_A : std_logic := '0';
+  constant NOC_DIAGONAL_STAGE_COMPARE_X_FORK_PHASE_B : std_logic := '0';
+  constant NOC_DIAGONAL_STAGE_COMPARE_X_FORK_PHASE_C : std_logic := '0';
+
+  constant NOC_DIAGONAL_STAGE_COMPARE_Y_DEMUX_WIDTH   : natural   := 1;
+  constant NOC_DIAGONAL_STAGE_COMPARE_Y_DEMUX_VALUE   : natural   := 10;
+  constant NOC_DIAGONAL_STAGE_COMPARE_Y_DEMUX_PHASE_A : std_logic := '0';
+  constant NOC_DIAGONAL_STAGE_COMPARE_Y_DEMUX_PHASE_B : std_logic := '0';
+  constant NOC_DIAGONAL_STAGE_COMPARE_Y_DEMUX_PHASE_C : std_logic := '0';
 
 end package noc_defs_pkg;
 
