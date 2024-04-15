@@ -49,62 +49,25 @@ BEGIN
       procedure insert_data(data : in std_logic_vector) is
       begin
         in_data_signal <= data;
-        wait for DATA_PREP_DELAY;
-        in_req_signal <= '1';
-        wait for DATA_PREP_DELAY;
-        in_req_signal <= '0';
-        wait for DATA_PREP_DELAY;
+        in_req_signal <= not in_req_signal;
+        wait until in_ack_signal'event;
       end procedure;
     begin
-        rst_signal <= '1';
-        wait for 10 ns;
-        rst_signal <= '0';
+
+      rst_signal <= '1';
+      wait for 10 ns;
+      rst_signal <= '0';
       wait for 10 ns;      
       insert_data("1111");
-      insert_data("1010");
-
-      wait for 10 ns;
-      out_ack_signal <= '1';
-
-      wait for 10 ns;
-      out_ack_signal <= '0';
-      
-      wait for 10 ns;  
       insert_data("0101");
-      insert_data("0010");
-      
+      insert_data("1010");
+      insert_data("0111");
+
+      wait for 100 ns;
+      out_ack_signal <= '1';
+      wait for 100 ns;
+      out_ack_signal <= '0'; 
       wait;
     end process;
   end block;
-
---  TB_PROCESS : PROCESS
---  begin
---    rst_signal <= '1';
---    wait for 10 ns;
---    rst_signal <= '0';
---
---    wait for 10 ns;
---    in_req_signal <= '1';
---    in_data_signal <= (others => '1');
---    wait until in_ack_signal = '1';
---
---    in_req_signal <= '0';
---    in_data_signal <= "0001";
---    wait until in_ack_signal = '0';
---
---    in_req_signal <= '1';
---    in_data_signal <= "0010";
---    wait until in_ack_signal = '1';
---
---    in_req_signal <= '0';
---    in_data_signal <= "0100";
---    wait until in_ack_signal = '0';
---
---    in_req_signal <= '1';
---    in_data_signal <= "1000";
---    wait until in_ack_signal = '1';
---
---    wait;
---  end PROCESS TB_PROCESS;
-
 END ARCHITECTURE behavioral;
