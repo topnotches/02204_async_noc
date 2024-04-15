@@ -79,17 +79,26 @@ begin
 
         in_data_signal <= data_if_to_slv(sa8_data_if_stimuli(index_sel_data));
         wait for DATA_PREP_DELAY;
-        in_req_signal <= '1';
-        wait until in_ack_signal = '1';
-        in_req_signal <= '0';
-        wait until in_ack_signal = '0';
+        in_req_signal <= not in_req_signal;
+        wait until in_ack_signal'event;
+
       end procedure;
     begin
       wait for 100 ns;
       insert_data_package_from_stim_vector(0);
+      wait for 50 ns;
+      out_ack_local_signal <= not out_ack_local_signal;
+      wait for 50 ns;
+
       insert_data_package_from_stim_vector(1);
+      wait for 100 ns;
+
       insert_data_package_from_stim_vector(2);
+      wait for 100 ns;
+
       insert_data_package_from_stim_vector(3);
+      wait for 100 ns;
+
     end process;
   end block;
   -- Reset Signal Goes Low
