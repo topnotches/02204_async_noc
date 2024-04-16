@@ -20,16 +20,17 @@ entity straight_input_rtl is
     in_data : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
     -- Output Continue
+    out_ack_continue  : in std_logic;
     out_req_continue  : out std_logic;
     out_data_continue : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
-    out_ack_continue  : in std_logic;
 
     -- Output Local
+    out_ack_local  : in std_logic;
     out_req_local  : out std_logic;
-    out_data_local : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
-    out_ack_local  : in std_logic
+    out_data_local : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0)
   );
 end entity straight_input_rtl;
 
 architecture rtl of straight_input_rtl is
-end architecture;
+  begin
+end architecture rtl;

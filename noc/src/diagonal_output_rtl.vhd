@@ -21,11 +21,12 @@ entity diagonal_output_rtl is
     in_data_local       : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
     -- Output channel
-    out_ack             : in std_logic
+    out_ack             : in std_logic;
     out_req             : out std_logic;
-    out_data            : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    out_data            : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0)
   );
 end entity diagonal_output_rtl;
 
 architecture rtl of diagonal_output_rtl is
-end architecture;
+  begin
+end architecture rtl;
