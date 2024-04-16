@@ -23,6 +23,10 @@ entity router_rtl IS
     in_north_east_req   : in std_logic;
     in_north_east_data  : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
+    in_north_west_ack   : out std_logic;
+    in_north_west_req   : in std_logic;
+    in_north_west_data  : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+
     in_south_east_ack   : out std_logic;
     in_south_east_req   : in std_logic;
     in_south_east_data  : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
@@ -49,21 +53,21 @@ entity router_rtl IS
     in_west_data        : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
     -- DIAGONAL OUTPUT CHANNELS
-    out_north_west_ack  : out std_logic;
-    out_north_west_req  : in std_logic;
-    out_north_west_data : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    out_north_west_ack  : in std_logic;
+    out_north_west_req  : out std_logic;
+    out_north_west_data : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-    out_north_east_ack  : out std_logic;
-    out_north_east_req  : in std_logic;
-    out_north_east_data : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    out_north_east_ack  : in std_logic;
+    out_north_east_req  : out std_logic;
+    out_north_east_data : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-    out_south_east_ack  : out std_logic;
-    out_south_east_req  : in std_logic;
-    out_south_east_data : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    out_south_east_ack  : in std_logic;
+    out_south_east_req  : out std_logic;
+    out_south_east_data : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-    out_south_west_ack  : out std_logic;
-    out_south_west_req  : in std_logic;
-    out_south_west_data : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    out_south_west_ack  : in std_logic;
+    out_south_west_req  : out std_logic;
+    out_south_west_data : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
     -- STRAIGHT OUTPUT CHANNELS
     out_north_ack       : in std_logic;
@@ -227,21 +231,7 @@ architecture rtl of router_rtl is
     signal local_to_south_west_ack          : std_logic                                                       := '0';
     signal local_to_south_west_req          : std_logic                                                       := '0';
     signal local_to_south_west_data         : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
-    
-    function compute_sum(left, right, top, bottom: std_logic) return natural is
-      variable sum_var: natural := 0;
-    begin
-      sum_var := to_integer(unsigned(left)) +
-                 to_integer(unsigned(right)) +
-                 to_integer(unsigned(top)) +
-                 to_integer(unsigned(bottom));
-  
-      return sum_var;
-    end function;
-  
-    signal location_sum: natural;
 begin
-  location_sum <= compute_sum(left, right, top, bottom);
   --    diagonal_output_generation: GENERATE
   --        location_sum = left + right + top + bottom;
   --
