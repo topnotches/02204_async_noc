@@ -239,7 +239,8 @@ architecture rtl of router_rtl is
 
 begin
 
-  if left = '0' and right = '0' and top = '0' and bottom = '0' then
+  middle_router: 
+  if left = '0' and right = '0' and top = '0' and bottom = '0' generate
     -- Generate Middle router
     -- Diagonal inputs
     south_east_input : entity work.diagonal_input_rtl(rtl)
@@ -601,15 +602,30 @@ begin
       out_req             => out_south_req,
       out_data            => out_south_data
     );
-  elsif left = '0' and right = '0' and top = '1' and bottom = '0' then
+  end generate middle_router;
+  
+  north_edge_router: 
+    if left = '0' and right = '0' and top = '1' and bottom = '0' generate
     -- Generate North Edge router
-  elsif left = '0' and right = '1' and top = '0' and bottom = '0' then
+  end generate north_edge_router;
+  
+  east_edge_router: 
+    if left = '0' and right = '1' and top = '0' and bottom = '0' generate
     -- Generate East Edge router
-  elsif left = '0' and right = '0' and top = '0' and bottom = '1' then
+  end generate east_edge_router;
+  
+  south_edge_router:
+  if left = '0' and right = '0' and top = '0' and bottom = '1' generate
     -- Generate South Edge router
-  elsif left = '1' and right = '0' and top = '0' and bottom = '0' then
+  end generate south_edge_router;
+
+  west_edge_router:
+  if left = '1' and right = '0' and top = '0' and bottom = '0' generate
     -- Generate West Edge router
-  elsif left = '0' and right = '1' and top = '0' and bottom = '1' then
+  end generate west_edge_router;
+
+  south_east_corner_router:
+  if left = '0' and right = '1' and top = '0' and bottom = '1' generate
     -- Generate South East Corner router
     -- Diagonal inputs
     north_west_input_se_corner : entity work.diagonal_input_rtl(rtl)
@@ -749,7 +765,10 @@ begin
       out_req             => out_west_req,
       out_data            => out_west_data
     );
-  elsif left = '0' and right = '1' and top = '1' and bottom = '0' then
+  end generate south_east_corner_router;
+
+  north_east_corner_router:
+  if left = '0' and right = '1' and top = '1' and bottom = '0' generate
     -- Generate North East Corner router
     -- Diagonal inputs
     south_west_input_ne_corner : entity work.diagonal_input_rtl(rtl)
@@ -774,9 +793,9 @@ begin
       out_req_ns            => south_west_to_local_req,
       out_data_ns           => south_west_to_local_data,
       -- Output Local
-      out_ack_local         => south_local_to_local_ack,
-      out_req_local         => south_local_to_local_req,
-      out_data_local        => south_local_to_local_data
+      out_ack_local         => south_west_to_local_ack,
+      out_req_local         => south_west_to_local_req,
+      out_data_local        => south_west_to_local_data
     );
 
     -- Straight inputs
@@ -889,7 +908,10 @@ begin
       out_req             => out_south_req,
       out_data            => out_south_data
     );
-  elsif left = '1' and right = '0' and top = '1' and bottom = '0' then
+  end generate north_east_corner_router;
+
+  north_west_corner_router:
+  if left = '1' and right = '0' and top = '1' and bottom = '0' generate
     -- Generate North West Corner router
     -- Diagonal inputs
     south_east_input_nw_corner : entity work.diagonal_input_rtl(rtl)
@@ -1029,7 +1051,10 @@ begin
         out_req             => out_south_req,
         out_data            => out_south_data
     );
-  elsif left = '1' and right = '0' and top = '0' and bottom = '1' then
+  end generate north_west_corner_router;
+
+  south_west_corner_router:  
+  if left = '1' and right = '0' and top = '0' and bottom = '1' generate
     -- Generate South West Corner router
     -- Diagonal inputs
     north_east_input_sw_corner : entity work.diagonal_input_rtl(rtl)
@@ -1169,5 +1194,5 @@ begin
       out_req             => out_east_req,
       out_data            => out_east_data
     );
-  end if;
+  end generate south_west_corner_router;
 end architecture rtl;
