@@ -4,10 +4,10 @@ use ieee.numeric_std.all;
 use ieee.math_real.all;
 use work.data_if_pkg.all;
 use work.noc_defs_pkg.all;
-entity compare_address_diff_rtl is
+entity compare_sign_address_diff_rtl is
   generic
   (
-    COMPARE_DELAY : natural := NOC_COMPARE_DIFF_ADDRESS_DELAY
+    SUBTRACT_DELAY : natural := NOC_COMPARE_DIFF_ADDRESS_DELAY
   );
   port
   (
@@ -25,9 +25,10 @@ entity compare_address_diff_rtl is
     out_ack  : in std_logic
 
   );
-end entity compare_address_diff_rtl;
 
-architecture rtl of compare_address_diff_rtl is
+end entity compare_sign_address_diff_rtl;
+
+architecture rtl of compare_sign_address_diff_rtl is
   signal delayed_req : std_logic;
 begin
 
@@ -37,7 +38,7 @@ begin
   delay : entity work.delay_element(lut)
     generic
     map(
-    size => COMPARE_DELAY
+    size => SUBTRACT_DELAY
     )
     port map
     (
@@ -45,17 +46,17 @@ begin
       z => delayed_req
     );
 
-  compare : entity work.compare_slv_diff_rtl(rtl)
+  subtract : entity work.compare_sign_slv_diff_rtl(rtl)
     generic
     map(
-    COMPARE_LENGTH => NOC_ADDRESS_WIDTH
+    SUBTRACT_LENGTH => NOC_ADDRESS_WIDTH
     )
     port
     map
     (
-    comp_a  => in_data,
-    comp_b  => in_local_address,
-    is_diff => out_data
+    subtract_a => in_data,
+    subtract_b => in_local_address,
+    signed_out => out_data
     );
 
 end architecture;

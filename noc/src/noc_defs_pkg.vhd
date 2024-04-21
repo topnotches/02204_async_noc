@@ -23,9 +23,10 @@ package noc_defs_pkg is
   constant NOC_MISC_DELAY_200_NS : time := 200 ns;
 
   -- Define Global NoC Parameters
-  constant NOC_DATA_WIDTH            : natural := 4;
-  constant NOC_ADDRESS_WIDTH         : natural := 2;
-  constant NOC_ADDRESS_COMPARE_DELAY : natural := 10;
+  constant NOC_DATA_WIDTH                 : natural := 4;
+  constant NOC_ADDRESS_WIDTH              : natural := 2;
+  constant NOC_COMPARE_DIFF_ADDRESS_DELAY : natural := 10;
+  constant NOC_COMPARE_SIGN_ADDRESS_DELAY : natural := 10;
 
   -- Define Diagonal Input NoC Parameters
   constant NOC_DIAGONAL_STAGE_0_CLICK_WIDTH : natural   := NOC_DATA_WIDTH;
