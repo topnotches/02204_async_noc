@@ -4,7 +4,7 @@ use ieee.numeric_std.all;
 use ieee.math_real.all;
 use work.noc_defs_pkg.all;
 
-entity compare_sign_slv_diff_rtl is
+entity compare_slv_sign_diff_rtl is
   generic
   (
     SUBTRACT_LENGTH : natural := 1
@@ -18,7 +18,7 @@ entity compare_sign_slv_diff_rtl is
   );
 end entity;
 
-architecture rtl of compare_sign_slv_diff_rtl is
+architecture rtl of compare_slv_sign_diff_rtl is
 
   signal ss_subtract : signed(SUBTRACT_LENGTH - 1 downto 0);
 
