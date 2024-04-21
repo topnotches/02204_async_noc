@@ -20,44 +20,44 @@ entity diagonal_input_rtl is
     in_data : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
     -- Output West
-    out_req_west  : out std_logic;
-    out_data_west : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
-    out_ack_west  : in std_logic;
+    out_west_req  : out std_logic;
+    out_west_data : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    out_west_ack  : in std_logic;
 
     -- Output North West
-    out_req_north_west  : out std_logic;
-    out_data_north_west : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
-    out_ack_north_west  : in std_logic;
+    out_north_west_req  : out std_logic;
+    out_north_west_data : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    out_north_west_ack  : in std_logic;
 
     -- Output North
-    out_req_north  : out std_logic;
-    out_data_north : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
-    out_ack_north  : in std_logic;
+    out_north_req  : out std_logic;
+    out_north_data : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    out_north_ack  : in std_logic;
 
     -- Output North East
-    out_req_north_east  : out std_logic;
-    out_data_north_east : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
-    out_ack_north_east  : in std_logic;
+    out_north_east_req  : out std_logic;
+    out_north_east_data : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    out_north_east_ack  : in std_logic;
 
     -- Output East
-    out_req_east  : out std_logic;
-    out_data_east : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
-    out_ack_east  : in std_logic;
+    out_east_req  : out std_logic;
+    out_east_data : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    out_east_ack  : in std_logic;
 
     -- Output South East
-    out_req_south_east  : out std_logic;
-    out_data_south_east : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
-    out_ack_south_east  : in std_logic;
+    out_south_east_req  : out std_logic;
+    out_south_east_data : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    out_south_east_ack  : in std_logic;
 
     -- Output South
-    out_req_south  : out std_logic;
-    out_data_south : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
-    out_ack_south  : in std_logic;
+    out_south_req  : out std_logic;
+    out_south_data : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    out_south_ack  : in std_logic;
 
     -- Output South West
-    out_req_south_west  : out std_logic;
-    out_data_south_west : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
-    out_ack_south_west  : in std_logic;
+    out_south_west_req  : out std_logic;
+    out_south_west_data : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    out_south_west_ack  : in std_logic;
 
   );
 end entity diagonal_input_rtl;
@@ -277,6 +277,52 @@ architecture rtl of diagonal_input_rtl is
   signal stage_s_delta_x_1_fork_0_ack  : std_logic                                     := '0';
 
 begin
+  -- Demux output connection with port output West
+  out_west_req                 <= stage_package_demux_west_req;
+  out_west_data                <= stage_package_demux_west_data;
+  stage_package_demux_west_ack <= out_west_ack;
+
+  -- Demux output connection with port output North West
+  out_north_west_req                 <= stage_package_demux_north_west_req;
+  out_north_west_data                <= stage_package_demux_north_west_data;
+  stage_package_demux_north_west_ack <= out_north_west_ack;
+
+  -- Demux output connection with port output North
+  out_north_req                 <= stage_package_demux_north_req;
+  out_north_data                <= stage_package_demux_north_data;
+  stage_package_demux_north_ack <= out_north_ack;
+
+  -- Demux output connection with port output North East
+  out_north_east_req                 <= stage_package_demux_north_east_req;
+  out_north_east_data                <= stage_package_demux_north_east_data;
+  stage_package_demux_north_east_ack <= out_north_east_ack;
+
+  -- Demux output connection with port output East
+  out_east_req                 <= stage_package_demux_east_req;
+  out_east_data                <= stage_package_demux_east_data;
+  stage_package_demux_east_ack <= out_east_ack;
+
+  -- Demux output connection with port output South East
+  out_south_east_req                 <= stage_package_demux_south_east_req;
+  out_south_east_data                <= stage_package_demux_south_east_data;
+  stage_package_demux_south_east_ack <= out_south_east_ack;
+
+  -- Demux output connection with port output South
+  out_south_req                 <= stage_package_demux_south_req;
+  out_south_data                <= stage_package_demux_south_data;
+  stage_package_demux_south_ack <= out_south_ack;
+
+  -- Demux output connection with port output South West
+  out_south_west_req                 <= stage_package_demux_south_west_req;
+  out_south_west_data                <= stage_package_demux_south_west_data;
+  stage_package_demux_south_west_ack <= out_south_west_ack;
+
+  ----------------------------------
+  --                              --
+  --  STAGE INPUT CLICK AND FORK  --
+  --                              --
+  ----------------------------------
+
   stage_click : entity work.click_element(Behavioral)
     generic
     map(
