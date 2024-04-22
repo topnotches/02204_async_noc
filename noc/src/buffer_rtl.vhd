@@ -27,8 +27,8 @@ END ENTITY buffer_rtl;
 
 ARCHITECTURE RTL OF buffer_rtl IS
 
-    SIGNAL buffer_ack_array : STD_LOGIC_VECTOR( 0 TO buffer_length) := (others => '0');
-    SIGNAL buffer_req_array : STD_LOGIC_VECTOR( 0 TO buffer_length) := (others => '0');
+    SIGNAL buffer_ack_array : STD_LOGIC_VECTOR( buffer_length downto 0) := (others => '0');
+    SIGNAL buffer_req_array : STD_LOGIC_VECTOR( buffer_length downto 0) := (others => '0');
 
     TYPE data_array IS ARRAY (0 TO buffer_length) OF STD_LOGIC_VECTOR(NOC_DATA_WIDTH - 1 downto 0);
     SIGNAL buffer_data_array : data_array  := (others => (others => '0'));

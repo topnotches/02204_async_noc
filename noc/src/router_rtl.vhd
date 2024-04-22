@@ -159,144 +159,144 @@ architecture rtl of router_rtl is
     -- NORTH STRAIGHT SIGNALS
     signal north_to_south_ack   : std_logic                                                       := '0';
     signal north_to_south_req   : std_logic                                                       := '0';
-    signal north_to_south_data  : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal north_to_south_data  : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
 
     signal north_to_local_ack   : std_logic                                                       := '0';
     signal north_to_local_req   : std_logic                                                       := '0';
-    signal north_to_local_data  : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal north_to_local_data  : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
 
     -- EAST STRAIGHT SIGNALS
     signal east_to_west_ack     : std_logic                                                       := '0';
     signal east_to_west_req     : std_logic                                                       := '0';
-    signal east_to_west_data    : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal east_to_west_data    : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
 
     signal east_to_local_ack    : std_logic                                                       := '0';
     signal east_to_local_req    : std_logic                                                       := '0';
-    signal east_to_local_data   : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal east_to_local_data   : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
 
     -- SOUTH STRAIGHT SIGNALS
     signal south_to_north_ack   : std_logic                                                       := '0';
     signal south_to_north_req   : std_logic                                                       := '0';
-    signal south_to_north_data  : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal south_to_north_data  : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
 
     signal south_to_local_ack   : std_logic                                                       := '0';
     signal south_to_local_req   : std_logic                                                       := '0';
-    signal south_to_local_data  : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal south_to_local_data  : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
 
     -- WEST  STRAIGHT SIGNALS
     signal west_to_east_ack     : std_logic                                                       := '0';
     signal west_to_east_req     : std_logic                                                       := '0';
-    signal west_to_east_data    : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal west_to_east_data    : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
 
     signal west_to_local_ack    : std_logic                                                       := '0';
     signal west_to_local_req    : std_logic                                                       := '0';
-    signal west_to_local_data   : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal west_to_local_data   : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
 
     -- SOUTH EAST INPUT SIGNALS
     signal south_east_to_north_west_ack     : std_logic                                                       := '0';
     signal south_east_to_north_west_req     : std_logic                                                       := '0';
-    signal south_east_to_north_west_data    : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal south_east_to_north_west_data    : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
 
     signal south_east_to_north_ack          : std_logic                                                       := '0';
     signal south_east_to_north_req          : std_logic                                                       := '0';
-    signal south_east_to_north_data         : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal south_east_to_north_data         : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
 
     signal south_east_to_west_ack           : std_logic                                                       := '0';
     signal south_east_to_west_req           : std_logic                                                       := '0';
-    signal south_east_to_west_data          : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal south_east_to_west_data          : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
 
     signal south_east_to_local_ack          : std_logic                                                       := '0';
     signal south_east_to_local_req          : std_logic                                                       := '0';
-    signal south_east_to_local_data         : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal south_east_to_local_data         : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
 
     -- NORTH EAST INPUT SIGNALS
     signal north_east_to_south_west_ack     : std_logic                                                       := '0';
     signal north_east_to_south_west_req     : std_logic                                                       := '0';
-    signal north_east_to_south_west_data    : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal north_east_to_south_west_data    : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
     
     signal north_east_to_south_ack          : std_logic                                                       := '0';
     signal north_east_to_south_req          : std_logic                                                       := '0';
-    signal north_east_to_south_data         : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal north_east_to_south_data         : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
     
     signal north_east_to_west_ack           : std_logic                                                       := '0';
     signal north_east_to_west_req           : std_logic                                                       := '0';
-    signal north_east_to_west_data          : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal north_east_to_west_data          : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
     
     signal north_east_to_local_ack          : std_logic                                                       := '0';
     signal north_east_to_local_req          : std_logic                                                       := '0';
-    signal north_east_to_local_data         : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal north_east_to_local_data         : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
     
     -- NORTH WEST INPUT SIGNALS
     signal north_west_to_south_east_ack     : std_logic                                                       := '0';
     signal north_west_to_south_east_req     : std_logic                                                       := '0';
-    signal north_west_to_south_east_data    : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal north_west_to_south_east_data    : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
         
     signal north_west_to_south_ack          : std_logic                                                       := '0';
     signal north_west_to_south_req          : std_logic                                                       := '0';
-    signal north_west_to_south_data         : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal north_west_to_south_data         : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
         
     signal north_west_to_east_ack           : std_logic                                                       := '0';
     signal north_west_to_east_req           : std_logic                                                       := '0';
-    signal north_west_to_east_data          : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal north_west_to_east_data          : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
         
     signal north_west_to_local_ack          : std_logic                                                       := '0';
     signal north_west_to_local_req          : std_logic                                                       := '0';
-    signal north_west_to_local_data         : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal north_west_to_local_data         : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
         
     -- SOUTH WEST INPUT SIGNALS
     signal south_west_to_north_east_ack     : std_logic                                                       := '0';
     signal south_west_to_north_east_req     : std_logic                                                       := '0';
-    signal south_west_to_north_east_data    : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal south_west_to_north_east_data    : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
         
     signal south_west_to_north_ack          : std_logic                                                       := '0';
     signal south_west_to_north_req          : std_logic                                                       := '0';
-    signal south_west_to_north_data         : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal south_west_to_north_data         : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
         
     signal south_west_to_east_ack           : std_logic                                                       := '0';
     signal south_west_to_east_req           : std_logic                                                       := '0';
-    signal south_west_to_east_data          : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal south_west_to_east_data          : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
         
     signal south_west_to_local_ack          : std_logic                                                       := '0';
     signal south_west_to_local_req          : std_logic                                                       := '0';
-    signal south_west_to_local_data         : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal south_west_to_local_data         : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
 
     -- LOCAL OUTPUT SIGNALS
     signal local_to_north_ack               : std_logic                                                       := '0';
     signal local_to_north_req               : std_logic                                                       := '0';
-    signal local_to_north_data              : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal local_to_north_data              : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
     
     signal local_to_east_ack                : std_logic                                                       := '0';
     signal local_to_east_req                : std_logic                                                       := '0';
-    signal local_to_east_data               : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal local_to_east_data               : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
     
     signal local_to_south_ack               : std_logic                                                       := '0';
     signal local_to_south_req               : std_logic                                                       := '0';
-    signal local_to_south_data              : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal local_to_south_data              : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
     
     signal local_to_west_ack                : std_logic                                                       := '0';
     signal local_to_west_req                : std_logic                                                       := '0';
-    signal local_to_west_data               : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal local_to_west_data               : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
     
     signal local_to_south_east_ack          : std_logic                                                       := '0';
     signal local_to_south_east_req          : std_logic                                                       := '0';
-    signal local_to_south_east_data         : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal local_to_south_east_data         : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
     
     signal local_to_north_east_ack          : std_logic                                                       := '0';
     signal local_to_north_east_req          : std_logic                                                       := '0';
-    signal local_to_north_east_data         : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal local_to_north_east_data         : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
     
     signal local_to_north_west_ack          : std_logic                                                       := '0';
     signal local_to_north_west_req          : std_logic                                                       := '0';
-    signal local_to_north_west_data         : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal local_to_north_west_data         : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
     
     signal local_to_south_west_ack          : std_logic                                                       := '0';
     signal local_to_south_west_req          : std_logic                                                       := '0';
-    signal local_to_south_west_data         : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal local_to_south_west_data         : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
 
     -- Signal for disconnected ports
     signal disconnected_port_ack          : std_logic                                                       := '0';
     signal disconnected_port_req          : std_logic                                                       := '0';
-    signal disconnected_port_data         : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
+    signal disconnected_port_data         : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
 
 begin
   -- Output of components to local ports connection to signals
