@@ -86,10 +86,71 @@ entity router_rtl IS
     out_west_req        : out std_logic;
     out_west_data       : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-    -- Output Local
-    out_ack_local       : in std_logic;
-    out_req_local       : out std_logic;
-    out_data_local      : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0)
+    -- Output of components to local ports
+    out_north_to_local_ack        : in std_logic;
+    out_north_to_local_req        : out std_logic;
+    out_north_to_local_data       : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+
+    out_east_to_local_ack         : in std_logic;
+    out_east_to_local_req         : out std_logic;
+    out_east_to_local_data        : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+
+    out_south_to_local_ack        : in std_logic;
+    out_south_to_local_req        : out std_logic;
+    out_south_to_local_data       : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+
+    out_west_to_local_ack         : in std_logic;
+    out_west_to_local_req         : out std_logic;
+    out_west_to_local_data        : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+
+    out_south_east_to_local_ack   : in std_logic;
+    out_south_east_to_local_req   : out std_logic;
+    out_south_east_to_local_data  : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+
+    out_north_east_to_local_ack   : in std_logic;
+    out_north_east_to_local_req   : out std_logic;
+    out_north_east_to_local_data  : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+
+    out_north_west_to_local_ack   : in std_logic;
+    out_north_west_to_local_req   : out std_logic;
+    out_north_west_to_local_data  : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+
+    out_south_west_to_local_ack   : in std_logic;
+    out_south_west_to_local_req   : out std_logic;
+    out_south_west_to_local_data  : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+
+    -- Input for local ports to componenets
+    in_local_to_north_ack         : out std_logic;
+    in_local_to_north_req         : in std_logic;
+    in_local_to_north_data        : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+
+    in_local_to_east_ack          : out std_logic;
+    in_local_to_east_req          : in std_logic;
+    in_local_to_east_data         : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+
+    in_local_to_south_ack         : out std_logic;
+    in_local_to_south_req         : in std_logic;
+    in_local_to_south_data        : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+
+    in_local_to_west_ack          : out std_logic;
+    in_local_to_west_req          : in std_logic;
+    in_local_to_west_data         : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+
+    in_local_to_south_east_ack    : out std_logic;
+    in_local_to_south_east_req    : in std_logic;
+    in_local_to_south_east_data   : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+
+    in_local_to_north_east_ack    : out std_logic;
+    in_local_to_north_east_req    : in std_logic;
+    in_local_to_north_east_data   : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+
+    in_local_to_north_west_ack    : out std_logic;
+    in_local_to_north_west_req    : in std_logic;
+    in_local_to_north_west_data   : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+
+    in_local_to_south_west_ack    : out std_logic;
+    in_local_to_south_west_req    : in std_logic;
+    in_local_to_south_west_data   : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0)
   );
 end entity router_rtl;
 
@@ -238,6 +299,71 @@ architecture rtl of router_rtl is
     signal disconnected_port_data         : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
 
 begin
+  -- Output of components to local ports connection to signals
+  north_to_local_ack           <= out_north_to_local_ack;
+  out_north_to_local_req       <= north_to_local_req; 
+  out_north_to_local_data      <= north_to_local_data;
+
+  east_to_local_ack            <= out_east_to_local_ack;
+  out_east_to_local_req        <= east_to_local_req; 
+  out_east_to_local_data       <= east_to_local_data;
+
+  south_to_local_ack           <= out_south_to_local_ack;
+  out_south_to_local_req       <= south_to_local_req; 
+  out_south_to_local_data      <= south_to_local_data;
+
+  west_to_local_ack            <= out_west_to_local_ack;
+  out_west_to_local_req        <= west_to_local_req; 
+  out_west_to_local_data       <= west_to_local_data;
+
+  south_east_to_local_ack      <= out_south_east_to_local_ack;
+  out_south_east_to_local_req  <= south_east_to_local_req; 
+  out_south_east_to_local_data <= south_east_to_local_data;
+
+  north_east_to_local_ack      <= out_north_east_to_local_ack;
+  out_north_east_to_local_req  <= north_east_to_local_req; 
+  out_north_east_to_local_data <= north_east_to_local_data;
+
+  north_west_to_local_ack      <= out_north_west_to_local_ack;
+  out_north_west_to_local_req  <= north_west_to_local_req; 
+  out_north_west_to_local_data <= north_west_to_local_data;
+
+  south_west_to_local_ack      <= out_south_west_to_local_ack;
+  out_south_west_to_local_req  <= south_west_to_local_req; 
+  out_south_west_to_local_data <= south_west_to_local_data;
+
+  -- Input for local ports to componenets connection to signals
+  in_local_to_north_ack        <= local_to_north_ack;
+  local_to_north_req           <= in_local_to_north_req;
+  local_to_north_data          <= in_local_to_north_data;
+
+  in_local_to_east_ack         <= local_to_east_ack;
+  local_to_east_req            <= in_local_to_east_req;
+  local_to_east_data           <= in_local_to_east_data;
+
+  in_local_to_south_ack        <= local_to_south_ack;
+  local_to_south_req           <= in_local_to_south_req;
+  local_to_south_data          <= in_local_to_south_data; 
+
+  in_local_to_west_ack         <= local_to_west_ack;
+  local_to_west_req            <= in_local_to_west_req;  
+  local_to_west_data           <= in_local_to_west_data;
+
+  in_local_to_south_east_ack   <= local_to_south_east_ack;
+  local_to_south_east_req      <= in_local_to_south_east_req; 
+  local_to_south_east_data     <= in_local_to_south_east_data;  
+
+  in_local_to_north_east_ack   <= local_to_north_east_ack;
+  local_to_north_east_req      <= in_local_to_north_east_req; 
+  local_to_north_east_data     <= in_local_to_north_east_data;  
+
+  in_local_to_north_west_ack   <= local_to_north_west_ack;
+  local_to_north_west_req      <= in_local_to_north_west_req;
+  local_to_north_west_data     <= in_local_to_north_west_data;
+
+  in_local_to_south_west_ack   <= local_to_south_west_ack;
+  local_to_south_west_req      <= in_local_to_south_west_req;
+  local_to_south_west_data     <= in_local_to_south_west_data;
 
   middle_router: 
   if left = '0' and right = '0' and top = '0' and bottom = '0' generate
