@@ -5,7 +5,7 @@ use ieee.math_real.all;
 use work.data_if_pkg.all;
 use work.noc_defs_pkg.all;
 
-entity diagonal_output_rtl is
+entity output_2_inputs is
   port (
     rst : in std_logic;
 
@@ -15,17 +15,17 @@ entity diagonal_output_rtl is
     out_ack : out std_logic;
 
     -- Input channel
-    in_req_continue : out std_logic;
-    in_data_continue : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
-    in_ack_continue : out std_logic;
+    in_req_0 : out std_logic;
+    in_data_0 : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    in_ack_0 : out std_logic;
 
-    in_req_local : out std_logic;
-    in_data_local : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
-    in_ack_local : out std_logic;
+    in_req_1 : out std_logic;
+    in_data_1 : out std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+    in_ack_1 : out std_logic;
     ) ;
-end diagonal_output_rtl
+end output_2_inputs
 
-architecture rtl of diagonal_output_rtl is
+architecture rtl of output_2_inputs is
       -- Stage 0 Signals
     signal stage_0_ack  : std_logic                                     := '0';
     signal stage_0_req  : std_logic                                     := '0';
@@ -35,18 +35,24 @@ architecture rtl of diagonal_output_rtl is
       port (
         rst => rst,
         -- Channel A
-        inA_req => in_req_continue,
-        inA_data => in_data_continue
-        inA_ack   
+        inA_req => in_req_0,
+        inA_data => in_data_0,
+        inA_ack => in_ack_0,
         -- Channel B
-        inB_req   
-        inB_data 
-        inB_ack   
+        inB_req => in_req_1,  
+        inB_data => in_data_1,
+        inB_ack => in_ack_1
         -- Output channel
-        outC_req  
-        outC_data
-        outC_ack 
+        outC_req => stage_0_req,
+        outC_data => stage_0_data,
+        outC_ack => stage_0_ack
       ) ;
-
+      stage_1_fifo : entity work.buffer_rtl(rtl) is
+        port (
+          clk   : in std_logic;
+          reset : in std_logic;
+          
+        );
+      end entity;
 
 end architecture;
