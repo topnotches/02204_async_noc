@@ -317,6 +317,10 @@ begin
   out_south_west_data                <= stage_package_demux_south_west_data;
   stage_package_demux_south_west_ack <= out_south_west_ack;
 
+  -- Kill signals
+  stage_s_delta_x_kill_ack <= stage_s_delta_x_kill_req;
+  stage_s_delta_y_kill_ack <= stage_s_delta_y_kill_req;
+  stage_delta_y_kill_ack   <= stage_delta_y_kill_req;
   ----------------------------------
   --                              --
   --  STAGE INPUT CLICK AND FORK  --
@@ -375,7 +379,7 @@ begin
   stage_package_demux_0 : entity work.demux(Behavioral)
     generic
     map(
-    DEMUX_DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
+    DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
     PHASE_INIT_A     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_A,
     PHASE_INIT_B     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_B,
     PHASE_INIT_C     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_C
@@ -403,7 +407,7 @@ begin
   stage_package_demux_1 : entity work.demux(Behavioral)
     generic
     map(
-    DEMUX_DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
+    DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
     PHASE_INIT_A     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_A,
     PHASE_INIT_B     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_B,
     PHASE_INIT_C     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_C
@@ -431,7 +435,7 @@ begin
   stage_package_demux_2 : entity work.demux(Behavioral)
     generic
     map(
-    DEMUX_DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
+    DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
     PHASE_INIT_A     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_A,
     PHASE_INIT_B     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_B,
     PHASE_INIT_C     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_C
@@ -459,7 +463,7 @@ begin
   stage_package_demux_3 : entity work.demux(Behavioral)
     generic
     map(
-    DEMUX_DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
+    DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
     PHASE_INIT_A     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_A,
     PHASE_INIT_B     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_B,
     PHASE_INIT_C     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_C
@@ -487,7 +491,7 @@ begin
   stage_package_demux_4 : entity work.demux(Behavioral)
     generic
     map(
-    DEMUX_DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
+    DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
     PHASE_INIT_A     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_A,
     PHASE_INIT_B     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_B,
     PHASE_INIT_C     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_C
@@ -515,7 +519,7 @@ begin
   stage_package_demux_5 : entity work.demux(Behavioral)
     generic
     map(
-    DEMUX_DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
+    DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
     PHASE_INIT_A     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_A,
     PHASE_INIT_B     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_B,
     PHASE_INIT_C     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_C
@@ -543,7 +547,7 @@ begin
   stage_package_demux_6 : entity work.demux(Behavioral)
     generic
     map(
-    DEMUX_DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
+    DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
     PHASE_INIT_A     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_A,
     PHASE_INIT_B     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_B,
     PHASE_INIT_C     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_C
@@ -725,7 +729,7 @@ begin
   stage_s_delta_x_demux_0 : entity work.demux(Behavioral)
     generic
     map(
-    DEMUX_DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
+    DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
     PHASE_INIT_A     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_A,
     PHASE_INIT_B     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_B,
     PHASE_INIT_C     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_C
@@ -754,7 +758,7 @@ begin
   stage_s_delta_x_demux_1 : entity work.demux(Behavioral)
     generic
     map(
-    DEMUX_DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
+    DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
     PHASE_INIT_A     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_A,
     PHASE_INIT_B     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_B,
     PHASE_INIT_C     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_C
@@ -789,7 +793,7 @@ begin
   stage_s_delta_y_demux_0 : entity work.demux(Behavioral)
     generic
     map(
-    DEMUX_DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
+    DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
     PHASE_INIT_A     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_A,
     PHASE_INIT_B     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_B,
     PHASE_INIT_C     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_C
@@ -818,7 +822,7 @@ begin
   stage_s_delta_y_demux_1 : entity work.demux(Behavioral)
     generic
     map(
-    DEMUX_DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
+    DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
     PHASE_INIT_A     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_A,
     PHASE_INIT_B     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_B,
     PHASE_INIT_C     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_C
@@ -847,7 +851,7 @@ begin
   stage_s_delta_y_demux_2 : entity work.demux(Behavioral)
     generic
     map(
-    DEMUX_DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
+    DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
     PHASE_INIT_A     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_A,
     PHASE_INIT_B     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_B,
     PHASE_INIT_C     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_C
@@ -887,7 +891,7 @@ begin
   stage_delta_y_demux_0 : entity work.demux(Behavioral)
     generic
     map(
-    DEMUX_DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
+    DATA_WIDTH => NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH,
     PHASE_INIT_A     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_A,
     PHASE_INIT_B     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_B,
     PHASE_INIT_C     => NOC_DIAGONAL_STAGE_DEMUX_0_PHASE_C
@@ -1037,7 +1041,7 @@ begin
   --  STAGE FORK DELTA_Y  --
   --                      --
   --------------------------
-  stage_fork_delta__0 : entity work.reg_fork(Behavioral)
+  stage_fork_delta_0 : entity work.reg_fork(Behavioral)
     generic
     map(
     DATA_WIDTH   => NOC_DIAGONAL_STAGE_0_FORK_WIDTH,
@@ -1063,7 +1067,7 @@ begin
     outC_ack  => stage_delta_y_0_fork_intermediate_0_ack
     );
 
-  stage_fork_delta__1 : entity work.reg_fork(Behavioral)
+  stage_fork_delta_1 : entity work.reg_fork(Behavioral)
     generic
     map(
     DATA_WIDTH   => NOC_DIAGONAL_STAGE_0_FORK_WIDTH,
