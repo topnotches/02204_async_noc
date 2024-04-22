@@ -6,6 +6,7 @@ use work.data_if_pkg.all;
 use work.noc_defs_pkg.all;
 
 entity output_2_inputs is
+  generic(buffer_length : integer := 0);
   port (
     rst : in std_logic;
 
@@ -48,11 +49,24 @@ architecture rtl of output_2_inputs is
         outC_ack => stage_0_ack
       ) ;
       stage_1_fifo : entity work.buffer_rtl(rtl) is
+        generic (
+        buffer_length => buffer_length
+        );
         port (
-          clk   : in std_logic;
-          reset : in std_logic;
-          
+          --Reset input
+          rst => rst,
+
+          -- Input channels
+          in_ack => stage_0_ack,
+          in_req => stage_0_req,
+          in_data => stage_0_data,
+
+          -- Output channels
+          out_ack => out_ack,
+          out_req => out_req,
+          out_data => out_data
         );
       end entity;
+      
 
 end architecture;
