@@ -74,6 +74,16 @@ package noc_defs_pkg is
 
   -- Local Input 
 
+  constant NOC_LOCAL_STAGE_INPUT_CLICK_WIDTH : natural   := NOC_DATA_WIDTH;
+  constant NOC_LOCAL_STAGE_INPUT_CLICK_VALUE : natural   := 0;
+  constant NOC_LOCAL_STAGE_INPUT_CLICK_PHASE : std_logic := '0';
+
+  constant NOC_LOCAL_STAGE_INPUT_FORK_WIDTH   : natural   := NOC_DATA_WIDTH;
+  constant NOC_LOCAL_STAGE_INPUT_FORK_VALUE   : natural   := 10;
+  constant NOC_LOCAL_STAGE_INPUT_FORK_PHASE_A : std_logic := '0';
+  constant NOC_LOCAL_STAGE_INPUT_FORK_PHASE_B : std_logic := '0';
+  constant NOC_LOCAL_STAGE_INPUT_FORK_PHASE_C : std_logic := '0';
+
   constant NOC_LOCAL_STAGE_PACKAGE_DEMUX_0_WIDTH   : natural   := NOC_DATA_WIDTH;
   constant NOC_LOCAL_STAGE_PACKAGE_DEMUX_0_PHASE_A : std_logic := '0';
   constant NOC_LOCAL_STAGE_PACKAGE_DEMUX_0_PHASE_B : std_logic := '0';
