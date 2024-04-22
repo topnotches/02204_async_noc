@@ -5,7 +5,7 @@ use ieee.math_real.all;
 use work.data_if_pkg.all;
 use work.noc_defs_pkg.all;
 
-entity diagonal_input_rtl is
+entity local_input_rtl is
   port
   (
     rst : in std_logic;
@@ -60,9 +60,9 @@ entity diagonal_input_rtl is
     out_south_west_ack  : in std_logic;
 
   );
-end entity diagonal_input_rtl;
+end entity local_input_rtl;
 
-architecture rtl of diagonal_input_rtl is
+architecture rtl of local_input_rtl is
 
   -- Stage post-Click Signals
   signal stage_click_ack  : std_logic                                                        := '0';

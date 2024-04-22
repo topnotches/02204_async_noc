@@ -23,10 +23,12 @@ package noc_defs_pkg is
   constant NOC_MISC_DELAY_200_NS : time := 200 ns;
 
   -- Define Global NoC Parameters
-  constant NOC_DATA_WIDTH                 : natural := 4;
   constant NOC_ADDRESS_WIDTH              : natural := 2;
+  constant NOC_PACKAGE_WIDTH              : natural := 0;
+  constant NOC_DATA_WIDTH                 : natural := NOC_ADDRESS_WIDTH * 2 + NOC_PACKAGE_WIDTH;
   constant NOC_COMPARE_DIFF_ADDRESS_DELAY : natural := 10;
   constant NOC_COMPARE_SIGN_ADDRESS_DELAY : natural := 10;
+  constant NOC_FORK_REG_VALUE             : natural := 0;
 
   -- Define Diagonal Input NoC Parameters
   constant NOC_DIAGONAL_STAGE_0_CLICK_WIDTH : natural   := NOC_DATA_WIDTH;
@@ -34,7 +36,7 @@ package noc_defs_pkg is
   constant NOC_DIAGONAL_STAGE_0_CLICK_PHASE : std_logic := '0';
 
   constant NOC_DIAGONAL_STAGE_0_FORK_WIDTH   : natural   := NOC_DATA_WIDTH;
-  constant NOC_DIAGONAL_STAGE_0_FORK_VALUE   : natural   := 10;
+  constant NOC_DIAGONAL_STAGE_0_FORK_VALUE   : natural   := NOC_FORK_REG_VALUE;
   constant NOC_DIAGONAL_STAGE_0_FORK_PHASE_A : std_logic := '0';
   constant NOC_DIAGONAL_STAGE_0_FORK_PHASE_B : std_logic := '0';
   constant NOC_DIAGONAL_STAGE_0_FORK_PHASE_C : std_logic := '0';
@@ -55,19 +57,18 @@ package noc_defs_pkg is
   constant NOC_DIAGONAL_STAGE_DEMUX_2_PHASE_C : std_logic := '0';
 
   constant NOC_DIAGONAL_STAGE_COMPARE_FORK_WIDTH   : natural   := NOC_DATA_WIDTH;
-  constant NOC_DIAGONAL_STAGE_COMPARE_FORK_VALUE   : natural   := 10;
+  constant NOC_DIAGONAL_STAGE_COMPARE_FORK_VALUE   : natural   := NOC_FORK_REG_VALUE;
   constant NOC_DIAGONAL_STAGE_COMPARE_FORK_PHASE_A : std_logic := '0';
   constant NOC_DIAGONAL_STAGE_COMPARE_FORK_PHASE_B : std_logic := '0';
   constant NOC_DIAGONAL_STAGE_COMPARE_FORK_PHASE_C : std_logic := '0';
 
   constant NOC_DIAGONAL_STAGE_COMPARE_X_FORK_WIDTH   : natural   := 1;
-  constant NOC_DIAGONAL_STAGE_COMPARE_X_FORK_VALUE   : natural   := 10;
+  constant NOC_DIAGONAL_STAGE_COMPARE_X_FORK_VALUE   : natural   := NOC_FORK_REG_VALUE;
   constant NOC_DIAGONAL_STAGE_COMPARE_X_FORK_PHASE_A : std_logic := '0';
   constant NOC_DIAGONAL_STAGE_COMPARE_X_FORK_PHASE_B : std_logic := '0';
   constant NOC_DIAGONAL_STAGE_COMPARE_X_FORK_PHASE_C : std_logic := '0';
 
   constant NOC_DIAGONAL_STAGE_COMPARE_Y_DEMUX_WIDTH   : natural   := 1;
-  constant NOC_DIAGONAL_STAGE_COMPARE_Y_DEMUX_VALUE   : natural   := 10;
   constant NOC_DIAGONAL_STAGE_COMPARE_Y_DEMUX_PHASE_A : std_logic := '0';
   constant NOC_DIAGONAL_STAGE_COMPARE_Y_DEMUX_PHASE_B : std_logic := '0';
   constant NOC_DIAGONAL_STAGE_COMPARE_Y_DEMUX_PHASE_C : std_logic := '0';
@@ -79,7 +80,7 @@ package noc_defs_pkg is
   constant NOC_LOCAL_STAGE_INPUT_CLICK_PHASE : std_logic := '0';
 
   constant NOC_LOCAL_STAGE_INPUT_FORK_WIDTH   : natural   := NOC_DATA_WIDTH;
-  constant NOC_LOCAL_STAGE_INPUT_FORK_VALUE   : natural   := 10;
+  constant NOC_LOCAL_STAGE_INPUT_FORK_VALUE   : natural   := NOC_FORK_REG_VALUE;
   constant NOC_LOCAL_STAGE_INPUT_FORK_PHASE_A : std_logic := '0';
   constant NOC_LOCAL_STAGE_INPUT_FORK_PHASE_B : std_logic := '0';
   constant NOC_LOCAL_STAGE_INPUT_FORK_PHASE_C : std_logic := '0';
@@ -168,37 +169,37 @@ package noc_defs_pkg is
   constant NOC_LOCAL_STAGE_RAW_DELTA_X_DEMUX_0_PHASE_C : std_logic := '0';
 
   constant NOC_LOCAL_STAGE_S_DELTA_X_1_FORK_WIDTH   : natural   := 1;
-  constant NOC_LOCAL_STAGE_S_DELTA_X_1_FORK_VALUE   : natural   := 10;
+  constant NOC_LOCAL_STAGE_S_DELTA_X_1_FORK_VALUE   : natural   := NOC_FORK_REG_VALUE;
   constant NOC_LOCAL_STAGE_S_DELTA_X_1_FORK_PHASE_A : std_logic := '0';
   constant NOC_LOCAL_STAGE_S_DELTA_X_1_FORK_PHASE_B : std_logic := '0';
   constant NOC_LOCAL_STAGE_S_DELTA_X_1_FORK_PHASE_C : std_logic := '0';
 
   constant NOC_LOCAL_STAGE_DELTA_X_0_0_FORK_WIDTH   : natural   := 1;
-  constant NOC_LOCAL_STAGE_DELTA_X_0_0_FORK_VALUE   : natural   := 10;
+  constant NOC_LOCAL_STAGE_DELTA_X_0_0_FORK_VALUE   : natural   := NOC_FORK_REG_VALUE;
   constant NOC_LOCAL_STAGE_DELTA_X_0_0_FORK_PHASE_A : std_logic := '0';
   constant NOC_LOCAL_STAGE_DELTA_X_0_0_FORK_PHASE_B : std_logic := '0';
   constant NOC_LOCAL_STAGE_DELTA_X_0_0_FORK_PHASE_C : std_logic := '0';
 
   constant NOC_LOCAL_STAGE_DELTA_X_0_1_FORK_WIDTH   : natural   := 1;
-  constant NOC_LOCAL_STAGE_DELTA_X_0_1_FORK_VALUE   : natural   := 10;
+  constant NOC_LOCAL_STAGE_DELTA_X_0_1_FORK_VALUE   : natural   := NOC_FORK_REG_VALUE;
   constant NOC_LOCAL_STAGE_DELTA_X_0_1_FORK_PHASE_A : std_logic := '0';
   constant NOC_LOCAL_STAGE_DELTA_X_0_1_FORK_PHASE_B : std_logic := '0';
   constant NOC_LOCAL_STAGE_DELTA_X_0_1_FORK_PHASE_C : std_logic := '0';
 
   constant NOC_LOCAL_STAGE_DELTA_X_0_2_FORK_WIDTH   : natural   := 1;
-  constant NOC_LOCAL_STAGE_DELTA_X_0_2_FORK_VALUE   : natural   := 10;
+  constant NOC_LOCAL_STAGE_DELTA_X_0_2_FORK_VALUE   : natural   := NOC_FORK_REG_VALUE;
   constant NOC_LOCAL_STAGE_DELTA_X_0_2_FORK_PHASE_A : std_logic := '0';
   constant NOC_LOCAL_STAGE_DELTA_X_0_2_FORK_PHASE_B : std_logic := '0';
   constant NOC_LOCAL_STAGE_DELTA_X_0_2_FORK_PHASE_C : std_logic := '0';
 
   constant NOC_LOCAL_STAGE_DELTA_Y_0_0_FORK_WIDTH   : natural   := 1;
-  constant NOC_LOCAL_STAGE_DELTA_Y_0_0_FORK_VALUE   : natural   := 10;
+  constant NOC_LOCAL_STAGE_DELTA_Y_0_0_FORK_VALUE   : natural   := NOC_FORK_REG_VALUE;
   constant NOC_LOCAL_STAGE_DELTA_Y_0_0_FORK_PHASE_A : std_logic := '0';
   constant NOC_LOCAL_STAGE_DELTA_Y_0_0_FORK_PHASE_B : std_logic := '0';
   constant NOC_LOCAL_STAGE_DELTA_Y_0_0_FORK_PHASE_C : std_logic := '0';
 
   constant NOC_LOCAL_STAGE_DELTA_Y_0_1_FORK_WIDTH   : natural   := 1;
-  constant NOC_LOCAL_STAGE_DELTA_Y_0_1_FORK_VALUE   : natural   := 10;
+  constant NOC_LOCAL_STAGE_DELTA_Y_0_1_FORK_VALUE   : natural   := NOC_FORK_REG_VALUE;
   constant NOC_LOCAL_STAGE_DELTA_Y_0_1_FORK_PHASE_A : std_logic := '0';
   constant NOC_LOCAL_STAGE_DELTA_Y_0_1_FORK_PHASE_B : std_logic := '0';
   constant NOC_LOCAL_STAGE_DELTA_Y_0_1_FORK_PHASE_C : std_logic := '0';
