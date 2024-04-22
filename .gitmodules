@@ -1,3 +1,6 @@
 [submodule "click"]
 	path = click
 	url = https://github.com/zuzkajelcicova/Async-Click-Library.git
+[submodule "Async-Click-Library"]
+	path = Async-Click-Library
+	url = git@github.com:topnotches/Async-Click-Library.git
