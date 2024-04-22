@@ -54,9 +54,9 @@ begin
     port
     map
     (
-    subtract_a => in_data,
-    subtract_b => in_local_address,
-    signed_out => out_data
+    sub_a      => in_data,
+    sub_b      => in_local_address,
+    sign_out => out_data
     );
 
 end architecture;

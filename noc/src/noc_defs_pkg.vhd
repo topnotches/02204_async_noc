@@ -75,6 +75,8 @@ package noc_defs_pkg is
 
   -- Local Input 
 
+  constant NOC_KILL_WIDTH : natural := 1;
+
   constant NOC_LOCAL_STAGE_INPUT_CLICK_WIDTH : natural   := NOC_DATA_WIDTH;
   constant NOC_LOCAL_STAGE_INPUT_CLICK_VALUE : natural   := 0;
   constant NOC_LOCAL_STAGE_INPUT_CLICK_PHASE : std_logic := '0';
