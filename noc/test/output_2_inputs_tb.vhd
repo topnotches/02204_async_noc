@@ -27,6 +27,8 @@ architecture behavioral of output_2_inputs_tb is
     signal in_data_1_signal : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
     signal in_ack_1_signal : std_logic := '0';
     
+    signal old_out_req_signal : std_logic := '0';
+    signal old_in_ack_1_signal, old_in_ack_0_signal : std_logic := '0';
     
     constant time_resolution : time := 1 ns;
     begin
@@ -79,16 +81,16 @@ architecture behavioral of output_2_inputs_tb is
 
                     counter := 1;
                 else
-                    if out_req_signal'event then     
+                    if out_req_signal /= old_out_req_signal then     
                         out_ack_signal <= not(out_ack_signal);
                     end if;
-                    if in_ack_0_signal'event then
+                    if in_ack_0_signal /= old_in_ack_0_signal then
                         in_data_0_signal <= std_logic_vector(to_unsigned(data_0,NOC_DATA_WIDTH));
                         data_0 := data_0 + 2;
                         wait for time_resolution;
                         in_req_0_signal <= not(in_req_0_signal);
                     end if;
-                    if in_ack_1_signal'event then
+                    if in_ack_1_signal /= old_in_ack_1_signal then
                         in_data_1_signal <= std_logic_vector(to_unsigned(data_1,NOC_DATA_WIDTH));
                         data_1 := data_1 + 2;
                         wait for time_resolution;
@@ -98,6 +100,9 @@ architecture behavioral of output_2_inputs_tb is
                         finish;
                     end if;
                 end if;
+                old_out_req_signal <= out_req_signal;
+                old_in_ack_0_signal <= in_ack_0_signal;
+                old_in_ack_1_signal <= in_ack_1_signal;
                 wait for time_resolution;
             end process;
             
