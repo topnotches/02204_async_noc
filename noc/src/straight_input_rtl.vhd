@@ -7,7 +7,7 @@ use work.noc_defs_pkg.all;
 
 entity straight_input_rtl is
   generic(
-    north_south            : std_logic     := '0'
+    north_south: integer := 0
   );
   port
   (
@@ -124,7 +124,7 @@ begin
   
   -- NORTH-SOUTH Direction straight input --> We have to check the Y
   north_south_straight_input: 
-  if north_south = '0' generate
+  if north_south = 0 generate
   stage_compare_x_y : entity work.compare_address_diff_rtl(rtl)
   port
   map
@@ -141,7 +141,7 @@ begin
 
   -- EAST-WEST Direction straight input --> We have to check the X
   east_west_straight_input: 
-  if north_south = '1' generate
+  if north_south = 1 generate
   stage_compare_x_y : entity work.compare_address_diff_rtl(rtl)
   port
   map
