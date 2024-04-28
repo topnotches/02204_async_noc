@@ -30,7 +30,7 @@ architecture behavioral of output_2_inputs_tb is
     signal old_out_req_signal : std_logic := '0';
     signal old_in_ack_1_signal, old_in_ack_0_signal : std_logic := '0';
     
-    constant time_resolution : time := 1 ns;
+    constant time_resolution : time := 2 ns;
     begin
         
         
@@ -63,47 +63,110 @@ architecture behavioral of output_2_inputs_tb is
                 variable data_0 : integer := 0;
                 variable data_1 : integer := 1;
             begin
-                if counter = 0 then
-                    wait for time_resolution;
-                    rst_signal <= '0';
-                    wait for 10*time_resolution;
-                    in_data_0_signal <= std_logic_vector(to_unsigned(data_0,NOC_DATA_WIDTH));
-                    data_0 := data_0 + 2;
-                    wait for time_resolution;
-                    in_req_0_signal <= '1';
-                    
-                
-
-                    in_data_1_signal <= std_logic_vector(to_unsigned(data_1,NOC_DATA_WIDTH));
-                    data_1 := data_1 + 2;
-                    wait for time_resolution;
-                    in_req_1_signal <= '1';
-
-                    counter := 1;
-                else
-                    if out_req_signal /= old_out_req_signal then     
-                        out_ack_signal <= not(out_ack_signal);
-                    end if;
-                    if in_ack_0_signal /= old_in_ack_0_signal then
-                        in_data_0_signal <= std_logic_vector(to_unsigned(data_0,NOC_DATA_WIDTH));
-                        data_0 := data_0 + 2;
-                        wait for time_resolution;
-                        in_req_0_signal <= not(in_req_0_signal);
-                    end if;
-                    if in_ack_1_signal /= old_in_ack_1_signal then
-                        in_data_1_signal <= std_logic_vector(to_unsigned(data_1,NOC_DATA_WIDTH));
-                        data_1 := data_1 + 2;
-                        wait for time_resolution;
-                        in_req_1_signal <= not(in_req_1_signal);
-                    end if;
-                    if data_0 > 10 then
-                        finish;
-                    end if;
-                end if;
-                old_out_req_signal <= out_req_signal;
-                old_in_ack_0_signal <= in_ack_0_signal;
-                old_in_ack_1_signal <= in_ack_1_signal;
+            
                 wait for time_resolution;
+                rst_signal <= '0';
+                wait for 10*time_resolution;
+                in_data_0_signal <= std_logic_vector(to_unsigned(data_0,NOC_DATA_WIDTH));
+                data_0 := data_0 + 2;
+                wait for 10*time_resolution;
+                in_req_0_signal <= '1';
+                
+                wait for 50*time_resolution;
+                out_ack_signal <= not(out_ack_signal);
+
+                in_data_1_signal <= std_logic_vector(to_unsigned(data_1,NOC_DATA_WIDTH));
+                data_1 := data_1 + 2;
+                wait for 10*time_resolution;
+                in_req_1_signal <= '1';
+
+                wait for 50*time_resolution;
+                out_ack_signal <= not(out_ack_signal);
+
+                in_data_0_signal <= std_logic_vector(to_unsigned(data_0,NOC_DATA_WIDTH));
+                data_0 := data_0 + 2;
+                wait for 10*time_resolution;
+                in_req_0_signal <= not(in_req_0_signal);
+
+                wait for 50*time_resolution;
+                out_ack_signal <= not(out_ack_signal);
+
+                in_data_1_signal <= std_logic_vector(to_unsigned(data_1,NOC_DATA_WIDTH));
+                data_1 := data_1 + 2;
+                wait for 10*time_resolution;
+                in_req_1_signal <= not(in_req_1_signal);
+
+                wait for 50*time_resolution;
+                out_ack_signal <= not(out_ack_signal);
+
+                in_data_0_signal <= std_logic_vector(to_unsigned(data_0,NOC_DATA_WIDTH));
+                data_0 := data_0 + 2;
+                wait for 10*time_resolution;
+                in_req_0_signal <= not(in_req_0_signal);
+
+                wait for 50*time_resolution;
+                out_ack_signal <= not(out_ack_signal);
+
+                in_data_1_signal <= std_logic_vector(to_unsigned(data_1,NOC_DATA_WIDTH));
+                data_1 := data_1 + 2;
+                wait for 10*time_resolution;
+                in_req_1_signal <= not(in_req_1_signal);
+
+                wait for 50*time_resolution;
+                out_ack_signal <= not(out_ack_signal);
+
+                in_data_0_signal <= std_logic_vector(to_unsigned(data_0,NOC_DATA_WIDTH));
+                data_0 := data_0 + 2;
+                wait for 10*time_resolution;
+                in_req_0_signal <= not(in_req_0_signal);
+
+                wait for 50*time_resolution;
+                out_ack_signal <= not(out_ack_signal);
+
+                in_data_1_signal <= std_logic_vector(to_unsigned(data_1,NOC_DATA_WIDTH));
+                data_1 := data_1 + 2;
+                wait for 10*time_resolution;
+                in_req_1_signal <= not(in_req_1_signal);
+
+                wait for 50*time_resolution;
+                out_ack_signal <= not(out_ack_signal);
+                in_data_0_signal <= std_logic_vector(to_unsigned(data_0,NOC_DATA_WIDTH));
+                data_0 := data_0 + 2;
+                wait for 10*time_resolution;
+                in_req_0_signal <= not(in_req_0_signal);
+
+                wait for 50*time_resolution;
+                out_ack_signal <= not(out_ack_signal);
+
+                in_data_1_signal <= std_logic_vector(to_unsigned(data_1,NOC_DATA_WIDTH));
+                data_1 := data_1 + 2;
+                wait for 10*time_resolution;
+                in_req_1_signal <= not(in_req_1_signal);
+
+                wait for 50*time_resolution;
+                out_ack_signal <= not(out_ack_signal);
+
+                --     end if;
+                --     if in_ack_0_signal /= old_in_ack_0_signal then
+                --         in_data_0_signal <= std_logic_vector(to_unsigned(data_0,NOC_DATA_WIDTH));
+                --         data_0 := data_0 + 2;
+                --         wait for time_resolution;
+                --         in_req_0_signal <= not(in_req_0_signal);
+                --     end if;
+                --     if in_ack_1_signal /= old_in_ack_1_signal then
+                --         in_data_1_signal <= std_logic_vector(to_unsigned(data_1,NOC_DATA_WIDTH));
+                --         data_1 := data_1 + 2;
+                --         wait for time_resolution;
+                --         in_req_1_signal <= not(in_req_1_signal);
+                --     end if;
+                --     if data_0 > 10 then
+                --         finish;
+                --     end if;
+                -- end if;
+                -- old_out_req_signal <= out_req_signal;
+                -- old_in_ack_0_signal <= in_ack_0_signal;
+                -- old_in_ack_1_signal <= in_ack_1_signal;
+                -- wait for time_resolution;
             end process;
             
             
