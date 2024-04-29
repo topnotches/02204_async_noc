@@ -479,7 +479,7 @@ begin
     port map
     (
       rst                   => rst,
-      in_local_address_xy    => address_y,
+      in_local_address_xy   => address_y,
       in_ack                => in_north_ack,
       in_req                => in_north_req,
       in_data               => in_north_data,
@@ -496,7 +496,7 @@ begin
     port map
     (
       rst                   => rst,
-      in_local_address_xy    => address_x,
+      in_local_address_xy   => address_x,
       in_ack                => in_east_ack,
       in_req                => in_east_req,
       in_data               => in_east_data,
@@ -513,7 +513,7 @@ begin
     port map
     (
       rst                   => rst,
-      in_local_address_xy    => address_y,
+      in_local_address_xy   => address_y,
       in_ack                => in_south_ack,
       in_req                => in_south_req,
       in_data               => in_south_data,
@@ -530,7 +530,7 @@ begin
     port map
     (
       rst                   => rst,
-      in_local_address_xy    => address_x,
+      in_local_address_xy   => address_x,
       in_ack                => in_west_ack,
       in_req                => in_west_req,
       in_data               => in_west_data,
@@ -550,13 +550,13 @@ begin
     (
       rst                 => rst,
       -- Diagonal input channel
-      in_ack_0     => north_west_to_south_east_ack,
-      in_req_0     => north_west_to_south_east_req,
-      in_data_0    => north_west_to_south_east_data,
+      in_ack_0            => north_west_to_south_east_ack,
+      in_req_0            => north_west_to_south_east_req,
+      in_data_0           => north_west_to_south_east_data,
       -- Local input channel
-      in_ack_1        => local_to_south_east_ack,
-      in_req_1        => local_to_south_east_req,
-      in_data_1       => local_to_south_east_data,
+      in_ack_1            => local_to_south_east_ack,
+      in_req_1            => local_to_south_east_req,
+      in_data_1           => local_to_south_east_data,
       -- Output channel
       out_ack             => out_south_east_ack,
       out_req             => out_south_east_req,
@@ -567,13 +567,13 @@ begin
     (
       rst                 => rst,
       -- Diagonal input channel
-      in_ack_0     => south_west_to_north_east_ack,
-      in_req_0     => south_west_to_north_east_req,
-      in_data_0    => south_west_to_north_east_data,
+      in_ack_0            => south_west_to_north_east_ack,
+      in_req_0            => south_west_to_north_east_req,
+      in_data_0           => south_west_to_north_east_data,
       -- Local input channel
-      in_ack_1        => local_to_north_east_ack,
-      in_req_1        => local_to_north_east_req,
-      in_data_1       => local_to_north_east_data,
+      in_ack_1            => local_to_north_east_ack,
+      in_req_1            => local_to_north_east_req,
+      in_data_1           => local_to_north_east_data,
       -- Output channel
       out_ack             => out_north_east_ack,
       out_req             => out_north_east_req,
@@ -584,13 +584,13 @@ begin
     (
       rst                 => rst,
       -- Diagonal input channel
-      in_ack_0     => south_east_to_north_west_ack,
-      in_req_0     => south_east_to_north_west_req,
-      in_data_0    => south_east_to_north_west_data,
+      in_ack_0            => south_east_to_north_west_ack,
+      in_req_0            => south_east_to_north_west_req,
+      in_data_0           => south_east_to_north_west_data,
       -- Local input channel
-      in_ack_1        => local_to_north_west_ack,
-      in_req_1        => local_to_north_west_req,
-      in_data_1       => local_to_north_west_data,
+      in_ack_1            => local_to_north_west_ack,
+      in_req_1            => local_to_north_west_req,
+      in_data_1           => local_to_north_west_data,
       -- Output channel
       out_ack             => out_north_west_ack,
       out_req             => out_north_west_req,
@@ -601,13 +601,13 @@ begin
     (
       rst                 => rst,
       -- Diagonal input channel
-      in_ack_0     => north_east_to_south_west_ack,
-      in_req_0     => north_east_to_south_west_req,
-      in_data_0    => north_east_to_south_west_data,
+      in_ack_0            => north_east_to_south_west_ack,
+      in_req_0            => north_east_to_south_west_req,
+      in_data_0           => north_east_to_south_west_data,
       -- Local input channel
-      in_ack_1        => local_to_south_west_ack,
-      in_req_1        => local_to_south_west_req,
-      in_data_1       => local_to_south_west_data,
+      in_ack_1            => local_to_south_west_ack,
+      in_req_1            => local_to_south_west_req,
+      in_data_1           => local_to_south_west_data,
       -- Output channel
       out_ack             => out_south_west_ack,
       out_req             => out_south_west_req,
@@ -779,7 +779,7 @@ begin
     port map
     (
       rst                   => rst,
-      in_local_address_xy    => address_x,
+      in_local_address_xy   => address_x,
       in_ack                => in_west_ack,
       in_req                => in_west_req,
       in_data               => in_west_data,
@@ -796,7 +796,7 @@ begin
     port map
     (
       rst                   => rst,
-      in_local_address_xy    => address_x,
+      in_local_address_xy   => address_x,
       in_ack                => in_east_ack,
       in_req                => in_east_req,
       in_data               => in_east_data,
@@ -813,7 +813,7 @@ begin
     port map
     (
       rst                   => rst,
-      in_local_address_xy    => address_y,
+      in_local_address_xy   => address_y,
       in_ack                => in_south_ack,
       in_req                => in_south_req,
       in_data               => in_south_data,
@@ -833,9 +833,9 @@ begin
     (
       rst                 => rst,
       -- Local input channel
-      in_ack        => local_to_south_west_ack,
-      in_req        => local_to_south_west_req,
-      in_data       => local_to_south_west_data,
+      in_ack              => local_to_south_west_ack,
+      in_req              => local_to_south_west_req,
+      in_data             => local_to_south_west_data,
       -- Output channel
       out_ack             => out_south_west_ack,
       out_req             => out_south_west_req,
@@ -846,9 +846,9 @@ begin
     (
       rst                 => rst,
       -- Local input channel
-      in_ack        => local_to_south_east_ack,
-      in_req        => local_to_south_east_req,
-      in_data       => local_to_south_east_data,
+      in_ack              => local_to_south_east_ack,
+      in_req              => local_to_south_east_req,
+      in_data             => local_to_south_east_data,
       -- Output channel
       out_ack             => out_south_east_ack,
       out_req             => out_south_east_req,
@@ -995,7 +995,7 @@ begin
     port map
     (
       rst                   => rst,
-      in_local_address_xy    => address_y,
+      in_local_address_xy   => address_y,
       in_ack                => in_north_ack,
       in_req                => in_north_req,
       in_data               => in_north_data,
@@ -1012,7 +1012,7 @@ begin
     port map
     (
       rst                   => rst,
-      in_local_address_xy    => address_y,
+      in_local_address_xy   => address_y,
       in_ack                => in_south_ack,
       in_req                => in_south_req,
       in_data               => in_south_data,
@@ -1029,7 +1029,7 @@ begin
     port map
     (
       rst                   => rst,
-      in_local_address_xy    => address_x,
+      in_local_address_xy   => address_x,
       in_ack                => in_west_ack,
       in_req                => in_west_req,
       in_data               => in_west_data,
@@ -1049,9 +1049,9 @@ begin
     (
       rst                 => rst,
       -- Local input channel
-      in_ack        => local_to_north_west_ack,
-      in_req        => local_to_north_west_req,
-      in_data       => local_to_north_west_data,
+      in_ack              => local_to_north_west_ack,
+      in_req              => local_to_north_west_req,
+      in_data             => local_to_north_west_data,
       -- Output channel
       out_ack             => out_north_west_ack,
       out_req             => out_north_west_req,
@@ -1062,9 +1062,9 @@ begin
     (
       rst                 => rst,
       -- Local input channel
-      in_ack        => local_to_south_west_ack,
-      in_req        => local_to_south_west_req,
-      in_data       => local_to_south_west_data,
+      in_ack              => local_to_south_west_ack,
+      in_req              => local_to_south_west_req,
+      in_data             => local_to_south_west_data,
       -- Output channel
       out_ack             => out_south_west_ack,
       out_req             => out_south_west_req,
@@ -1211,7 +1211,7 @@ begin
     port map
     (
       rst                   => rst,
-      in_local_address_xy    => address_x,
+      in_local_address_xy   => address_x,
       in_ack                => in_west_ack,
       in_req                => in_west_req,
       in_data               => in_west_data,
@@ -1228,7 +1228,7 @@ begin
     port map
     (
       rst                   => rst,
-      in_local_address_xy    => address_x,
+      in_local_address_xy   => address_x,
       in_ack                => in_east_ack,
       in_req                => in_east_req,
       in_data               => in_east_data,
@@ -1245,7 +1245,7 @@ begin
     port map
     (
       rst                   => rst,
-      in_local_address_xy    => address_y,
+      in_local_address_xy   => address_y,
       in_ack                => in_north_ack,
       in_req                => in_north_req,
       in_data               => in_north_data,
@@ -1265,9 +1265,9 @@ begin
     (
       rst                 => rst,
       -- Local input channel
-      in_ack        => local_to_north_west_ack,
-      in_req        => local_to_north_west_req,
-      in_data       => local_to_north_west_data,
+      in_ack              => local_to_north_west_ack,
+      in_req              => local_to_north_west_req,
+      in_data             => local_to_north_west_data,
       -- Output channel
       out_ack             => out_north_west_ack,
       out_req             => out_north_west_req,
@@ -1278,9 +1278,9 @@ begin
     (
       rst                 => rst,
       -- Local input channel
-      in_ack        => local_to_north_east_ack,
-      in_req        => local_to_north_east_req,
-      in_data       => local_to_north_east_data,
+      in_ack              => local_to_north_east_ack,
+      in_req              => local_to_north_east_req,
+      in_data             => local_to_north_east_data,
       -- Output channel
       out_ack             => out_north_east_ack,
       out_req             => out_north_east_req,
@@ -1428,7 +1428,7 @@ begin
     port map
     (
       rst                   => rst,
-      in_local_address_xy    => address_y,
+      in_local_address_xy   => address_y,
       in_ack                => in_north_ack,
       in_req                => in_north_req,
       in_data               => in_north_data,
@@ -1445,7 +1445,7 @@ begin
     port map
     (
       rst                   => rst,
-      in_local_address_xy    => address_y,
+      in_local_address_xy   => address_y,
       in_ack                => in_south_ack,
       in_req                => in_south_req,
       in_data               => in_south_data,
@@ -1462,7 +1462,7 @@ begin
     port map
     (
       rst                   => rst,
-      in_local_address_xy    => address_x,
+      in_local_address_xy   => address_x,
       in_ack                => in_east_ack,
       in_req                => in_east_req,
       in_data               => in_east_data,
@@ -1482,9 +1482,9 @@ begin
     (
       rst                 => rst,
       -- Local input channel
-      in_ack        => local_to_north_east_ack,
-      in_req        => local_to_north_east_req,
-      in_data       => local_to_north_east_data,
+      in_ack              => local_to_north_east_ack,
+      in_req              => local_to_north_east_req,
+      in_data             => local_to_north_east_data,
       -- Output channel
       out_ack             => out_north_east_ack,
       out_req             => out_north_east_req,
@@ -1495,9 +1495,9 @@ begin
     (
       rst                 => rst,
       -- Local input channel
-      in_ack        => local_to_south_east_ack,
-      in_req        => local_to_south_east_req,
-      in_data       => local_to_south_east_data,
+      in_ack              => local_to_south_east_ack,
+      in_req              => local_to_south_east_req,
+      in_data             => local_to_south_east_data,
       -- Output channel
       out_ack             => out_south_east_ack,
       out_req             => out_south_east_req,
@@ -1618,7 +1618,7 @@ begin
     port map
     (
       rst                   => rst,
-      in_local_address_xy    => address_y,
+      in_local_address_xy   => address_y,
       in_ack                => in_north_ack,
       in_req                => in_north_req,
       in_data               => in_north_data,
@@ -1636,7 +1636,7 @@ begin
     port map
     (
       rst                   => rst,
-      in_local_address_xy    => address_x,
+      in_local_address_xy   => address_x,
       in_ack                => in_west_ack,
       in_req                => in_west_req,
       in_data               => in_west_data,
@@ -1656,9 +1656,9 @@ begin
     (
       rst                 => rst,
       -- Local input channel
-      in_ack        => local_to_north_west_ack,
-      in_req        => local_to_north_west_req,
-      in_data       => local_to_north_west_data,
+      in_ack              => local_to_north_west_ack,
+      in_req              => local_to_north_west_req,
+      in_data             => local_to_north_west_data,
       -- Output channel
       out_ack             => out_north_west_ack,
       out_req             => out_north_west_req,
@@ -1773,7 +1773,7 @@ begin
     port map
     (
       rst                   => rst,
-      in_local_address_xy    => address_y,
+      in_local_address_xy   => address_y,
       in_ack                => in_south_ack,
       in_req                => in_south_req,
       in_data               => in_south_data,
@@ -1793,9 +1793,9 @@ begin
     (
       rst                 => rst,
       -- Local input channel
-      in_ack        => local_to_south_west_ack,
-      in_req        => local_to_south_west_req,
-      in_data       => local_to_south_west_data,
+      in_ack              => local_to_south_west_ack,
+      in_req              => local_to_south_west_req,
+      in_data             => local_to_south_west_data,
       -- Output channel
       out_ack             => out_south_west_ack,
       out_req             => out_south_west_req,
@@ -1892,7 +1892,7 @@ begin
     port map
     (
       rst                   => rst,
-      in_local_address_xy    => address_x,
+      in_local_address_xy   => address_x,
       in_ack                => in_east_ack,
       in_req                => in_east_req,
       in_data               => in_east_data,
@@ -1910,7 +1910,7 @@ begin
     port map
     (
       rst                   => rst,
-      in_local_address_xy    => address_y,
+      in_local_address_xy   => address_y,
       in_ack                => in_south_ack,
       in_req                => in_south_req,
       in_data               => in_south_data,
@@ -1930,9 +1930,9 @@ begin
     (
         rst                 => rst,
         -- Local input channel
-        in_ack        => local_to_south_east_ack,
-        in_req        => local_to_south_east_req,
-        in_data       => local_to_south_east_data,
+        in_ack              => local_to_south_east_ack,
+        in_req              => local_to_south_east_req,
+        in_data             => local_to_south_east_data,
         -- Output channel
         out_ack             => out_south_east_ack,
         out_req             => out_south_east_req,
@@ -2029,7 +2029,7 @@ begin
     port map
     (
       rst                   => rst,
-      in_local_address_xy    => address_y,
+      in_local_address_xy   => address_y,
       in_ack                => in_north_ack,
       in_req                => in_north_req,
       in_data               => in_north_data,
@@ -2047,7 +2047,7 @@ begin
     port map
     (
       rst                   => rst,
-      in_local_address_xy    => address_x,
+      in_local_address_xy   => address_x,
       in_ack                => in_east_ack,
       in_req                => in_east_req,
       in_data               => in_east_data,
