@@ -14,8 +14,7 @@ architecture behavioral of straight_input_tb is
 
   signal rst_signal : std_logic := '1';
 
-  signal in_local_address_x_signal : std_logic_vector(NOC_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
-  signal in_local_address_y_signal : std_logic_vector(NOC_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
+  signal in_local_address_xy_signal : std_logic_vector(NOC_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
 
   signal in_ack_signal  : std_logic                                     := '0';
   signal in_req_signal  : std_logic                                     := '0';
@@ -43,8 +42,7 @@ BEGIN
     (
       rst => rst_signal,
 
-      in_local_address_x => in_local_address_x_signal,
-      in_local_address_y => in_local_address_y_signal,
+      in_local_address_xy => in_local_address_xy_signal,
 
       in_ack  => in_ack_signal,
       in_req  => in_req_signal,
@@ -81,12 +79,12 @@ BEGIN
 
       insert_data_package_from_stim_vector(1);
       wait for 100 ns;
-      out_req_continue_signal <= not out_req_continue_signal;
+      out_ack_continue_signal <= not out_ack_continue_signal;
       wait for 50 ns;
 
       insert_data_package_from_stim_vector(2);
       wait for 100 ns;
-      out_req_continue_signal <= not out_req_continue_signal;
+      out_ack_local_signal <= not out_ack_local_signal;
       wait for 50 ns;
 
       insert_data_package_from_stim_vector(3);

@@ -14,8 +14,7 @@ entity straight_input_rtl is
     rst : in std_logic;
 
     -- Local Address
-    in_local_address_x : in std_logic_vector(NOC_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
-    in_local_address_y : in std_logic_vector(NOC_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
+    in_local_address_xy : in std_logic_vector(NOC_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
 
     -- Input channel
     in_ack  : out std_logic;
@@ -61,11 +60,6 @@ architecture rtl of straight_input_rtl is
   signal stage_demux_sel_1_data : std_logic_vector(NOC_DIAGONAL_STAGE_DEMUX_0_WIDTH - 1 downto 0) := (others => '0');
 
   -- Compare X/Y 
-  -- INPUT
-  signal stage_compare_input_ack  : std_logic                                                  := '0';
-  signal stage_compare_input_req  : std_logic                                                  := '0';
-  signal stage_compare_input_data : std_logic_vector(NOC_ADDRESS_WIDTH downto 0) := (others => '0');
-
   -- OUTPUT
   signal stage_compare_output_ack  : std_logic                                                  := '0';
   signal stage_compare_output_req  : std_logic                                                  := '0';
@@ -124,35 +118,35 @@ begin
   
   -- NORTH-SOUTH Direction straight input --> We have to check the Y
   north_south_straight_input: 
-  if north_south = 0 generate
-  stage_compare_x_y : entity work.compare_address_diff_rtl(rtl)
-  port
-  map
-  (
-    in_local_address => in_local_address_x,
-    in_ack           => stage_1_compare_ack,
-    in_req           => stage_1_compare_req,
-    in_data          => slv_to_data_if(stage_1_compare_data).y,
-    out_req          => stage_compare_input_req,
-    out_data         => stage_compare_input_data(0),
-    out_ack          => stage_compare_input_ack
-  );
-  end generate north_south_straight_input;
-
-  -- EAST-WEST Direction straight input --> We have to check the X
-  east_west_straight_input: 
   if north_south = 1 generate
   stage_compare_x_y : entity work.compare_address_diff_rtl(rtl)
   port
   map
   (
-    in_local_address => in_local_address_x,
+    in_local_address => in_local_address_xy,
+    in_ack           => stage_1_compare_ack,
+    in_req           => stage_1_compare_req,
+    in_data          => slv_to_data_if(stage_1_compare_data).y,
+    out_req          => stage_compare_output_req,
+    out_data         => stage_compare_output_data(0),
+    out_ack          => stage_compare_output_ack
+  );
+  end generate north_south_straight_input;
+
+  -- EAST-WEST Direction straight input --> We have to check the X
+  east_west_straight_input: 
+  if north_south = 0 generate
+  stage_compare_x_y : entity work.compare_address_diff_rtl(rtl)
+  port
+  map
+  (
+    in_local_address => in_local_address_xy,
     in_ack           => stage_1_compare_ack,
     in_req           => stage_1_compare_req,
     in_data          => slv_to_data_if(stage_1_compare_data).x,
-    out_req          => stage_compare_input_req,
-    out_data         => stage_compare_input_data(0),
-    out_ack          => stage_compare_input_ack
+    out_req          => stage_compare_output_req,
+    out_data         => stage_compare_output_data(0),
+    out_ack          => stage_compare_output_ack
   );
   end generate east_west_straight_input;
 
