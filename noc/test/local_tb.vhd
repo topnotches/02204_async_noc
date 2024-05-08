@@ -1,9 +1,9 @@
 library ieee;
-use ieee.std_logic_1164.all;
-use ieee.numeric_std.all;
-use ieee.math_real.all;
-use work.data_if_pkg.all;
-use work.noc_defs_pkg.all;
+  use ieee.std_logic_1164.all;
+  use ieee.numeric_std.all;
+  use ieee.math_real.all;
+  use work.data_if_pkg.all;
+  use work.noc_defs_pkg.all;
 
 entity local_tb is
 end entity local_tb;
@@ -12,10 +12,6 @@ architecture rtl of local_tb is
 
   signal signal_rst : std_logic := '1';
 
-  signal signal_in_local_address_x : std_logic_vector(NOC_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
-  signal signal_in_local_address_y : std_logic_vector(NOC_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
-
-  -- Local Address
   signal signal_in_local_address_x : std_logic_vector(NOC_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
   signal signal_in_local_address_y : std_logic_vector(NOC_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
 
@@ -63,11 +59,22 @@ architecture rtl of local_tb is
   signal signal_out_south_west_req  : std_logic                                     := '0';
   signal signal_out_south_west_data : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
   signal signal_out_south_west_ack  : std_logic                                     := '0';
+
+  type a8_data_if_t is array (natural range 0 to 7) of data_if;
+
+  signal sa8_data_if_stimuli : a8_data_if_t := (init_data_if(0, 0),
+                                                 init_data_if(1, 0),
+                                                 init_data_if(2, 0),
+                                                 init_data_if(2, 1),
+                                                 init_data_if(2, 2),
+                                                 init_data_if(1, 2),
+                                                 init_data_if(0, 2),
+                                                 init_data_if(0, 1));
+
 begin
 
-  DUT : entity work.local_input_rtl
-    port map
-    (
+  dut : entity work.local_input_rtl
+    port map (
       rst                 => signal_rst,
       in_local_address_x  => signal_in_local_address_x,
       in_local_address_y  => signal_in_local_address_y,
@@ -99,45 +106,83 @@ begin
       out_south_west_data => signal_out_south_west_data,
       out_south_west_ack  => signal_out_south_west_ack
     );
-  -- Testbench for diagonal input
-  TB : block
-  begin
-    process
-      constant DATA_PREP_DELAY : time := NOC_MISC_DELAY_10_NS;
 
-      procedure insert_data_package_from_stim_vector(index_sel_data : in natural) is
+  -- Testbench for diagonal input
+
+  tb : block is
+  begin
+
+    process is
+
+      constant data_prep_delay : time := NOC_MISC_DELAY_10_NS;
+
+      procedure insert_data_package_from_stim_vector (
+        index_sel_data : in natural
+      ) is
       begin
 
-        in_data_signal <= data_if_to_slv(sa8_data_if_stimuli(index_sel_data));
+        signal_in_data <= data_if_to_slv(sa8_data_if_stimuli(index_sel_data));
         wait for DATA_PREP_DELAY;
-        in_req_signal <= not in_req_signal;
-        wait until in_ack_signal'event;
+        signal_in_req  <= not signal_in_req;
+        wait until signal_in_ack'event;
 
       end procedure;
+
     begin
 
       wait for 100 ns;
       insert_data_package_from_stim_vector(0);
-      wait for 50 ns;
-      out_ack_local_signal <= not out_ack_local_signal;
+      wait until signal_out_north_west_req'event;
+      wait for 10 ns;
+      signal_out_north_west_ack <= not signal_out_north_west_ack;
 
       insert_data_package_from_stim_vector(1);
-      wait for 100 ns;
-      out_ack_ns_signal <= not out_ack_ns_signal;
+      wait until signal_out_north_req'event;
+      wait for 10 ns;
+      signal_out_north_ack <= signal_out_north_ack;
       wait for 50 ns;
 
       insert_data_package_from_stim_vector(2);
-      wait for 100 ns;
-      out_ack_we_signal <= not out_ack_we_signal;
+      wait until signal_out_north_east_req'event;
+      wait for 10 ns;
+      signal_out_north_east_ack <= signal_out_north_east_ack;
       wait for 50 ns;
 
       insert_data_package_from_stim_vector(3);
+      wait until signal_out_east_req'event;
+      wait for 10 ns;
+      signal_out_east_ack <= signal_out_east_ack;
+      wait for 50 ns;
+
       wait for 100 ns;
-      out_ack_continue_signal <= not out_ack_continue_signal;
+      insert_data_package_from_stim_vector(4);
+      wait until signal_out_south_east_req'event;
+      wait for 10 ns;
+      signal_out_south_east_ack <= signal_out_south_east_ack;
+
+      insert_data_package_from_stim_vector(5);
+      wait until signal_out_south_req'event;
+      wait for 10 ns;
+      signal_out_south_ack <= signal_out_south_ack;
+      wait for 50 ns;
+
+      insert_data_package_from_stim_vector(6);
+      wait until signal_out_south_west_req'event;
+      wait for 10 ns;
+      signal_out_south_west_ack <= signal_out_south_west_ack;
+      wait for 50 ns;
+
+      insert_data_package_from_stim_vector(7);
+      wait until signal_out_west_req'event;
+      wait for 10 ns;
+      signal_out_west_ack <= signal_out_west_ack;
       wait for 50 ns;
 
     end process;
-  end block;
+
+  end block tb;
+
   -- Reset Signal Goes Low
-  rst_signal <= '0' after 50 ns;
-end architecture;
+  signal_rst <= '0' after 50 ns;
+
+end architecture rtl;
