@@ -728,7 +728,7 @@ begin
     stage_compare_address_diff_x : entity work.compare_address_diff_rtl(rtl)
         generic
         map (
-        compare_delay => 2
+        compare_delay => 4
         )
         port
         map (
@@ -744,7 +744,7 @@ begin
     stage_compare_address_diff_y : entity work.compare_address_diff_rtl(rtl)
         generic
         map (
-        compare_delay => 2
+        compare_delay => 4
         )
         port
         map (
@@ -761,7 +761,7 @@ begin
 
         generic
         map (
-        subtract_delay => 2
+        subtract_delay => 4
         )
         port
         map (
@@ -777,7 +777,7 @@ begin
     stage_compare_address_sign_diff_y : entity work.compare_address_sign_diff_rtl(rtl)
         generic
         map (
-        subtract_delay => 2
+        subtract_delay => 4
         )
         port
         map (
