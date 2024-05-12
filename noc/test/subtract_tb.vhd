@@ -92,7 +92,7 @@ architecture rtl of subtract_tb is
   signal my_selector : natural range 0 to 7         := 0;
   signal sign_out    : std_logic_vector(3 downto 0) := (others => '0');
 begin
-  DUT_subtract_4b : entity work.compare_sign_slv_diff_rtl(rtl)
+  DUT_subtract_4b : entity work.compare_slv_diff_rtl(rtl)
     generic
     map(
     SUBTRACT_LENGTH => 4
@@ -103,7 +103,7 @@ begin
       sub_b    => sarr_stim_4_bits_b(my_selector),
       sign_out => sign_out(4 - 1)
     );
-  DUT_subtract_3b : entity work.compare_sign_slv_diff_rtl(rtl)
+  DUT_subtract_3b : entity work.compare_slv_diff_rtl(rtl)
     generic
     map(
     SUBTRACT_LENGTH => 3
@@ -115,7 +115,7 @@ begin
     sub_b    => sarr_stim_3_bits_b(my_selector),
     sign_out => sign_out(3 - 1)
     );
-  DUT_subtract_2b : entity work.compare_sign_slv_diff_rtl(rtl)
+  DUT_subtract_2b : entity work.compare_slv_diff_rtl(rtl)
     generic
     map(
     SUBTRACT_LENGTH => 2
@@ -128,7 +128,7 @@ begin
     sign_out => sign_out(2 - 1)
     );
 
-  DUT_subtract_1b : entity work.compare_sign_slv_diff_rtl(rtl)
+  DUT_subtract_1b : entity work.compare_slv_diff_rtl(rtl)
     generic
     map(
     SUBTRACT_LENGTH => 1

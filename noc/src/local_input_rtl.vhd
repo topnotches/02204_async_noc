@@ -453,13 +453,13 @@ begin
         insel_ack => stage_delta_x_0_demux_ack,
         selector  => stage_delta_x_0_demux_data(0),
         -- Output channel 0
-        outb_req  => stage_package_demux_select_0_req,
-        outb_data => stage_package_demux_select_0_data,
-        outb_ack  => stage_package_demux_select_0_ack,
+        outc_req  => stage_package_demux_select_0_req,
+        outc_data => stage_package_demux_select_0_data,
+        outc_ack  => stage_package_demux_select_0_ack,
         -- Output channel 1
-        outc_req  => stage_package_demux_select_1_req,
-        outc_data => stage_package_demux_select_1_data,
-        outc_ack  => stage_package_demux_select_1_ack
+        outb_req  => stage_package_demux_select_1_req,
+        outb_data => stage_package_demux_select_1_data,
+        outb_ack  => stage_package_demux_select_1_ack
         );
 
     stage_package_demux_1 : entity work.demux(Behavioral)
@@ -482,13 +482,13 @@ begin
         insel_ack => stage_s_delta_y_0_demux_ack,
         selector  => stage_s_delta_y_0_demux_data(0),
         -- Output channel 0
-        outb_req  => stage_package_demux_south_req,
-        outb_data => stage_package_demux_south_data,
-        outb_ack  => stage_package_demux_south_ack,
+        outc_req  => stage_package_demux_south_req,
+        outc_data => stage_package_demux_south_data,
+        outc_ack  => stage_package_demux_south_ack,
         -- Output channel 1
-        outc_req  => stage_package_demux_north_req,
-        outc_data => stage_package_demux_north_data,
-        outc_ack  => stage_package_demux_north_ack
+        outb_req  => stage_package_demux_north_req,
+        outb_data => stage_package_demux_north_data,
+        outb_ack  => stage_package_demux_north_ack
         );
 
     stage_package_demux_2 : entity work.demux(Behavioral)
@@ -511,13 +511,13 @@ begin
         insel_ack => stage_delta_y_0_demux_ack,
         selector  => stage_delta_y_0_demux_data(0),
         -- Output channel 0
-        outb_req  => stage_package_demux_select_1_0_req,
-        outb_data => stage_package_demux_select_1_0_data,
-        outb_ack  => stage_package_demux_select_1_0_ack,
+        outc_req  => stage_package_demux_select_1_0_req,
+        outc_data => stage_package_demux_select_1_0_data,
+        outc_ack  => stage_package_demux_select_1_0_ack,
         -- Output channel 1
-        outc_req  => stage_package_demux_select_1_1_req,
-        outc_data => stage_package_demux_select_1_1_data,
-        outc_ack  => stage_package_demux_select_1_1_ack
+        outb_req  => stage_package_demux_select_1_1_req,
+        outb_data => stage_package_demux_select_1_1_data,
+        outb_ack  => stage_package_demux_select_1_1_ack
         );
 
     stage_package_demux_3 : entity work.demux(Behavioral)
@@ -540,13 +540,13 @@ begin
         insel_ack => stage_s_delta_x_0_demux_ack,
         selector  => stage_s_delta_x_0_demux_data(0),
         -- Output channel 0
-        outb_req  => stage_package_demux_east_req,
-        outb_data => stage_package_demux_east_data,
-        outb_ack  => stage_package_demux_east_ack,
+        outc_req  => stage_package_demux_east_req,
+        outc_data => stage_package_demux_east_data,
+        outc_ack  => stage_package_demux_east_ack,
         -- Output channel 1
-        outc_req  => stage_package_demux_west_req,
-        outc_data => stage_package_demux_west_data,
-        outc_ack  => stage_package_demux_west_ack
+        outb_req  => stage_package_demux_west_req,
+        outb_data => stage_package_demux_west_data,
+        outb_ack  => stage_package_demux_west_ack
         );
 
     stage_package_demux_4 : entity work.demux(Behavioral)
@@ -569,13 +569,13 @@ begin
         insel_ack => stage_s_delta_x_1_demux_ack,
         selector  => stage_s_delta_x_1_demux_data(0),
         -- Output channel 0
-        outb_req  => stage_package_demux_select_1_1_0_req,
-        outb_data => stage_package_demux_select_1_1_0_data,
-        outb_ack  => stage_package_demux_select_1_1_0_ack,
+        outc_req  => stage_package_demux_select_1_1_0_req,
+        outc_data => stage_package_demux_select_1_1_0_data,
+        outc_ack  => stage_package_demux_select_1_1_0_ack,
         -- Output channel 1
-        outc_req  => stage_package_demux_select_1_1_1_req,
-        outc_data => stage_package_demux_select_1_1_1_data,
-        outc_ack  => stage_package_demux_select_1_1_1_ack
+        outb_req  => stage_package_demux_select_1_1_1_req,
+        outb_data => stage_package_demux_select_1_1_1_data,
+        outb_ack  => stage_package_demux_select_1_1_1_ack
         );
 
     stage_package_demux_5 : entity work.demux(Behavioral)
@@ -598,13 +598,13 @@ begin
         insel_ack => stage_s_delta_y_1_demux_ack,
         selector  => stage_s_delta_y_1_demux_data(0),
         -- Output channel 0
-        outb_req  => stage_package_demux_south_east_req,
-        outb_data => stage_package_demux_south_east_data,
-        outb_ack  => stage_package_demux_south_east_ack,
+        outc_req  => stage_package_demux_south_east_req,
+        outc_data => stage_package_demux_south_east_data,
+        outc_ack  => stage_package_demux_south_east_ack,
         -- Output channel 1
-        outc_req  => stage_package_demux_north_east_req,
-        outc_data => stage_package_demux_north_east_data,
-        outc_ack  => stage_package_demux_north_east_ack
+        outb_req  => stage_package_demux_north_east_req,
+        outb_data => stage_package_demux_north_east_data,
+        outb_ack  => stage_package_demux_north_east_ack
         );
 
     stage_package_demux_6 : entity work.demux(Behavioral)
@@ -627,13 +627,13 @@ begin
         insel_ack => stage_s_delta_y_2_demux_ack,
         selector  => stage_s_delta_y_2_demux_data(0),
         -- Output channel 0
-        outb_req  => stage_package_demux_south_west_req,
-        outb_data => stage_package_demux_south_west_data,
-        outb_ack  => stage_package_demux_south_west_ack,
+        outc_req  => stage_package_demux_south_west_req,
+        outc_data => stage_package_demux_south_west_data,
+        outc_ack  => stage_package_demux_south_west_ack,
         -- Output channel 1
-        outc_req  => stage_package_demux_north_west_req,
-        outc_data => stage_package_demux_north_west_data,
-        outc_ack  => stage_package_demux_north_west_ack
+        outb_req  => stage_package_demux_north_west_req,
+        outb_data => stage_package_demux_north_west_data,
+        outb_ack  => stage_package_demux_north_west_ack
         );
 
     ------------------------------
@@ -681,7 +681,7 @@ begin
         rst => rst,
         -- Input channel
         ina_req  => stage_fork_compare_x_req,
-        ina_data => slv_to_data_if(stage_fork_compare_x_data).x,
+        inA_data => slv_to_data_if(stage_fork_compare_x_data).x,
         ina_ack  => stage_fork_compare_x_ack,
         -- Output Port 0
         outb_req  => stage_fork_compare_delta_x_req,
@@ -815,13 +815,13 @@ begin
         insel_ack => stage_delta_x_0_fork_0_ack,
         selector  => stage_delta_x_0_fork_0_data(0),
         -- Output channel 0
-        outb_req  => stage_s_delta_x_kill_req,
-        outb_data => stage_s_delta_x_kill_data,
-        outb_ack  => stage_s_delta_x_kill_ack,
+        outc_req  => stage_s_delta_x_kill_req,
+        outc_data => stage_s_delta_x_kill_data,
+        outc_ack  => stage_s_delta_x_kill_ack,
         -- Output channel 1
-        outc_req  => stage_s_delta_x_demux_select_1_req,
-        outc_data => stage_s_delta_x_demux_select_1_data,
-        outc_ack  => stage_s_delta_x_demux_select_1_ack
+        outb_req  => stage_s_delta_x_demux_select_1_req,
+        outb_data => stage_s_delta_x_demux_select_1_data,
+        outb_ack  => stage_s_delta_x_demux_select_1_ack
         );
 
     stage_s_delta_x_demux_1 : entity work.demux(Behavioral)
@@ -844,13 +844,13 @@ begin
         insel_ack => stage_delta_y_0_fork_0_ack,
         selector  => stage_delta_y_0_fork_0_data(0),
         -- Output channel 0
-        outb_req  => stage_s_delta_x_0_demux_req,
-        outb_data => stage_s_delta_x_0_demux_data,
-        outb_ack  => stage_s_delta_x_0_demux_ack,
+        outc_req  => stage_s_delta_x_0_demux_req,
+        outc_data => stage_s_delta_x_0_demux_data,
+        outc_ack  => stage_s_delta_x_0_demux_ack,
         -- Output channel 1
-        outc_req  => stage_s_delta_x_1_req,
-        outc_data => stage_s_delta_x_1_data,
-        outc_ack  => stage_s_delta_x_1_ack
+        outb_req  => stage_s_delta_x_1_req,
+        outb_data => stage_s_delta_x_1_data,
+        outb_ack  => stage_s_delta_x_1_ack
         );
 
     ----------------------------
@@ -879,13 +879,13 @@ begin
         insel_ack => stage_delta_x_0_fork_1_ack,
         selector  => stage_delta_x_0_fork_1_data(0),
         -- Output channel 0
-        outb_req  => stage_s_delta_y_0_demux_req,
-        outb_data => stage_s_delta_y_0_demux_data,
-        outb_ack  => stage_s_delta_y_0_demux_ack,
+        outc_req  => stage_s_delta_y_0_demux_req,
+        outc_data => stage_s_delta_y_0_demux_data,
+        outc_ack  => stage_s_delta_y_0_demux_ack,
         -- Output channel 1
-        outc_req  => stage_s_delta_y_demux_select_1_req,
-        outc_data => stage_s_delta_y_demux_select_1_data,
-        outc_ack  => stage_s_delta_y_demux_select_1_ack
+        outb_req  => stage_s_delta_y_demux_select_1_req,
+        outb_data => stage_s_delta_y_demux_select_1_data,
+        outb_ack  => stage_s_delta_y_demux_select_1_ack
         );
 
     stage_s_delta_y_demux_1 : entity work.demux(Behavioral)
@@ -908,13 +908,13 @@ begin
         insel_ack => stage_delta_y_0_fork_1_ack,
         selector  => stage_delta_y_0_fork_1_data(0),
         -- Output channel 0
-        outb_req  => stage_s_delta_y_kill_req,
-        outb_data => stage_s_delta_y_kill_data,
-        outb_ack  => stage_s_delta_y_kill_ack,
+        outc_req  => stage_s_delta_y_kill_req,
+        outc_data => stage_s_delta_y_kill_data,
+        outc_ack  => stage_s_delta_y_kill_ack,
         -- Output channel 1
-        outc_req  => stage_s_delta_y_demux_select_1_1_req,
-        outc_data => stage_s_delta_y_demux_select_1_1_data,
-        outc_ack  => stage_s_delta_y_demux_select_1_1_ack
+        outb_req  => stage_s_delta_y_demux_select_1_1_req,
+        outb_data => stage_s_delta_y_demux_select_1_1_data,
+        outb_ack  => stage_s_delta_y_demux_select_1_1_ack
         );
 
     stage_s_delta_y_demux_2 : entity work.demux(Behavioral)
@@ -937,13 +937,13 @@ begin
         insel_ack => stage_s_delta_x_1_fork_0_ack,
         selector  => stage_s_delta_x_1_fork_0_data(0),
         -- Output channel 0
-        outb_req  => stage_s_delta_y_1_demux_req,
-        outb_data => stage_s_delta_y_1_demux_data,
-        outb_ack  => stage_s_delta_y_1_demux_ack,
+        outc_req  => stage_s_delta_y_1_demux_req,
+        outc_data => stage_s_delta_y_1_demux_data,
+        outc_ack  => stage_s_delta_y_1_demux_ack,
         -- Output channel 1
-        outc_req  => stage_s_delta_y_2_demux_req,
-        outc_data => stage_s_delta_y_2_demux_data,
-        outc_ack  => stage_s_delta_y_2_demux_ack
+        outb_req  => stage_s_delta_y_2_demux_req,
+        outb_data => stage_s_delta_y_2_demux_data,
+        outb_ack  => stage_s_delta_y_2_demux_ack
         );
 
     --------------------------
@@ -977,13 +977,13 @@ begin
         insel_ack => stage_delta_x_0_fork_2_ack,
         selector  => stage_delta_x_0_fork_2_data(0),
         -- Output channel 0
-        outb_req  => stage_delta_y_kill_req,
-        outb_data => stage_delta_y_kill_data,
-        outb_ack  => stage_delta_y_kill_ack,
+        outc_req  => stage_delta_y_kill_req,
+        outc_data => stage_delta_y_kill_data,
+        outc_ack  => stage_delta_y_kill_ack,
         -- Output channel 1
-        outc_req  => stage_delta_y_0_req,
-        outc_data => stage_delta_y_0_data,
-        outc_ack  => stage_delta_y_0_ack
+        outb_req  => stage_delta_y_0_req,
+        outb_data => stage_delta_y_0_data,
+        outb_ack  => stage_delta_y_0_ack
         );
 
     ----------------------------
