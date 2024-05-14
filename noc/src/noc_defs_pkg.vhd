@@ -4,7 +4,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 package noc_defs_pkg is
-
+  
   -- Miscellaneous NOC Parameters
   constant NOC_MISC_DELAY_0_5_NS : time := 0.5 ns;
   constant NOC_MISC_DELAY_1_NS   : time := 1 ns;
@@ -26,9 +26,17 @@ package noc_defs_pkg is
   constant NOC_ADDRESS_WIDTH              : natural := 2;
   constant NOC_PACKAGE_WIDTH              : natural := 0;
   constant NOC_DATA_WIDTH                 : natural := NOC_ADDRESS_WIDTH * 2 + NOC_PACKAGE_WIDTH;
+  constant NOC_MESH_LENGTH                : natural := 2**NOC_ADDRESS_WIDTH;
+  
   constant NOC_COMPARE_DIFF_ADDRESS_DELAY : natural := 10;
   constant NOC_COMPARE_SIGN_ADDRESS_DELAY : natural := 10;
   constant NOC_FORK_REG_VALUE             : natural := 0;
+  --Types
+  type mesh_in_out is array (0 to NOC_MESH_LENGTH - 1, 0 to NOC_MESH_LENGTH - 1) of std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+  type mesh_control is array (0 to NOC_MESH_LENGTH - 1, 0 to NOC_MESH_LENGTH - 1) of std_logic;
+  type mesh_connector_in_out  is array (0 to NOC_MESH_LENGTH + 1, 0 to NOC_MESH_LENGTH - 2) of std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+  type mesh_connector_control  is array (0 to NOC_MESH_LENGTH + 1, 0 to NOC_MESH_LENGTH - 2) of std_logic;
+
 
   -- Define Diagonal Input NoC Parameters
   constant NOC_DIAGONAL_STAGE_0_CLICK_WIDTH : natural   := NOC_DATA_WIDTH;
