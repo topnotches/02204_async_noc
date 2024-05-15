@@ -64,7 +64,7 @@ architecture rtl of output_3_inputs is
       outC_ack  => stage_0_arbiter_1_ack
   );
 
-  stage_1_arbiter_3 : entity work.arbiter(impl)
+  stage_1_arbiter_2 : entity work.arbiter(impl)
     generic map (ARBITER_DATA_WIDTH => NOC_DATA_WIDTH)
     port map(
       rst       => rst,
@@ -77,9 +77,9 @@ architecture rtl of output_3_inputs is
       inB_data  => in_data_2,
       inB_ack   => in_ack_2,
       -- Output channel
-      outC_req  => stage_1_arbiter_3_req,
-      outC_data => stage_1_arbtier_3_data,
-      outC_ack  => stage_1_arbiter_3_ack
+      outC_req  => stage_1_arbiter_2_req,
+      outC_data => stage_1_arbtier_2_data,
+      outC_ack  => stage_1_arbiter_2_ack
   );
       
   stage_1_fifo : entity work.buffer_rtl(RTL)
@@ -88,9 +88,9 @@ architecture rtl of output_3_inputs is
       --Reset input
       rst       => rst,
       -- Input channels
-      in_ack    => stage_1_arbiter_3_ack,
-      in_req    => stage_1_arbiter_3_req,
-      in_data   => stage_1_arbtier_3_data,
+      in_ack    => stage_1_arbiter_2_ack,
+      in_req    => stage_1_arbiter_2_req,
+      in_data   => stage_1_arbtier_2_data,
      -- Output channels
       out_ack   => out_ack,
       out_req   => out_req,

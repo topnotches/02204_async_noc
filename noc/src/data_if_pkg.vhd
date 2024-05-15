@@ -31,7 +31,7 @@ package body data_if_pkg is
         variable d_if : data_if;
     begin
         d_if.x := slv(slv'left downto slv'left - d_if.x'length + 1);
-        d_if.y := slv(slv'left - d_if.x'length downto 0);
+        d_if.y := slv(slv'left - d_if.x'length downto slv'left - d_if.x'length - d_if.y'length + 1);
         return d_if;
     end slv_to_data_if;
 

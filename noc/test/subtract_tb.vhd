@@ -90,55 +90,55 @@ architecture rtl of subtract_tb is
   "1"
   );
   signal my_selector : natural range 0 to 7         := 0;
-  signal sign_out    : std_logic_vector(3 downto 0) := (others => '0');
+  signal is_diff    : std_logic_vector(3 downto 0) := (others => '0');
 begin
   DUT_subtract_4b : entity work.compare_slv_diff_rtl(rtl)
     generic
     map(
-    SUBTRACT_LENGTH => 4
+    COMPARE_LENGTH => 4
     )
     port map
     (
-      sub_a    => sarr_stim_4_bits_a(my_selector),
-      sub_b    => sarr_stim_4_bits_b(my_selector),
-      sign_out => sign_out(4 - 1)
+      comp_a    => sarr_stim_4_bits_a(my_selector),
+      comp_b    => sarr_stim_4_bits_b(my_selector),
+      is_diff => is_diff(4 - 1)
     );
   DUT_subtract_3b : entity work.compare_slv_diff_rtl(rtl)
     generic
     map(
-    SUBTRACT_LENGTH => 3
+    COMPARE_LENGTH => 3
     )
     port
     map
     (
-    sub_a    => sarr_stim_3_bits_a(my_selector),
-    sub_b    => sarr_stim_3_bits_b(my_selector),
-    sign_out => sign_out(3 - 1)
+    comp_a    => sarr_stim_3_bits_a(my_selector),
+    comp_b    => sarr_stim_3_bits_b(my_selector),
+    is_diff => is_diff(3 - 1)
     );
   DUT_subtract_2b : entity work.compare_slv_diff_rtl(rtl)
     generic
     map(
-    SUBTRACT_LENGTH => 2
+    COMPARE_LENGTH => 2
     )
     port
     map
     (
-    sub_a    => sarr_stim_2_bits_a(my_selector),
-    sub_b    => sarr_stim_2_bits_b(my_selector),
-    sign_out => sign_out(2 - 1)
+    comp_a    => sarr_stim_2_bits_a(my_selector),
+    comp_b    => sarr_stim_2_bits_b(my_selector),
+    is_diff => is_diff(2 - 1)
     );
 
   DUT_subtract_1b : entity work.compare_slv_diff_rtl(rtl)
     generic
     map(
-    SUBTRACT_LENGTH => 1
+    COMPARE_LENGTH => 1
     )
     port
     map
     (
-    sub_a    => sarr_stim_1_bits_a(my_selector),
-    sub_b    => sarr_stim_1_bits_b(my_selector),
-    sign_out => sign_out(1 - 1)
+    comp_a    => sarr_stim_1_bits_a(my_selector),
+    comp_b    => sarr_stim_1_bits_b(my_selector),
+    is_diff => is_diff(1 - 1)
     );
 
   -- Testbench for diagonal input

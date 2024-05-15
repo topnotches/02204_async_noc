@@ -55,7 +55,7 @@ architecture behavioral of output_3_inputs_tb is
             
             in_req_2 => in_req_2_signal,
             in_data_2 => in_data_2_signal,
-            in_ack_2 => in_ack_2_signal,
+            in_ack_2 => in_ack_2_signal
         );
 
         
@@ -76,7 +76,7 @@ architecture behavioral of output_3_inputs_tb is
                 in_data_0_signal <= std_logic_vector(to_unsigned(data_0,NOC_DATA_WIDTH));
                 data_0 := data_0 + 3;
                 wait for 10*time_resolution;
-                in_req_0_signal <= '1';
+                in_req_0_signal <= not(in_req_0_signal);
                 
                 wait for 50*time_resolution;
                 out_ack_signal <= not(out_ack_signal);
@@ -84,7 +84,7 @@ architecture behavioral of output_3_inputs_tb is
                 in_data_1_signal <= std_logic_vector(to_unsigned(data_1,NOC_DATA_WIDTH));
                 data_1 := data_1 + 3;
                 wait for 10*time_resolution;
-                in_req_1_signal <= '1';
+                in_req_1_signal <= not(in_req_1_signal);
 
                 wait for 50*time_resolution;
                 out_ack_signal <= not(out_ack_signal);
@@ -92,7 +92,7 @@ architecture behavioral of output_3_inputs_tb is
                 in_data_2_signal <= std_logic_vector(to_unsigned(data_2,NOC_DATA_WIDTH));
                 data_2 := data_2 + 3;
                 wait for 10*time_resolution;
-                in_req_2_signal <= '1';
+                in_req_2_signal <= not(in_req_2_signal);
 
                 wait for 50*time_resolution;
                 out_ack_signal <= not(out_ack_signal);

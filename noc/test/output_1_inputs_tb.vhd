@@ -11,7 +11,7 @@ use work.output_1_inputs;
 entity output_1_inputs_tb is
 end entity;
 
-architecture behavioral of output_2_inputs_tb is
+architecture behavioral of output_1_inputs_tb is
     signal rst_signal : std_logic := '1';
     --Output channel
     signal out_req_signal : std_logic := '0';
@@ -43,7 +43,7 @@ architecture behavioral of output_2_inputs_tb is
             -- Input channel
             in_req => in_req_signal,
             in_data => in_data_signal,
-            in_ack => in_ack_signal,
+            in_ack => in_ack_signal
         );
 
         
@@ -63,7 +63,7 @@ architecture behavioral of output_2_inputs_tb is
                 in_data_signal <= std_logic_vector(to_unsigned(data,NOC_DATA_WIDTH));
                 data := data + 1;
                 wait for 10*time_resolution;
-                in_req_signal <= '1';
+                in_req_signal <= not(in_req_signal);
                 
                 wait for 50*time_resolution;
                 out_ack_signal <= not(out_ack_signal);

@@ -56,100 +56,232 @@ architecture rtl of noc_rtl is
         
         begin
             gen_y_axis: for y in 0 to NOC_MESH_LENGTH - 1 generate
-                -- calculate the generics
+              signal in_north_east_ack   : std_logic;
+              signal in_north_east_req   : std_logic;
+              signal in_north_east_data  : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-                begin
-                  mesh_node : entity work.router_rtl(rtl)
-                  generic map (
-                    left => '1' when x = 0 else '0',
-                    right => '1' when x = NOC_MESH_LENGTH - 1 else '0',
-                    top => '1' when y = 0 else '0',
-                    bottom => '1' when y = NOC_MESH_LENGTH - 1 else '0',
-                    address_x => std_logic_vector(to_unsigned(x, NOC_ADDRESS_WIDTH)),
-                    address_y => std_logic_vector(to_unsigned(y, NOC_ADDRESS_WIDTH))
-                  )
-                  port 
-                  map (
-                    rst => rst,
-                    -- DIAGONAL INPUT CHANNELS
-                    in_north_east_ack   => '0'             when ((y = 0) or (x = NOC_MESH_LENGTH - 1)) else south_west_ack(x+1, y-1),
-                    in_north_east_req   => '0'             when ((y = 0) or (x = NOC_MESH_LENGTH - 1)) else south_west_req(x+1, y-1),
-                    in_north_east_data  => (others => '0') when ((y = 0) or (x = NOC_MESH_LENGTH - 1)) else south_west_data(x+1, y-1),
+              signal in_north_west_ack   : std_logic;
+              signal in_north_west_req   : std_logic;
+              signal in_north_west_data  : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-                    in_north_west_ack   => '0'             when ((y = 0) or (x = 0)) else south_east_ack(x-1, y-1),
-                    in_north_west_req   => '0'             when ((y = 0) or (x = 0)) else south_east_req(x-1, y-1),
-                    in_north_west_data  => (others => '0') when ((y = 0) or (x = 0)) else south_east_data(x-1, y-1),
+              signal in_south_east_ack   : std_logic;
+              signal in_south_east_req   : std_logic;
+              signal in_south_east_data  : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-                    in_south_east_ack   => '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = NOC_MESH_LENGTH - 1)) else north_west_ack(x+1, y+1),
-                    in_south_east_req   => '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = NOC_MESH_LENGTH - 1)) else north_west_req(x+1, y+1),
-                    in_south_east_data  => (others => '0') when ((y = NOC_MESH_LENGTH - 1) or (x = NOC_MESH_LENGTH - 1)) else north_west_data(x+1, y+1),
+              signal in_south_west_ack   : std_logic;
+              signal in_south_west_req   : std_logic;
+              signal in_south_west_data  : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-                    in_south_west_ack   => '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = 0)) else north_east_ack(x-1, y+1),
-                    in_south_west_req   => '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = 0)) else north_east_req(x-1, y+1),
-                    in_south_west_data  => (others => '0') when ((y = NOC_MESH_LENGTH - 1) or (x = 0)) else north_east_data(x-1, y+1),
+              -- STRAIGTH INPUT CHANNELS
+              signal in_north_ack        : std_logic;
+              signal in_north_req        : std_logic;
+              signal in_north_data       : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-                    -- STRAIGTH INPUT CHANNELS
-                    in_north_ack        => '0'             when (y = 0) else south_ack(x, y-1),
-                    in_north_req        => '0'             when (y = 0) else south_req(x, y-1),
-                    in_north_data       => (others => '0') when (y = 0) else south_data(x, y-1),
+              signal in_east_ack         : std_logic;
+              signal in_east_req         : std_logic;
+              signal in_east_data        : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-                    in_east_ack         => '0'             when (x = NOC_MESH_LENGTH - 1) else west_ack(x+1, y),
-                    in_east_req         => '0'             when (x = NOC_MESH_LENGTH - 1) else west_req(x+1, y),
-                    in_east_data        => (others => '0') when (x = NOC_MESH_LENGTH - 1) else west_data(x+1, y),
+              signal in_south_ack        : std_logic;
+              signal in_south_req        : std_logic;
+              signal in_south_data       : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-                    in_south_ack        => '0'             when (y =  NOC_MESH_LENGTH - 1) else north_ack(x, y+1),
-                    in_south_req        => '0'             when (y =  NOC_MESH_LENGTH - 1) else north_req(x, y+1),
-                    in_south_data       => (others => '0') when (y =  NOC_MESH_LENGTH - 1) else north_ack(x, y+1),
+              signal in_west_ack         : std_logic;
+              signal in_west_req         : std_logic;
+              signal in_west_data        : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-                    in_west_ack         => '0'             when (x = 0) else east_ack(x-1, y),
-                    in_west_req         => '0'             when (x = 0) else east_req(x-1, y),
-                    in_west_data        => (others => '0') when (x = 0) else east_data(x-1, y),
+              -- DIAGONAL OUTPUT CHANNELS
+              signal out_north_west_ack  : std_logic;
+              signal out_north_west_req  : std_logic;
+              signal out_north_west_data : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-                    -- DIAGONAL OUTPUT CHANNELS
-                    out_north_west_ack  => '0'             when ((y = 0) or (x = 0)) else north_west_ack(x, y),
-                    out_north_west_req  => '0'             when ((y = 0) or (x = 0)) else north_west_req(x, y),
-                    out_north_west_data => (others => '0') when ((y = 0) or (x = 0)) else north_west_data(x, y),
+              signal out_north_east_ack  : std_logic;
+              signal out_north_east_req  : std_logic;
+              signal out_north_east_data : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-                    out_north_east_ack  => '0'             when ((y = 0) or (x = NOC_MESH_LENGTH - 1)) else north_east_ack(x, y),
-                    out_north_east_req  => '0'             when ((y = 0) or (x = NOC_MESH_LENGTH - 1)) else north_east_req(x, y),
-                    out_north_east_data => (others => '0') when ((y = 0) or (x = NOC_MESH_LENGTH - 1)) else north_east_data(x, y),
+              signal out_south_east_ack  : std_logic;
+              signal out_south_east_req  : std_logic;
+              signal out_south_east_data : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-                    out_south_east_ack  => '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = NOC_MESH_LENGTH - 1)) else south_east_ack(x, y),
-                    out_south_east_req  => '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = NOC_MESH_LENGTH - 1)) else south_east_req(x, y),
-                    out_south_east_data => (others => '0') when ((y = NOC_MESH_LENGTH - 1) or (x = NOC_MESH_LENGTH - 1)) else south_east_data(x, y),
+              signal out_south_west_ack  : std_logic;
+              signal out_south_west_req  : std_logic;
+              signal out_south_west_data : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-                    out_south_west_ack  => '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = 0)) else south_west_ack(x, y),
-                    out_south_west_req  => '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = 0)) else south_west_ack(x, y),
-                    out_south_west_data => (others => '0') when ((y = NOC_MESH_LENGTH - 1) or (x = 0)) else south_west_ack(x, y),
+              -- STRAIGHT OUTPUT CHANNELS
+              signal out_north_ack       : std_logic;
+              signal out_north_req       : std_logic;
+              signal out_north_data      : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-                    -- STRAIGHT OUTPUT CHANNELS
-                    out_north_ack       => '0'             when (y = 0) else north_ack(x, y),
-                    out_north_req       => '0'             when (y = 0) else north_req(x, y),
-                    out_north_data      => (others => '0') when (y = 0) else north_data(x, y),
+              signal out_east_ack        : std_logic;
+              signal out_east_req        : std_logic;
+              signal out_east_data       : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-                    out_east_ack        => '0'             when (x = NOC_MESH_LENGTH - 1) else east_ack(x, y),
-                    out_east_req        => '0'             when (x = NOC_MESH_LENGTH - 1) else east_req(x, y),
-                    out_east_data       => (others => '0') when (x = NOC_MESH_LENGTH - 1) else east_data(x, y),
+              signal out_south_ack       : std_logic;
+              signal out_south_req       : std_logic;
+              signal out_south_data      : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-                    out_south_ack       => '0'             when (y =  NOC_MESH_LENGTH - 1) else south_ack(x, y),
-                    out_south_req       => '0'             when (y =  NOC_MESH_LENGTH - 1) else south_ack(x, y),
-                    out_south_data      => (others => '0') when (y =  NOC_MESH_LENGTH - 1) else south_ack(x, y),
+              signal out_west_ack        : std_logic;
+              signal out_west_req        : std_logic;
+              signal out_west_data       : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+            begin
+              -- DIAGONAL INPUT CHANNELS
+              in_north_east_ack   <= '0'             when ((y = 0) or (x = NOC_MESH_LENGTH - 1)) else south_west_ack(x+1, y-1);
+              in_north_east_req   <= '0'             when ((y = 0) or (x = NOC_MESH_LENGTH - 1)) else south_west_req(x+1, y-1);
+              in_north_east_data  <= (others => '0') when ((y = 0) or (x = NOC_MESH_LENGTH - 1)) else south_west_data(x+1, y-1);
 
-                    out_west_ack        => '0'             when (x = 0) else west_ack(x, y),
-                    out_west_req        => '0'             when (x = 0) else west_ack(x, y),
-                    out_west_data       => (others => '0') when (x = 0) else west_ack(x, y),
+              in_north_west_ack   <= '0'             when ((y = 0) or (x = 0)) else south_east_ack(x-1, y-1);
+              in_north_west_req   <= '0'             when ((y = 0) or (x = 0)) else south_east_req(x-1, y-1);
+              in_north_west_data  <= (others => '0') when ((y = 0) or (x = 0)) else south_east_data(x-1, y-1);
 
-                    -- LOCAL INPUT
-                    in_local_ack        => in_local_ack(x, y),
-                    in_local_req        => in_local_req(x, y),
-                    in_local_data       => in_local_data(x, y),
+              in_south_east_ack   <= '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = NOC_MESH_LENGTH - 1)) else north_west_ack(x+1, y+1);
+              in_south_east_req   <= '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = NOC_MESH_LENGTH - 1)) else north_west_req(x+1, y+1);
+              in_south_east_data  <= (others => '0') when ((y = NOC_MESH_LENGTH - 1) or (x = NOC_MESH_LENGTH - 1)) else north_west_data(x+1, y+1);
 
-                    -- LOCAL OUTPUT
-                    out_local_ack        => out_local_ack(x, y),
-                    out_local_req        => out_local_req(x, y),
-                    out_local_data       => out_local_data(x, y)
-                                  );
-                               
+              in_south_west_ack   <= '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = 0)) else north_east_ack(x-1, y+1);
+              in_south_west_req   <= '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = 0)) else north_east_req(x-1, y+1);
+              in_south_west_data  <= (others => '0') when ((y = NOC_MESH_LENGTH - 1) or (x = 0)) else north_east_data(x-1, y+1);
+
+              -- STRAIGTH INPUT CHANNELS
+              in_north_ack        <= '0'             when (y = 0) else south_ack(x, y-1);
+              in_north_req        <= '0'             when (y = 0) else south_req(x, y-1);
+              in_north_data       <= (others => '0') when (y = 0) else south_data(x, y-1);
+
+              in_east_ack         <= '0'             when (x = NOC_MESH_LENGTH - 1) else west_ack(x+1, y);
+              in_east_req         <= '0'             when (x = NOC_MESH_LENGTH - 1) else west_req(x+1, y);
+              in_east_data        <= (others => '0') when (x = NOC_MESH_LENGTH - 1) else west_data(x+1, y);
+
+              in_south_ack        <= '0'             when (y =  NOC_MESH_LENGTH - 1) else north_ack(x, y+1);
+              in_south_req        <= '0'             when (y =  NOC_MESH_LENGTH - 1) else north_req(x, y+1);
+              in_south_data       <= (others => '0') when (y =  NOC_MESH_LENGTH - 1) else north_data(x, y+1);
+
+              in_west_ack         <= '0'             when (x = 0) else east_ack(x-1, y);
+              in_west_req         <= '0'             when (x = 0) else east_req(x-1, y);
+              in_west_data        <= (others => '0') when (x = 0) else east_data(x-1, y);
+
+              -- DIAGONAL OUTPUT CHANNELS
+              out_north_west_ack  <= '0'             when ((y = 0) or (x = 0)) else north_west_ack(x, y);
+              out_north_west_req  <= '0'             when ((y = 0) or (x = 0)) else north_west_req(x, y);
+              out_north_west_data <= (others => '0') when ((y = 0) or (x = 0)) else north_west_data(x, y);
+
+              out_north_east_ack  <= '0'             when ((y = 0) or (x = NOC_MESH_LENGTH - 1)) else north_east_ack(x, y);
+              out_north_east_req  <= '0'             when ((y = 0) or (x = NOC_MESH_LENGTH - 1)) else north_east_req(x, y);
+              out_north_east_data <= (others => '0') when ((y = 0) or (x = NOC_MESH_LENGTH - 1)) else north_east_data(x, y);
+
+              out_south_east_ack  <= '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = NOC_MESH_LENGTH - 1)) else south_east_ack(x, y);
+              out_south_east_req  <= '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = NOC_MESH_LENGTH - 1)) else south_east_req(x, y);
+              out_south_east_data <= (others => '0') when ((y = NOC_MESH_LENGTH - 1) or (x = NOC_MESH_LENGTH - 1)) else south_east_data(x, y);
+
+              out_south_west_ack  <= '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = 0)) else south_west_ack(x, y);
+              out_south_west_req  <= '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = 0)) else south_west_req(x, y);
+              out_south_west_data <= (others => '0') when ((y = NOC_MESH_LENGTH - 1) or (x = 0)) else south_west_data(x, y);
+
+              -- STRAIGHT OUTPUT CHANNELS
+              out_north_ack       <= '0'             when (y = 0) else north_ack(x, y);
+              out_north_req       <= '0'             when (y = 0) else north_req(x, y);
+              out_north_data      <= (others => '0') when (y = 0) else north_data(x, y);
+
+              out_east_ack        <= '0'             when (x = NOC_MESH_LENGTH - 1) else east_ack(x, y);
+              out_east_req        <= '0'             when (x = NOC_MESH_LENGTH - 1) else east_req(x, y);
+              out_east_data       <= (others => '0') when (x = NOC_MESH_LENGTH - 1) else east_data(x, y);
+
+              out_south_ack       <= '0'             when (y =  NOC_MESH_LENGTH - 1) else south_ack(x, y);
+              out_south_req       <= '0'             when (y =  NOC_MESH_LENGTH - 1) else south_req(x, y);
+              out_south_data      <= (others => '0') when (y =  NOC_MESH_LENGTH - 1) else south_data(x, y);
+
+              out_west_ack        <= '0'             when (x = 0) else west_ack(x, y);
+              out_west_req        <= '0'             when (x = 0) else west_req(x, y);
+              out_west_data       <= (others => '0') when (x = 0) else west_data(x, y);
+
+              mesh_node : entity work.router_rtl(rtl)
+              generic map (
+                left => '1' when x = 0 else '0',
+                right => '1' when x = NOC_MESH_LENGTH - 1 else '0',
+                top => '1' when y = 0 else '0',
+                bottom => '1' when y = NOC_MESH_LENGTH - 1 else '0',
+                address_x => std_logic_vector(to_unsigned(x, NOC_ADDRESS_WIDTH)),
+                address_y => std_logic_vector(to_unsigned(y, NOC_ADDRESS_WIDTH))
+              )
+              port 
+              map (
+                rst => rst,
+                -- DIAGONAL INPUT CHANNELS
+                in_north_east_ack   => in_north_east_ack,
+                in_north_east_req   => in_north_east_req,
+                in_north_east_data  => in_north_east_data,
+
+                in_north_west_ack   => in_north_west_ack,
+                in_north_west_req   => in_north_west_req,
+                in_north_west_data  => in_north_west_data,
+
+                in_south_east_ack   => in_south_east_ack,
+                in_south_east_req   =>  in_south_east_req,
+                in_south_east_data  => in_south_east_data,
+
+                in_south_west_ack   => in_south_west_ack,
+                in_south_west_req   => in_south_west_req,
+                in_south_west_data  => in_south_west_data,
+
+                -- STRAIGTH INPUT CHANNELS
+                in_north_ack        => in_north_ack,
+                in_north_req        => in_north_req,
+                in_north_data       => in_north_data,
+
+                in_east_ack         => in_east_ack,
+                in_east_req         => in_east_req,
+                in_east_data        => in_east_data,
+
+                in_south_ack        => in_south_ack,
+                in_south_req        => in_south_req,
+                in_south_data       => in_south_data,
+
+                in_west_ack         => in_west_ack,
+                in_west_req         => in_west_req,
+                in_west_data        => in_west_data,
+
+                -- DIAGONAL OUTPUT CHANNELS
+                out_north_west_ack  => out_north_west_ack,
+                out_north_west_req  => out_north_west_req,
+                out_north_west_data =>  out_north_west_data,
+
+                out_north_east_ack  => out_north_east_ack,
+                out_north_east_req  => out_north_east_req,
+                out_north_east_data => out_north_east_data,
+
+                out_south_east_ack  => out_south_east_ack,
+                out_south_east_req  => out_south_east_req,
+                out_south_east_data => out_south_east_data,
+
+                out_south_west_ack  => out_south_west_ack,
+                out_south_west_req  => out_south_west_req,
+                out_south_west_data => out_south_west_data,
+
+                -- STRAIGHT OUTPUT CHANNELS
+                out_north_ack       => out_north_ack,
+                out_north_req       => out_north_req,
+                out_north_data      => out_north_data,
+
+                out_east_ack        => out_east_ack,
+                out_east_req        => out_east_req,
+                out_east_data       => out_east_data,
+
+                out_south_ack       => out_south_ack,
+                out_south_req       => out_south_req,
+                out_south_data      => out_south_data,
+
+                out_west_ack        => out_west_ack,
+                out_west_req        => out_west_req,
+                out_west_data       => out_west_data,
+
+                -- LOCAL INPUT
+                in_local_ack        => in_local_ack(x, y),
+                in_local_req        => in_local_req(x, y),
+                in_local_data       => in_local_data(x, y),
+
+                -- LOCAL OUTPUT
+                out_local_ack        => out_local_ack(x, y),
+                out_local_req        => out_local_req(x, y),
+                out_local_data       => out_local_data(x, y)
+                              );
+                            
                 end generate;
     end generate;
     
