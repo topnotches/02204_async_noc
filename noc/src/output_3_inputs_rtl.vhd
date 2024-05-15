@@ -39,19 +39,11 @@ architecture rtl of output_3_inputs is
   signal stage_0_arbiter_1_req  : std_logic;
   signal stage_0_arbtier_1_data : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-  signal stage_0_arbiter_2_ack  : std_logic;
-  signal stage_0_arbiter_2_req  : std_logic;
-  signal stage_0_arbtier_2_data : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
-
   -- Stage 1 Signals
-  signal stage_1_arbiter_3_ack  : std_logic;
-  signal stage_1_arbiter_3_req  : std_logic;
-  signal stage_1_arbtier_3_data : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+  signal stage_1_arbiter_2_ack  : std_logic;
+  signal stage_1_arbiter_2_req  : std_logic;
+  signal stage_1_arbtier_2_data : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
-  -- Signal for disconnected ports
-  signal disconnected_port_ack          : std_logic                                                       := '0';
-  signal disconnected_port_req          : std_logic                                                       := '0';
-  signal disconnected_port_data         : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0) := (others => '0');
 
   begin
   stage_0_arbiter_1 : entity work.arbiter(impl)
@@ -72,24 +64,6 @@ architecture rtl of output_3_inputs is
       outC_ack  => stage_0_arbiter_1_ack
   );
 
-  stage_0_arbiter_2 : entity work.arbiter(impl)
-    generic map (ARBITER_DATA_WIDTH => NOC_DATA_WIDTH)
-    port map(
-      rst       => rst,
-      -- Channel A
-      inA_req   => in_req_2,
-      inA_data  => in_data_2,
-      inA_ack   => in_ack_2,
-      -- Channel B
-      inB_req   => disconnected_port_req,  
-      inB_data  => disconnected_port_data,
-      inB_ack   => disconnected_port_ack,
-      -- Output channel
-      outC_req  => stage_0_arbiter_2_req,
-      outC_data => stage_0_arbtier_2_data,
-      outC_ack  => stage_0_arbiter_2_ack
-  );
-
   stage_1_arbiter_3 : entity work.arbiter(impl)
     generic map (ARBITER_DATA_WIDTH => NOC_DATA_WIDTH)
     port map(
@@ -99,9 +73,9 @@ architecture rtl of output_3_inputs is
       inA_data  => stage_0_arbtier_1_data,
       inA_ack   => stage_0_arbiter_1_ack,
       -- Channel B
-      inB_req   => stage_0_arbiter_2_req,  
-      inB_data  => stage_0_arbtier_2_data,
-      inB_ack   => stage_0_arbiter_2_ack,
+      inB_req   => in_req_2,  
+      inB_data  => in_data_2,
+      inB_ack   => in_ack_2,
       -- Output channel
       outC_req  => stage_1_arbiter_3_req,
       outC_data => stage_1_arbtier_3_data,
