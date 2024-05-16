@@ -7,7 +7,7 @@ use work.noc_defs_pkg.all;
 use work.buffer_rtl;
 
 entity output_4_inputs is
-  generic(buffer_length : integer := 0);
+  generic(buffer_length : integer := 1);
   port (
     rst : in std_logic;
 

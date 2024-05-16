@@ -36,7 +36,7 @@ BEGIN
 
   DUT : entity work.straight_input_rtl
     generic map(
-      north_south => north_south_block
+      north_south => 1
     )
     port map
     (

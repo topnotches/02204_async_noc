@@ -601,6 +601,9 @@ begin
         );
       -- Local input and output
         local_output: entity work.local_output_rtl(rtl)
+        generic map (
+          buffer_length => NOC_LOCAL_OUTPUT_BUFFER_LENGTH
+        )
         port map (
           rst => rst,
           --Output channel

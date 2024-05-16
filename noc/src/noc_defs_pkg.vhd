@@ -31,6 +31,8 @@ package noc_defs_pkg is
   constant NOC_COMPARE_DIFF_ADDRESS_DELAY : natural := 10;
   constant NOC_COMPARE_SIGN_ADDRESS_DELAY : natural := 10;
   constant NOC_FORK_REG_VALUE             : natural := 0;
+  constant NOC_LOCAL_OUTPUT_BUFFER_LENGTH : natural := 1;
+  
   --Types
   type mesh_in_out is array (0 to NOC_MESH_LENGTH - 1, 0 to NOC_MESH_LENGTH - 1) of std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
   type mesh_control is array (0 to NOC_MESH_LENGTH - 1, 0 to NOC_MESH_LENGTH - 1) of std_logic;

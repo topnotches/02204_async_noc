@@ -124,6 +124,7 @@ architecture behavioral of local_output_tb is
                 out_north_to_local_req <= not(out_north_to_local_req);
                 
                 wait for 50*time_resolution;
+                assert out_data_signal = out_north_to_local_data report "Error in out_north_to_local_data signal" severity failure;
                 out_ack_signal <= not(out_ack_signal);
 
                 -- SOUTH
@@ -133,6 +134,7 @@ architecture behavioral of local_output_tb is
                 out_south_to_local_req <= not(out_south_to_local_req);
                 
                 wait for 50*time_resolution;
+                assert out_data_signal = out_south_to_local_data report "Error in out_south_to_local_data signal" severity failure;	
                 out_ack_signal <= not(out_ack_signal);
 
                 -- EAST
@@ -142,6 +144,7 @@ architecture behavioral of local_output_tb is
                 out_east_to_local_req <= not(out_east_to_local_req);
                 
                 wait for 50*time_resolution;
+                assert out_data_signal = out_east_to_local_data report "Error in out_east_to_local_data signal" severity failure;
                 out_ack_signal <= not(out_ack_signal);
 
                 -- WEST

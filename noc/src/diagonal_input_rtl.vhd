@@ -138,21 +138,21 @@ architecture rtl of diagonal_input_rtl is
   signal stage_select_y_demux_1_data : std_logic_vector(NOC_DIAGONAL_STAGE_COMPARE_Y_DEMUX_WIDTH - 1 downto 0) := (others => '0');
 begin
 
-  out_req_continue        <= stage_demux_1_sel_0_req;
-  out_data_continue       <= stage_demux_1_sel_0_data;
-  stage_demux_1_sel_0_ack <= out_ack_continue;
+  out_req_local        <= stage_demux_1_sel_0_req;
+  out_data_local       <= stage_demux_1_sel_0_data;
+  stage_demux_1_sel_0_ack <= out_ack_local;
 
-  out_req_we              <= stage_demux_1_sel_1_req;
-  out_data_we             <= stage_demux_1_sel_1_data;
-  stage_demux_1_sel_1_ack <= out_ack_we;
+  out_req_we              <= stage_demux_2_sel_0_req;
+  out_data_we             <= stage_demux_2_sel_0_data;
+  stage_demux_2_sel_0_ack <= out_ack_we;
 
-  out_req_ns              <= stage_demux_2_sel_0_req;
-  out_data_ns             <= stage_demux_2_sel_0_data;
-  stage_demux_2_sel_0_ack <= out_ack_ns;
+  out_req_ns              <= stage_demux_1_sel_1_req;
+  out_data_ns             <= stage_demux_1_sel_1_data;
+  stage_demux_1_sel_1_ack <= out_ack_ns;
 
-  out_req_local           <= stage_demux_2_sel_1_req;
-  out_data_local          <= stage_demux_2_sel_1_data;
-  stage_demux_2_sel_1_ack <= out_ack_local;
+  out_req_continue           <= stage_demux_2_sel_1_req;
+  out_data_continue          <= stage_demux_2_sel_1_data;
+  stage_demux_2_sel_1_ack <= out_ack_continue;
 
   stage_0_click : entity work.click_element(Behavioral)
     generic
@@ -219,13 +219,13 @@ begin
     inSel_ack => stage_select_x_fork_0_ack,
     selector  => stage_select_x_fork_0_data(0),
     -- Output channel 1
-    outB_req  => stage_demux_0_sel_0_req,
-    outB_data => stage_demux_0_sel_0_data,
-    outB_ack  => stage_demux_0_sel_0_ack,
+    outC_req  => stage_demux_0_sel_0_req,
+    outC_data => stage_demux_0_sel_0_data,
+    outC_ack  => stage_demux_0_sel_0_ack,
     -- Output channel 2
-    outC_req  => stage_demux_0_sel_1_req,
-    outC_data => stage_demux_0_sel_1_data,
-    outC_ack  => stage_demux_0_sel_1_ack
+    outB_req  => stage_demux_0_sel_1_req,
+    outB_data => stage_demux_0_sel_1_data,
+    outB_ack  => stage_demux_0_sel_1_ack
     );
   stage_demux_1 : entity work.demux(Behavioral)
     generic
@@ -247,13 +247,13 @@ begin
     inSel_ack => stage_select_y_demux_0_ack,
     selector  => stage_select_y_demux_0_data(0),
     -- Output channel 1
-    outB_req  => stage_demux_1_sel_0_req,
-    outB_data => stage_demux_1_sel_0_data,
-    outB_ack  => stage_demux_1_sel_0_ack,
+    outC_req  => stage_demux_1_sel_0_req,
+    outC_data => stage_demux_1_sel_0_data,
+    outC_ack  => stage_demux_1_sel_0_ack,
     -- Output channel 2
-    outC_req  => stage_demux_1_sel_1_req,
-    outC_data => stage_demux_1_sel_1_data,
-    outC_ack  => stage_demux_1_sel_1_ack
+    outB_req  => stage_demux_1_sel_1_req,
+    outB_data => stage_demux_1_sel_1_data,
+    outB_ack  => stage_demux_1_sel_1_ack
     );
   stage_demux_2 : entity work.demux(Behavioral)
     generic
@@ -275,13 +275,13 @@ begin
     inSel_ack => stage_select_y_demux_1_ack,
     selector  => stage_select_y_demux_1_data(0),
     -- Output channel 1
-    outB_req  => stage_demux_2_sel_0_req,
-    outB_data => stage_demux_2_sel_0_data,
-    outB_ack  => stage_demux_2_sel_0_ack,
+    outC_req  => stage_demux_2_sel_0_req,
+    outC_data => stage_demux_2_sel_0_data,
+    outC_ack  => stage_demux_2_sel_0_ack,
     -- Output channel 2
-    outC_req  => stage_demux_2_sel_1_req,
-    outC_data => stage_demux_2_sel_1_data,
-    outC_ack  => stage_demux_2_sel_1_ack
+    outB_req  => stage_demux_2_sel_1_req,
+    outB_data => stage_demux_2_sel_1_data,
+    outB_ack  => stage_demux_2_sel_1_ack
     );
 
   -- compare addresses
@@ -389,12 +389,12 @@ begin
     inSel_ack => stage_select_x_fork_1_ack,
     selector  => stage_select_x_fork_1_data(0),
     -- Output channel 1
-    outB_req  => stage_select_y_demux_0_req,
-    outB_data => stage_select_y_demux_0_data,
-    outB_ack  => stage_select_y_demux_0_ack,
+    outC_req  => stage_select_y_demux_0_req,
+    outC_data => stage_select_y_demux_0_data,
+    outC_ack  => stage_select_y_demux_0_ack,
     -- Output channel 2
-    outC_req  => stage_select_y_demux_1_req,
-    outC_data => stage_select_y_demux_1_data,
-    outC_ack  => stage_select_y_demux_1_ack
+    outB_req  => stage_select_y_demux_1_req,
+    outB_data => stage_select_y_demux_1_data,
+    outB_ack  => stage_select_y_demux_1_ack
     );
 end architecture;

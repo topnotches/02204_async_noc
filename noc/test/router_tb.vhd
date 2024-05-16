@@ -205,6 +205,7 @@ architecture behavioral of router_tb is
                 
                 wait until out_local_req'event;
                 assert out_local_data = in_north_data report "north to local failed" severity failure;
+                wait for time_resolution;
                 out_local_ack <= not(out_local_ack);
                 data := data + 1;
                 -- SOUTH PORT
@@ -213,7 +214,7 @@ architecture behavioral of router_tb is
                 in_north_req <= not(in_north_req);
                 
                 wait until out_south_req'event;
-                assert out_south_data = in_south_data report "north to south failed" severity failure;
+                assert out_south_data = in_north_data report "north to south failed" severity failure;
                 out_south_ack <= not(out_south_ack);
                 data := data + 1;
             -- SOUTH INPUT TEST
@@ -288,6 +289,7 @@ architecture behavioral of router_tb is
                 
                 wait until out_local_req'event;
                 assert out_local_data = in_north_west_data report "north west to local failed" severity failure;
+                wait for 3*time_resolution;
                 out_local_ack <= not(out_local_ack);
                 data := data + 1;
                 -- SOUTH EAST PORT
@@ -298,6 +300,7 @@ architecture behavioral of router_tb is
                 
                 wait until out_south_east_req'event;
                 assert out_south_east_data = in_north_west_data report "north west to south east failed" severity failure;
+                wait for 3*time_resolution;
                 out_south_east_ack <= not(out_south_east_ack);
                 data := data + 1;
                 -- SOUTH PORT
@@ -308,6 +311,7 @@ architecture behavioral of router_tb is
 
                 wait until out_south_req'event;
                 assert out_south_data = in_north_west_data report "north west to south failed" severity failure;
+                wait for 3*time_resolution;
                 out_south_ack <= not(out_south_ack);
                 data := data + 1;
                 -- EAST PORT
@@ -318,6 +322,7 @@ architecture behavioral of router_tb is
 
                 wait until out_east_req'event;
                 assert out_east_data = in_north_west_data report "north west to east failed" severity failure;
+                wait for 3*time_resolution;
                 out_east_ack <= not(out_east_ack);
                 data := data + 1;
             -- NORTH EAST INPUT TEST
@@ -329,6 +334,7 @@ architecture behavioral of router_tb is
                 
                 wait until out_local_req'event;
                 assert out_local_data = in_north_east_data report "north east to local failed" severity failure;
+                wait for 3*time_resolution;
                 out_local_ack <= not(out_local_ack);
                 data := data + 1;
                 -- SOUTH WEST PORT
@@ -339,6 +345,7 @@ architecture behavioral of router_tb is
                 
                 wait until out_south_west_req'event;
                 assert out_south_west_data = in_north_east_data report "north east to south west failed" severity failure;
+                wait for 3*time_resolution;
                 out_south_west_ack <= not(out_south_west_ack);
                 data := data + 1;
                 -- SOUTH PORT
@@ -349,6 +356,7 @@ architecture behavioral of router_tb is
 
                 wait until out_south_req'event;
                 assert out_south_data = in_north_east_data report "north east to south failed" severity failure;
+                wait for 3*time_resolution;
                 out_south_ack <= not(out_south_ack);
                 data := data + 1;
                 -- WEST PORT
@@ -359,6 +367,7 @@ architecture behavioral of router_tb is
 
                 wait until out_west_req'event;
                 assert out_west_data = in_north_east_data report "north east to west failed" severity failure;
+                wait for 3*time_resolution;
                 out_west_ack <= not(out_west_ack);
                 data := data + 1;
             -- SOUTH WEST INPUT TEST
@@ -370,6 +379,7 @@ architecture behavioral of router_tb is
                 
                 wait until out_local_req'event;
                 assert out_local_data = in_south_west_data report "south west to local failed" severity failure;
+                wait for 3*time_resolution;
                 out_local_ack <= not(out_local_ack);
                 data := data + 1;
                 -- NORTH EAST PORT
@@ -380,6 +390,7 @@ architecture behavioral of router_tb is
                 
                 wait until out_north_east_req'event;
                 assert out_north_east_data = in_south_west_data report "south west to north east failed" severity failure;
+                wait for 3*time_resolution;
                 out_north_east_ack <= not(out_north_east_ack);
                 data := data + 1;
                 -- NORTH PORT
@@ -390,6 +401,7 @@ architecture behavioral of router_tb is
 
                 wait until out_north_req'event;
                 assert out_north_data = in_south_west_data report "south west to north failed" severity failure;
+                wait for 3*time_resolution;
                 out_north_ack <= not(out_north_ack);
                 data := data + 1;
                 -- EAST PORT
@@ -400,6 +412,7 @@ architecture behavioral of router_tb is
 
                 wait until out_east_req'event;
                 assert out_east_data = in_south_west_data report "south west to east failed" severity failure;
+                wait for 3*time_resolution;
                 out_east_ack <= not(out_east_ack);
                 data := data + 1;
             -- SOUTH EAST INPUT TEST
@@ -411,6 +424,7 @@ architecture behavioral of router_tb is
                 
                 wait until out_local_req'event;
                 assert out_local_data = in_south_east_data report "south east to local failed" severity failure;
+                wait for 3*time_resolution;
                 out_local_ack <= not(out_local_ack);
                 data := data + 1;
                 -- NORTH WEST PORT
@@ -421,6 +435,7 @@ architecture behavioral of router_tb is
                 
                 wait until out_north_west_req'event;
                 assert out_north_west_data = in_south_east_data report "south east to north west failed" severity failure;
+                wait for 3*time_resolution;
                 out_north_west_ack <= not(out_north_west_ack);
                 data := data + 1;
                 -- NORTH PORT
@@ -431,6 +446,7 @@ architecture behavioral of router_tb is
 
                 wait until out_north_req'event;
                 assert out_north_data = in_south_east_data report "south east to north failed" severity failure;
+                wait for 3*time_resolution;
                 out_north_ack <= not(out_north_ack);
                 data := data + 1;
                 -- WEST PORT
@@ -441,6 +457,7 @@ architecture behavioral of router_tb is
 
                 wait until out_west_req'event;
                 assert out_west_data = in_south_east_data report "south east to west failed" severity failure;
+                wait for 3*time_resolution;
                 out_west_ack <= not(out_west_ack);
                 data := data + 1;
             end process;

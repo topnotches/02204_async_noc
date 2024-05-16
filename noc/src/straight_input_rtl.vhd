@@ -67,12 +67,12 @@ architecture rtl of straight_input_rtl is
 begin
 
   stage_demux_sel_0_ack     <= out_ack_continue; 
-  out_req_continue          <= stage_demux_sel_1_req;
-  out_data_continue         <= stage_demux_sel_1_data;
+  out_req_continue          <= stage_demux_sel_0_req;
+  out_data_continue         <= stage_demux_sel_0_data;
 
   stage_demux_sel_1_ack     <= out_ack_local;
-  out_req_local             <= stage_demux_sel_0_req;
-  out_data_local            <= stage_demux_sel_0_data;
+  out_req_local             <= stage_demux_sel_1_req;
+  out_data_local            <= stage_demux_sel_1_data;
 
   stage_0_click : entity work.click_element(Behavioral)
     generic 
@@ -168,12 +168,12 @@ begin
       inSel_ack => stage_compare_output_ack,
       selector  => stage_compare_output_data,
       -- Output channel 1
-      outC_req  => stage_demux_sel_0_req,
-      outC_data => stage_demux_sel_0_data,
-      outC_ack  => stage_demux_sel_0_ack,
+      outB_req  => stage_demux_sel_0_req,
+      outB_data => stage_demux_sel_0_data,
+      outB_ack  => stage_demux_sel_0_ack,
       -- Output channel 2
-      outB_req  => stage_demux_sel_1_req,
-      outB_data => stage_demux_sel_1_data,
-      outB_ack  => stage_demux_sel_1_ack
+      outC_req  => stage_demux_sel_1_req,
+      outC_data => stage_demux_sel_1_data,
+      outC_ack  => stage_demux_sel_1_ack
     );
 end architecture rtl;

@@ -42,8 +42,8 @@ BEGIN
         inA_data => in_data_signal,
         inA_ack => in_ack_signal,
         -- Select port 
-        inSel_req => in_req_signal,
-        inSel_ack => in_ack_signal,
+        inSel_req => selector_req_signal,
+        inSel_ack => selector_ack_signal,
         selector => selector_signal,
         -- Output channel 1
         outB_req  => outB_req_signal,
@@ -60,23 +60,23 @@ BEGIN
     process
 
     begin
-        wait for 10 ns;
+        wait for 100 ns;
         rst_signal <= '0';
-        wait for 10 ns;
+        wait for 100 ns;
         in_data_signal <= "1111";
         selector_signal <= '1';--selects out B
-        wait for 10 ns;
+        wait for 100 ns;
         in_req_signal <= not in_req_signal;
         selector_req_signal <= not selector_req_signal;
 
         wait until outB_req_signal'event;
         assert outB_data_signal = "1111" report "Error in outB_data_signal" severity error;
-        wait for 5 ns;
+        wait for 50 ns;
         outB_ack_signal <= not outB_ack_signal;
 
         in_data_signal <= "0000";
         selector_signal <= '0';--selects out C
-        wait for 10 ns;
+        wait for 100 ns;
         in_req_signal <= not in_req_signal;
         selector_req_signal <= not selector_req_signal;
 
