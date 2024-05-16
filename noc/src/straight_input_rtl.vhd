@@ -63,16 +63,16 @@ architecture rtl of straight_input_rtl is
   -- OUTPUT
   signal stage_compare_output_ack  : std_logic                                                  := '0';
   signal stage_compare_output_req  : std_logic                                                  := '0';
-  signal stage_compare_output_data : std_logic_vector(NOC_ADDRESS_WIDTH - 1 downto 0)              := (others => '0');
+  signal stage_compare_output_data : std_logic                                                  := '0';
 begin
 
   stage_demux_sel_0_ack     <= out_ack_continue; 
-  out_req_continue          <= stage_demux_sel_0_req;
-  out_data_continue         <= stage_demux_sel_0_data;
+  out_req_continue          <= stage_demux_sel_1_req;
+  out_data_continue         <= stage_demux_sel_1_data;
 
   stage_demux_sel_1_ack     <= out_ack_local;
-  out_req_local             <= stage_demux_sel_1_req;
-  out_data_local            <= stage_demux_sel_1_data;
+  out_req_local             <= stage_demux_sel_0_req;
+  out_data_local            <= stage_demux_sel_0_data;
 
   stage_0_click : entity work.click_element(Behavioral)
     generic 
@@ -128,7 +128,7 @@ begin
     in_req           => stage_1_compare_req,
     in_data          => slv_to_data_if(stage_1_compare_data).y,
     out_req          => stage_compare_output_req,
-    out_data         => stage_compare_output_data(0),
+    out_data         => stage_compare_output_data,
     out_ack          => stage_compare_output_ack
   );
   end generate north_south_straight_input;
@@ -145,7 +145,7 @@ begin
     in_req           => stage_1_compare_req,
     in_data          => slv_to_data_if(stage_1_compare_data).x,
     out_req          => stage_compare_output_req,
-    out_data         => stage_compare_output_data(0),
+    out_data         => stage_compare_output_data,
     out_ack          => stage_compare_output_ack
   );
   end generate east_west_straight_input;
@@ -166,14 +166,14 @@ begin
       -- Select port 
       inSel_req => stage_compare_output_req,
       inSel_ack => stage_compare_output_ack,
-      selector  => stage_compare_output_data(0),
+      selector  => stage_compare_output_data,
       -- Output channel 1
-      outB_req  => stage_demux_sel_0_req,
-      outB_data => stage_demux_sel_0_data,
-      outB_ack  => stage_demux_sel_0_ack,
+      outC_req  => stage_demux_sel_0_req,
+      outC_data => stage_demux_sel_0_data,
+      outC_ack  => stage_demux_sel_0_ack,
       -- Output channel 2
-      outC_req  => stage_demux_sel_1_req,
-      outC_data => stage_demux_sel_1_data,
-      outC_ack  => stage_demux_sel_1_ack
+      outB_req  => stage_demux_sel_1_req,
+      outB_data => stage_demux_sel_1_data,
+      outB_ack  => stage_demux_sel_1_ack
     );
 end architecture rtl;
