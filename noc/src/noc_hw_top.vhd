@@ -15,13 +15,13 @@ entity noc_hw_top is
         pil_clk : in std_logic;
         pil_rst : in std_logic;
         -- Switches
-        pil16_switches : in std_logic_vector(NOC_HALFWORD_LENGTH - 1 downto 0);
+        pil4_switches : in std_logic_vector(NOC_NIBBLE_LENGTH - 1 downto 0);
         -- LEDs
         pol16_leds : out std_logic_vector(NOC_HALFWORD_LENGTH - 1 downto 0);
 
-        pol_seg_light     : out std_logic;
-        pil_button_left   : in std_logic;
-        pil_button_right  : in std_logic;
+        pol_seg_light   : out std_logic;
+        pil_button_left : in std_logic;
+        --pil_button_right  : in std_logic;
         pil_button_top    : in std_logic;
         pil_button_bottom : in std_logic;
         pil_button_center : in std_logic
@@ -30,8 +30,8 @@ end entity noc_hw_top;
 
 architecture rtl of noc_hw_top is
     -- buttons
-    signal sl_button_left_db            : std_logic                    := '0';
-    signal sl_button_right_db           : std_logic                    := '0';
+    signal sl_button_left_db : std_logic := '0';
+    --signal sl_button_right_db           : std_logic                    := '0';
     signal sl_button_top_db             : std_logic                    := '0';
     signal sl_button_bottom_db          : std_logic                    := '0';
     signal sl_button_center_db          : std_logic                    := '0';
@@ -58,7 +58,7 @@ architecture rtl of noc_hw_top is
         variable v_ret_int                : integer;
 
     begin
-        v_ret_int := to_integer(to_unsigned(arg_int, NOC_ADDRESS_WIDTH*2)(NOC_ADDRESS_WIDTH * 2 - 1 downto NOC_ADDRESS_WIDTH));
+        v_ret_int := to_integer(to_unsigned(arg_int, NOC_ADDRESS_WIDTH * 2)(NOC_ADDRESS_WIDTH * 2 - 1 downto NOC_ADDRESS_WIDTH));
         return v_ret_int;
     end function;
 
@@ -66,7 +66,7 @@ architecture rtl of noc_hw_top is
         variable v_ret_int                : integer;
 
     begin
-        v_ret_int := to_integer(to_unsigned(arg_int, NOC_ADDRESS_WIDTH*2)(NOC_ADDRESS_WIDTH - 1 downto 0));
+        v_ret_int := to_integer(to_unsigned(arg_int, NOC_ADDRESS_WIDTH * 2)(NOC_ADDRESS_WIDTH - 1 downto 0));
         return v_ret_int;
     end function;
 
@@ -126,17 +126,7 @@ begin
             o_switch => sl_button_left_db
 
         );
-    COMPONENT_BTN_RIGHT : entity work.debounce_btn(behav)
-        port
-        map
-        (
 
-        clk      => pil_clk,
-        rst      => pil_rst,
-        i_btn    => pil_button_right,
-        o_switch => sl_button_right_db
-
-        );
     COMPONENT_BTN_TOP : entity work.debounce_btn(behav)
         port
         map
@@ -173,134 +163,136 @@ begin
 
     COMPONENT_NOC_GEN : for i in 0 to (2 ** NOC_ADDRESS_WIDTH) ** 2 - 1 generate
         COMPONENT_ROUTER_NODE : entity work.router_rtl(rtl)
-        generic
-        map
-        (
-        left      => func_get_left_from_int(i),
-        right     => func_get_right_from_int(i),
-        top       => func_get_top_from_int(i),
-        bottom    => func_get_bottom_from_int(i),
-        address_x => std_logic_vector(to_unsigned(func_int_to_xint(i), NOC_ADDRESS_WIDTH)),
-        address_y => std_logic_vector(to_unsigned(func_int_to_yint(i), NOC_ADDRESS_WIDTH))
-        )
-        port
-        map
-        (
-        rst => pil_rst,
+            generic
+            map
+            (
+            left      => func_get_left_from_int(i),
+            right     => func_get_right_from_int(i),
+            top       => func_get_top_from_int(i),
+            bottom    => func_get_bottom_from_int(i),
+            address_x => std_logic_vector(to_unsigned(func_int_to_xint(i), NOC_ADDRESS_WIDTH)),
+            address_y => std_logic_vector(to_unsigned(func_int_to_yint(i), NOC_ADDRESS_WIDTH))
+            )
+            port
+            map
+            (
+            rst => pil_rst,
 
-        -- DIAGONAL INPUT CHANNELS
-        in_north_east_ack  => sarrif_mesh_diagonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).topright_to_bottomleft.ack,
-        in_north_east_req  => sarrif_mesh_diagonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).topright_to_bottomleft.req,
-        in_north_east_data => sarrif_mesh_diagonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).topright_to_bottomleft.data,
+            -- DIAGONAL INPUT CHANNELS
+            in_north_east_ack  => sarrif_mesh_diagonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).topright_to_bottomleft.ack,
+            in_north_east_req  => sarrif_mesh_diagonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).topright_to_bottomleft.req,
+            in_north_east_data => sarrif_mesh_diagonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).topright_to_bottomleft.data,
 
-        in_north_west_ack  => sarrif_mesh_diagonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).topleft_to_bottomright.ack,
-        in_north_west_req  => sarrif_mesh_diagonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).topleft_to_bottomright.req,
-        in_north_west_data => sarrif_mesh_diagonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).topleft_to_bottomright.data,
+            in_north_west_ack  => sarrif_mesh_diagonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).topleft_to_bottomright.ack,
+            in_north_west_req  => sarrif_mesh_diagonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).topleft_to_bottomright.req,
+            in_north_west_data => sarrif_mesh_diagonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).topleft_to_bottomright.data,
 
-        in_south_east_ack  => sarrif_mesh_diagonal(func_int_to_yint(i) + 1, func_int_to_xint(i) + 1).bottomright_to_topleft.ack,
-        in_south_east_req  => sarrif_mesh_diagonal(func_int_to_yint(i) + 1, func_int_to_xint(i) + 1).bottomright_to_topleft.req,
-        in_south_east_data => sarrif_mesh_diagonal(func_int_to_yint(i) + 1, func_int_to_xint(i) + 1).bottomright_to_topleft.data,
+            in_south_east_ack  => sarrif_mesh_diagonal(func_int_to_yint(i) + 1, func_int_to_xint(i) + 1).bottomright_to_topleft.ack,
+            in_south_east_req  => sarrif_mesh_diagonal(func_int_to_yint(i) + 1, func_int_to_xint(i) + 1).bottomright_to_topleft.req,
+            in_south_east_data => sarrif_mesh_diagonal(func_int_to_yint(i) + 1, func_int_to_xint(i) + 1).bottomright_to_topleft.data,
 
-        in_south_west_ack  => sarrif_mesh_diagonal(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).bottomleft_to_topright.ack,
-        in_south_west_req  => sarrif_mesh_diagonal(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).bottomleft_to_topright.req,
-        in_south_west_data => sarrif_mesh_diagonal(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).bottomleft_to_topright.data,
+            in_south_west_ack  => sarrif_mesh_diagonal(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).bottomleft_to_topright.ack,
+            in_south_west_req  => sarrif_mesh_diagonal(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).bottomleft_to_topright.req,
+            in_south_west_data => sarrif_mesh_diagonal(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).bottomleft_to_topright.data,
 
-        -- STRAIGTH INPUT CHANNELS
-        in_north_ack  => sarrif_mesh_vertical(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).top_to_bottom.ack,
-        in_north_req  => sarrif_mesh_vertical(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).top_to_bottom.req,
-        in_north_data => sarrif_mesh_vertical(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).top_to_bottom.data,
+            -- STRAIGTH INPUT CHANNELS
+            in_north_ack  => sarrif_mesh_vertical(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).top_to_bottom.ack,
+            in_north_req  => sarrif_mesh_vertical(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).top_to_bottom.req,
+            in_north_data => sarrif_mesh_vertical(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).top_to_bottom.data,
 
-        in_east_ack  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).right_to_left.ack,
-        in_east_req  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).right_to_left.req,
-        in_east_data => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).right_to_left.data,
+            in_east_ack  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).right_to_left.ack,
+            in_east_req  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).right_to_left.req,
+            in_east_data => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).right_to_left.data,
 
-        in_south_ack  => sarrif_mesh_vertical(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).bottom_to_top.ack,
-        in_south_req  => sarrif_mesh_vertical(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).bottom_to_top.req,
-        in_south_data => sarrif_mesh_vertical(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).bottom_to_top.data,
+            in_south_ack  => sarrif_mesh_vertical(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).bottom_to_top.ack,
+            in_south_req  => sarrif_mesh_vertical(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).bottom_to_top.req,
+            in_south_data => sarrif_mesh_vertical(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).bottom_to_top.data,
 
-        in_west_ack  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).left_to_right.ack,
-        in_west_req  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).left_to_right.req,
-        in_west_data => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).left_to_right.data,
+            in_west_ack  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).left_to_right.ack,
+            in_west_req  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).left_to_right.req,
+            in_west_data => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).left_to_right.data,
 
-        -- DIAGONAL OUTPUT CHANNELS
-        out_north_west_ack  => sarrif_mesh_diagonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).bottomright_to_topleft.ack,
-        out_north_west_req  => sarrif_mesh_diagonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).bottomright_to_topleft.req,
-        out_north_west_data => sarrif_mesh_diagonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).bottomright_to_topleft.data,
+            -- DIAGONAL OUTPUT CHANNELS
+            out_north_west_ack  => sarrif_mesh_diagonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).bottomright_to_topleft.ack,
+            out_north_west_req  => sarrif_mesh_diagonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).bottomright_to_topleft.req,
+            out_north_west_data => sarrif_mesh_diagonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).bottomright_to_topleft.data,
 
-        out_north_east_ack  => sarrif_mesh_diagonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).bottomleft_to_topright.ack,
-        out_north_east_req  => sarrif_mesh_diagonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).bottomleft_to_topright.req,
-        out_north_east_data => sarrif_mesh_diagonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).bottomleft_to_topright.data,
+            out_north_east_ack  => sarrif_mesh_diagonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).bottomleft_to_topright.ack,
+            out_north_east_req  => sarrif_mesh_diagonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).bottomleft_to_topright.req,
+            out_north_east_data => sarrif_mesh_diagonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).bottomleft_to_topright.data,
 
-        out_south_east_ack  => sarrif_mesh_diagonal(func_int_to_yint(i) + 1, func_int_to_xint(i) + 1).topleft_to_bottomright.ack,
-        out_south_east_req  => sarrif_mesh_diagonal(func_int_to_yint(i) + 1, func_int_to_xint(i) + 1).topleft_to_bottomright.req,
-        out_south_east_data => sarrif_mesh_diagonal(func_int_to_yint(i) + 1, func_int_to_xint(i) + 1).topleft_to_bottomright.data,
+            out_south_east_ack  => sarrif_mesh_diagonal(func_int_to_yint(i) + 1, func_int_to_xint(i) + 1).topleft_to_bottomright.ack,
+            out_south_east_req  => sarrif_mesh_diagonal(func_int_to_yint(i) + 1, func_int_to_xint(i) + 1).topleft_to_bottomright.req,
+            out_south_east_data => sarrif_mesh_diagonal(func_int_to_yint(i) + 1, func_int_to_xint(i) + 1).topleft_to_bottomright.data,
 
-        out_south_west_ack  => sarrif_mesh_diagonal(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).topright_to_bottomleft.ack,
-        out_south_west_req  => sarrif_mesh_diagonal(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).topright_to_bottomleft.req,
-        out_south_west_data => sarrif_mesh_diagonal(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).topright_to_bottomleft.data,
+            out_south_west_ack  => sarrif_mesh_diagonal(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).topright_to_bottomleft.ack,
+            out_south_west_req  => sarrif_mesh_diagonal(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).topright_to_bottomleft.req,
+            out_south_west_data => sarrif_mesh_diagonal(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).topright_to_bottomleft.data,
 
-        -- STRAIGHT OUTPUT CHANNELS
-        out_north_ack  => sarrif_mesh_vertical(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).bottom_to_top.ack,
-        out_north_req  => sarrif_mesh_vertical(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).bottom_to_top.req,
-        out_north_data => sarrif_mesh_vertical(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).bottom_to_top.data,
+            -- STRAIGHT OUTPUT CHANNELS
+            out_north_ack  => sarrif_mesh_vertical(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).bottom_to_top.ack,
+            out_north_req  => sarrif_mesh_vertical(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).bottom_to_top.req,
+            out_north_data => sarrif_mesh_vertical(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).bottom_to_top.data,
 
-        out_east_ack  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).left_to_right.ack,
-        out_east_req  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).left_to_right.req,
-        out_east_data => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).left_to_right.data,
+            out_east_ack  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).left_to_right.ack,
+            out_east_req  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).left_to_right.req,
+            out_east_data => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).left_to_right.data,
 
-        out_south_ack  => sarrif_mesh_vertical(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).top_to_bottom.ack,
-        out_south_req  => sarrif_mesh_vertical(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).top_to_bottom.req,
-        out_south_data => sarrif_mesh_vertical(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).top_to_bottom.data,
+            out_south_ack  => sarrif_mesh_vertical(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).top_to_bottom.ack,
+            out_south_req  => sarrif_mesh_vertical(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).top_to_bottom.req,
+            out_south_data => sarrif_mesh_vertical(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).top_to_bottom.data,
 
-        out_west_ack  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).right_to_left.ack,
-        out_west_req  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).right_to_left.req,
-        out_west_data => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).right_to_left.data,
+            out_west_ack  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).right_to_left.ack,
+            out_west_req  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).right_to_left.req,
+            out_west_data => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).right_to_left.data,
 
-        -- Output to local port
-        out_local_ack  => sarrif_mesh_local(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).local_out.ack,
-        out_local_req  => sarrif_mesh_local(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).local_out.req,
-        out_local_data => sarrif_mesh_local(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).local_out.data,
-        -- Input for local ports to componenets
-        in_local_ack  => sarrif_mesh_local(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).local_in.ack,
-        in_local_req  => sarrif_mesh_local(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).local_in.req,
-        in_local_data => sarrif_mesh_local(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).local_in.data
-        );
+            -- Output to local port
+            out_local_ack  => sarrif_mesh_local(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).local_out.ack,
+            out_local_req  => sarrif_mesh_local(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).local_out.req,
+            out_local_data => sarrif_mesh_local(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).local_out.data,
+            -- Input for local ports to componenets
+            in_local_ack  => sarrif_mesh_local(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).local_in.ack,
+            in_local_req  => sarrif_mesh_local(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).local_in.req,
+            in_local_data => sarrif_mesh_local(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).local_in.data
+            );
     end generate;
     COMPONENT_NOC_LOCAL_OUTPUT_GEN : for i in 0 to (2 ** NOC_ADDRESS_WIDTH) ** 2 - 1 generate
         suck : entity work.delay_element(lut)
-            generic map
+            generic
+            map
             (
-                size => 10) -- Delay  size
-            port map
+            size => 10) -- Delay  size
+            port
+            map
             (
-                d => sarrif_mesh_local(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).local_out.req,
-                z => sarrif_mesh_local(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).local_out.ack
+            d => sarrif_mesh_local(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).local_out.req,
+            z => sarrif_mesh_local(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).local_out.ack
             );
-            pol16_leds(i) <= sarrif_mesh_local(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).local_out.req;
+        pol16_leds(i) <= sarrif_mesh_local(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).local_out.req;
 
-        end generate;
-        COMPONENT_NOC_INPUT_GEN : for i in 1 to (2 ** NOC_ADDRESS_WIDTH) ** 2 - 1 generate
-            sarrif_mesh_local(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).local_in.req  <= sarrif_mesh_local(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).local_in.ack;
-            sarrif_mesh_local(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).local_in.data <= (others => '0');
+    end generate;
+    COMPONENT_NOC_INPUT_GEN : for i in 1 to (2 ** NOC_ADDRESS_WIDTH) ** 2 - 1 generate
+        sarrif_mesh_local(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).local_in.req  <= sarrif_mesh_local(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).local_in.ack;
+        sarrif_mesh_local(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).local_in.data <= (others => '0');
 
-        end generate;
-        pol_seg_light <= sarrif_mesh_local(func_int_to_yint(0) + 0, func_int_to_xint(0) + 0).local_in.ack;
+    end generate;
+    pol_seg_light                            <= sarrif_mesh_local(func_int_to_yint(0) + 0, func_int_to_xint(0) + 0).local_in.ack;
+    sarrif_mesh_local(0, 0).local_in.data <= pil4_switches;
+    sarrif_mesh_local(0, 0).local_in.req  <= sl_button_center_db_toggle;
 
-        sarrif_mesh_diagonal(0, 0).topleft_to_bottomright.req <= sl_button_center_db_toggle;
+    process (pil_clk, pil_rst)
+    begin
+        if rising_edge(pil_clk) then
+            if (pil_rst = '1') then
+                slv2_button_center_db_sample <= (others => '0');
+                sl_button_center_db_toggle   <= '1';
 
-        process (pil_clk, pil_rst)
-        begin
-            if rising_edge(pil_clk) then
-                if (pil_rst = '1') then
-                    slv2_button_center_db_sample <= (others => '0');
-                    sl_button_center_db_toggle   <= '1';
-
-                else
-                    slv2_button_center_db_sample <= slv2_button_center_db_sample(0) & sl_button_center_db;
-                    if (slv2_button_center_db_sample = "01") then
-                        sl_button_center_db_toggle <= not sl_button_center_db_toggle;
-                    end if;
+            else
+                slv2_button_center_db_sample <= slv2_button_center_db_sample(0) & sl_button_center_db;
+                if (slv2_button_center_db_sample = "01") then
+                    sl_button_center_db_toggle <= not sl_button_center_db_toggle;
                 end if;
             end if;
-        end process;
-    end architecture;
+        end if;
+    end process;
+end architecture;
