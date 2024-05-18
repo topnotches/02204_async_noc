@@ -5,7 +5,7 @@ use ieee.numeric_std.all;
 use work.noc_defs_pkg.all;
 
 package noc_connections_pkg is
-    constant NOC_PERIMETER_SIZE : natural := 2;
+    constant NOC_PERIMETER_SIZE : natural := NOC_ADDRESS_WIDTH;
 
     type async_bus_if is record
         req  : std_logic;
@@ -33,12 +33,17 @@ package noc_connections_pkg is
         local_in  : async_bus_if;
         local_out : async_bus_if;
     end record;
+    type noc_local_in is array (0 to 2 ** NOC_PERIMETER_SIZE - 1, 0 to 2 ** NOC_PERIMETER_SIZE - 1) of async_bus_if;
+    type noc_local_out is array (0 to 2 ** NOC_PERIMETER_SIZE - 1, 0 to 2 ** NOC_PERIMETER_SIZE - 1) of async_bus_if;
+
     type arrif_diagonal_connections_t is array (0 to 2 ** NOC_PERIMETER_SIZE, 0 to 2 ** NOC_PERIMETER_SIZE) of noc_diagonal_connections;
     type arrif_horizontal_connections_t is array (0 to 2 ** NOC_PERIMETER_SIZE - 1, 0 to 2 ** NOC_PERIMETER_SIZE) of noc_horizontal_connections;
     type arrif_vertical_connections_t is array (0 to 2 ** NOC_PERIMETER_SIZE, 0 to 2 ** NOC_PERIMETER_SIZE - 1) of noc_vertical_connections;
-
     type arrif_local_connections_t is array (0 to 2 ** NOC_PERIMETER_SIZE - 1, 0 to 2 ** NOC_PERIMETER_SIZE - 1) of noc_local_connections;
-
+    type local_connections_t is record
+        local_in : noc_local_in;
+        local_out : noc_local_out;
+    end record;
 end package noc_connections_pkg;
 
 package body noc_connections_pkg is

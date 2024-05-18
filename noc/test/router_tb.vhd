@@ -198,7 +198,7 @@ architecture behavioral of router_tb is
                 wait for 10*time_resolution;
             -- NORTH INPUT TEST
                 -- LOCAL PORT
-                in_north_data <= data_if_to_slv(init_data_if(01,01)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+                in_north_data <= data_if_to_slv(init_data_if(1,1)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
                 
                 wait for 10*time_resolution;
                 in_north_req <= not(in_north_req);
@@ -209,7 +209,7 @@ architecture behavioral of router_tb is
                 out_local_ack <= not(out_local_ack);
                 data := data + 1;
                 -- SOUTH PORT
-                in_north_data <= data_if_to_slv(init_data_if(01,00)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+                in_north_data <= data_if_to_slv(init_data_if(1,0)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
                 wait for 10*time_resolution;
                 in_north_req <= not(in_north_req);
                 
@@ -219,7 +219,7 @@ architecture behavioral of router_tb is
                 data := data + 1;
             -- SOUTH INPUT TEST
                 -- LOCAL PORT
-                in_south_data <= data_if_to_slv(init_data_if(01,01)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+                in_south_data <= data_if_to_slv(init_data_if(1,1)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
 
                 wait for 10*time_resolution;
                 in_south_req <= not(in_south_req);
@@ -229,7 +229,7 @@ architecture behavioral of router_tb is
                 out_local_ack <= not(out_local_ack);
                 data := data + 1;
                 -- NORTH PORT
-                in_south_data <= data_if_to_slv(init_data_if(01,10)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+                in_south_data <= data_if_to_slv(init_data_if(1,2)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
 
                 wait for 10*time_resolution;
                 in_south_req <= not(in_south_req);
@@ -240,7 +240,7 @@ architecture behavioral of router_tb is
                 data := data + 1;
             -- EAST INPUT TEST
                 -- LOCAL PORT
-                in_east_data <= data_if_to_slv(init_data_if(01,01)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+                in_east_data <= data_if_to_slv(init_data_if(1,1)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
 
                 wait for 10*time_resolution;
                 in_east_req <= not(in_east_req);
@@ -250,7 +250,7 @@ architecture behavioral of router_tb is
                 out_local_ack <= not(out_local_ack);
                 data := data + 1;
                 -- WEST PORT
-                in_east_data <= data_if_to_slv(init_data_if(00,01)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+                in_east_data <= data_if_to_slv(init_data_if(0,1)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
 
                 wait for 10*time_resolution;
                 in_east_req <= not(in_east_req);
@@ -261,7 +261,7 @@ architecture behavioral of router_tb is
                 data := data + 1;
             -- WEST INPUT TEST
                 -- LOCAL PORT
-                in_west_data <= data_if_to_slv(init_data_if(01,01)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+                in_west_data <= data_if_to_slv(init_data_if(1,1)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
 
                 wait for 10*time_resolution;
                 in_west_req <= not(in_west_req);
@@ -271,7 +271,7 @@ architecture behavioral of router_tb is
                 out_local_ack <= not(out_local_ack);
                 data := data + 1;
                 -- EAST PORT
-                in_west_data <= data_if_to_slv(init_data_if(10,01)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+                in_west_data <= data_if_to_slv(init_data_if(2,1)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
 
                 wait for 10*time_resolution;
                 in_west_req <= not(in_west_req);
@@ -282,7 +282,7 @@ architecture behavioral of router_tb is
                 data := data + 1;
             -- NORTH WEST INPUT TEST
                 -- LOCAL PORT
-                in_north_west_data <= data_if_to_slv(init_data_if(01,01)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+                in_north_west_data <= data_if_to_slv(init_data_if(1,1)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
 
                 wait for 10*time_resolution;
                 in_north_west_req <= not(in_north_west_req);
@@ -293,7 +293,7 @@ architecture behavioral of router_tb is
                 out_local_ack <= not(out_local_ack);
                 data := data + 1;
                 -- SOUTH EAST PORT
-                in_north_west_data <= data_if_to_slv(init_data_if(10,10)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+                in_north_west_data <= data_if_to_slv(init_data_if(2,2)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
 
                 wait for 10*time_resolution;
                 in_north_west_req <= not(in_north_west_req);
@@ -304,7 +304,7 @@ architecture behavioral of router_tb is
                 out_south_east_ack <= not(out_south_east_ack);
                 data := data + 1;
                 -- SOUTH PORT
-                in_north_west_data <= data_if_to_slv(init_data_if(01,10)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+                in_north_west_data <= data_if_to_slv(init_data_if(1,2)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
 
                 wait for 10*time_resolution;
                 in_north_west_req <= not(in_north_west_req);
@@ -315,7 +315,7 @@ architecture behavioral of router_tb is
                 out_south_ack <= not(out_south_ack);
                 data := data + 1;
                 -- EAST PORT
-                in_north_west_data <= data_if_to_slv(init_data_if(10,01)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+                in_north_west_data <= data_if_to_slv(init_data_if(2,1)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
 
                 wait for 10*time_resolution;
                 in_north_west_req <= not(in_north_west_req);
@@ -327,7 +327,7 @@ architecture behavioral of router_tb is
                 data := data + 1;
             -- NORTH EAST INPUT TEST
                 -- LOCAL PORT
-                in_north_east_data <= data_if_to_slv(init_data_if(01,01)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+                in_north_east_data <= data_if_to_slv(init_data_if(1,1)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
 
                 wait for 10*time_resolution;
                 in_north_east_req <= not(in_north_east_req);
@@ -338,7 +338,7 @@ architecture behavioral of router_tb is
                 out_local_ack <= not(out_local_ack);
                 data := data + 1;
                 -- SOUTH WEST PORT
-                in_north_east_data <= data_if_to_slv(init_data_if(00,10)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+                in_north_east_data <= data_if_to_slv(init_data_if(0,2)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
 
                 wait for 10*time_resolution;
                 in_north_east_req <= not(in_north_east_req);
@@ -349,7 +349,7 @@ architecture behavioral of router_tb is
                 out_south_west_ack <= not(out_south_west_ack);
                 data := data + 1;
                 -- SOUTH PORT
-                in_north_east_data <= data_if_to_slv(init_data_if(01,10)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+                in_north_east_data <= data_if_to_slv(init_data_if(1,2)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
 
                 wait for 10*time_resolution;
                 in_north_east_req <= not(in_north_east_req);
@@ -360,7 +360,7 @@ architecture behavioral of router_tb is
                 out_south_ack <= not(out_south_ack);
                 data := data + 1;
                 -- WEST PORT
-                in_north_east_data <= data_if_to_slv(init_data_if(00,01)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+                in_north_east_data <= data_if_to_slv(init_data_if(0,1)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
 
                 wait for 10*time_resolution;
                 in_north_east_req <= not(in_north_east_req);
@@ -372,7 +372,7 @@ architecture behavioral of router_tb is
                 data := data + 1;
             -- SOUTH WEST INPUT TEST
                 -- LOCAL PORT
-                in_south_west_data <= data_if_to_slv(init_data_if(01,01)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+                in_south_west_data <= data_if_to_slv(init_data_if(1,1)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
 
                 wait for 10*time_resolution;
                 in_south_west_req <= not(in_south_west_req);
@@ -383,7 +383,7 @@ architecture behavioral of router_tb is
                 out_local_ack <= not(out_local_ack);
                 data := data + 1;
                 -- NORTH EAST PORT
-                in_south_west_data <= data_if_to_slv(init_data_if(10,00)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+                in_south_west_data <= data_if_to_slv(init_data_if(2,0)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
 
                 wait for 10*time_resolution;
                 in_south_west_req <= not(in_south_west_req);
@@ -394,7 +394,7 @@ architecture behavioral of router_tb is
                 out_north_east_ack <= not(out_north_east_ack);
                 data := data + 1;
                 -- NORTH PORT
-                in_south_west_data <= data_if_to_slv(init_data_if(01,10)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+                in_south_west_data <= data_if_to_slv(init_data_if(1,2)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
 
                 wait for 10*time_resolution;
                 in_south_west_req <= not(in_south_west_req);
@@ -405,7 +405,7 @@ architecture behavioral of router_tb is
                 out_north_ack <= not(out_north_ack);
                 data := data + 1;
                 -- EAST PORT
-                in_south_west_data <= data_if_to_slv(init_data_if(10,01)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+                in_south_west_data <= data_if_to_slv(init_data_if(2,1)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
 
                 wait for 10*time_resolution;
                 in_south_west_req <= not(in_south_west_req);
@@ -417,7 +417,7 @@ architecture behavioral of router_tb is
                 data := data + 1;
             -- SOUTH EAST INPUT TEST
                 -- LOCAL PORT
-                in_south_east_data <= data_if_to_slv(init_data_if(01,01)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+                in_south_east_data <= data_if_to_slv(init_data_if(1,1)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
 
                 wait for 10*time_resolution;
                 in_south_east_req <= not(in_south_east_req);
@@ -428,7 +428,7 @@ architecture behavioral of router_tb is
                 out_local_ack <= not(out_local_ack);
                 data := data + 1;
                 -- NORTH WEST PORT
-                in_south_east_data <= data_if_to_slv(init_data_if(00,00)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+                in_south_east_data <= data_if_to_slv(init_data_if(0,0)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
 
                 wait for 10*time_resolution;
                 in_south_east_req <= not(in_south_east_req);
@@ -439,7 +439,7 @@ architecture behavioral of router_tb is
                 out_north_west_ack <= not(out_north_west_ack);
                 data := data + 1;
                 -- NORTH PORT
-                in_south_east_data <= data_if_to_slv(init_data_if(01,00)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+                in_south_east_data <= data_if_to_slv(init_data_if(1,0)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
 
                 wait for 10*time_resolution;
                 in_south_east_req <= not(in_south_east_req);
@@ -450,7 +450,7 @@ architecture behavioral of router_tb is
                 out_north_ack <= not(out_north_ack);
                 data := data + 1;
                 -- WEST PORT
-                in_south_east_data <= data_if_to_slv(init_data_if(00,01)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+                in_south_east_data <= data_if_to_slv(init_data_if(0,1)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
 
                 wait for 10*time_resolution;
                 in_south_east_req <= not(in_south_east_req);

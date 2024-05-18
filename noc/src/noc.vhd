@@ -3,53 +3,54 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use ieee.math_real.all;
 use work.noc_defs_pkg.all;
+use work.noc_connections_pkg.all;
 
 entity noc_rtl is
     port (
-        in_local_data   : in mesh_in_out;
-        in_local_ack    : out mesh_control;
-        in_local_req    : in mesh_control;
-
-        out_local_data  : out mesh_in_out;
-        out_local_ack   : in mesh_control;
-        out_local_req   : out mesh_control
-        );
+        rst : in std_logic;
+        in_locals : in noc_local_in;
+        out_locals : out noc_local_out);
 end entity noc_rtl;
 
 architecture rtl of noc_rtl is
-    signal rst : std_logic := '0';
 
-    signal north_data : mesh_connector_in_out;
-    signal north_ack : mesh_connector_control;
-    signal north_req : mesh_connector_control;
 
-    signal south_data : mesh_connector_in_out;
-    signal south_ack : mesh_connector_control;
-    signal south_req : mesh_connector_control;
+    signal mesh_diagnoals : arrif_diagonal_connections_t;
+    signal mesh_horizontals : arrif_horizontal_connections_t;
+    signal mesh_verticals : arrif_vertical_connections_t;
 
-    signal east_data : mesh_connector_in_out;
-    signal east_ack : mesh_connector_control;
-    signal east_req : mesh_connector_control;
-
-    signal west_data : mesh_connector_in_out;
-    signal west_ack : mesh_connector_control;
-    signal west_req : mesh_connector_control;
-
-    signal north_east_data : mesh_connector_in_out;
-    signal north_east_ack : mesh_connector_control;
-    signal north_east_req : mesh_connector_control;
-
-    signal north_west_data : mesh_connector_in_out;
-    signal north_west_ack : mesh_connector_control;
-    signal north_west_req : mesh_connector_control;
-
-    signal south_east_data : mesh_connector_in_out;
-    signal south_east_ack : mesh_connector_control;
-    signal south_east_req : mesh_connector_control;
-
-    signal south_west_data : mesh_connector_in_out;
-    signal south_west_ack : mesh_connector_control;
-    signal south_west_req : mesh_connector_control;
+    function left(x : integer) return std_logic is
+    begin
+        if x = 0 then
+            return '1';
+        else
+            return '0';
+        end if; 
+    end function;
+    function right(x : integer) return std_logic is 
+    begin
+        if x = NOC_MESH_LENGTH - 1 then
+            return '1';
+        else
+            return '0';
+        end if;
+    end function;
+    function top(y : integer) return std_logic is
+    begin
+        if y = 0 then
+            return '1';
+        else
+            return '0';
+        end if;
+    end function;
+    function bottom(y : integer) return std_logic is
+    begin
+        if y = NOC_MESH_LENGTH - 1 then
+            return '1';
+        else
+            return '0';
+        end if;
+    end function;
     begin
     -- generate the mesh nodes
     gen_x_axis: for x in 0 to NOC_MESH_LENGTH-1 generate
@@ -124,79 +125,79 @@ architecture rtl of noc_rtl is
               signal out_west_data       : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
             begin
               -- DIAGONAL INPUT CHANNELS
-              in_north_east_ack   <= '0'             when ((y = 0) or (x = NOC_MESH_LENGTH - 1)) else south_west_ack(x+1, y-1);
-              in_north_east_req   <= '0'             when ((y = 0) or (x = NOC_MESH_LENGTH - 1)) else south_west_req(x+1, y-1);
-              in_north_east_data  <= (others => '0') when ((y = 0) or (x = NOC_MESH_LENGTH - 1)) else south_west_data(x+1, y-1);
+              in_north_east_ack   <= '0'             when ((y = 0) or (x = NOC_MESH_LENGTH - 1)) else mesh_diagnoals(x+1, y-1).topright_to_bottomleft.ack;
+              in_north_east_req   <= '0'             when ((y = 0) or (x = NOC_MESH_LENGTH - 1)) else mesh_diagnoals(x+1, y-1).topright_to_bottomleft.req;
+              in_north_east_data  <= (others => '0') when ((y = 0) or (x = NOC_MESH_LENGTH - 1)) else mesh_diagnoals(x+1, y-1).topright_to_bottomleft.data;
 
-              in_north_west_ack   <= '0'             when ((y = 0) or (x = 0)) else south_east_ack(x-1, y-1);
-              in_north_west_req   <= '0'             when ((y = 0) or (x = 0)) else south_east_req(x-1, y-1);
-              in_north_west_data  <= (others => '0') when ((y = 0) or (x = 0)) else south_east_data(x-1, y-1);
+              in_north_west_ack   <= '0'             when ((y = 0) or (x = 0)) else mesh_diagnoals(x-1, y-1).topleft_to_bottomright.ack;
+              in_north_west_req   <= '0'             when ((y = 0) or (x = 0)) else mesh_diagnoals(x-1, y-1).topleft_to_bottomright.req;
+              in_north_west_data  <= (others => '0') when ((y = 0) or (x = 0)) else mesh_diagnoals(x-1, y-1).topleft_to_bottomright.data;
 
-              in_south_east_ack   <= '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = NOC_MESH_LENGTH - 1)) else north_west_ack(x+1, y+1);
-              in_south_east_req   <= '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = NOC_MESH_LENGTH - 1)) else north_west_req(x+1, y+1);
-              in_south_east_data  <= (others => '0') when ((y = NOC_MESH_LENGTH - 1) or (x = NOC_MESH_LENGTH - 1)) else north_west_data(x+1, y+1);
+              in_south_east_ack   <= '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = NOC_MESH_LENGTH - 1)) else mesh_diagnoals(x+1, y+1).bottomright_to_topleft.ack;
+              in_south_east_req   <= '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = NOC_MESH_LENGTH - 1)) else mesh_diagnoals(x+1, y+1).bottomright_to_topleft.req;
+              in_south_east_data  <= (others => '0') when ((y = NOC_MESH_LENGTH - 1) or (x = NOC_MESH_LENGTH - 1)) else mesh_diagnoals(x+1, y+1).bottomright_to_topleft.data;
 
-              in_south_west_ack   <= '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = 0)) else north_east_ack(x-1, y+1);
-              in_south_west_req   <= '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = 0)) else north_east_req(x-1, y+1);
-              in_south_west_data  <= (others => '0') when ((y = NOC_MESH_LENGTH - 1) or (x = 0)) else north_east_data(x-1, y+1);
+              in_south_west_ack   <= '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = 0)) else mesh_diagnoals(x-1, y+1).bottomleft_to_topright.ack;
+              in_south_west_req   <= '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = 0)) else mesh_diagnoals(x-1, y+1).bottomleft_to_topright.req;
+              in_south_west_data  <= (others => '0') when ((y = NOC_MESH_LENGTH - 1) or (x = 0)) else mesh_diagnoals(x-1, y+1).bottomleft_to_topright.data;
 
               -- STRAIGTH INPUT CHANNELS
-              in_north_ack        <= '0'             when (y = 0) else south_ack(x, y-1);
-              in_north_req        <= '0'             when (y = 0) else south_req(x, y-1);
-              in_north_data       <= (others => '0') when (y = 0) else south_data(x, y-1);
+              in_north_ack        <= '0'             when (y = 0) else mesh_verticals(x, y-1).top_to_bottom.ack;
+              in_north_req        <= '0'             when (y = 0) else mesh_verticals(x, y-1).top_to_bottom.req;
+              in_north_data       <= (others => '0') when (y = 0) else mesh_verticals(x, y-1).top_to_bottom.data;
 
-              in_east_ack         <= '0'             when (x = NOC_MESH_LENGTH - 1) else west_ack(x+1, y);
-              in_east_req         <= '0'             when (x = NOC_MESH_LENGTH - 1) else west_req(x+1, y);
-              in_east_data        <= (others => '0') when (x = NOC_MESH_LENGTH - 1) else west_data(x+1, y);
+              in_east_ack         <= '0'             when (x = NOC_MESH_LENGTH - 1) else mesh_horizontals(x+1, y).right_to_left.ack;
+              in_east_req         <= '0'             when (x = NOC_MESH_LENGTH - 1) else mesh_horizontals(x+1, y).right_to_left.req;
+              in_east_data        <= (others => '0') when (x = NOC_MESH_LENGTH - 1) else mesh_horizontals(x+1, y).right_to_left.data;
 
-              in_south_ack        <= '0'             when (y =  NOC_MESH_LENGTH - 1) else north_ack(x, y+1);
-              in_south_req        <= '0'             when (y =  NOC_MESH_LENGTH - 1) else north_req(x, y+1);
-              in_south_data       <= (others => '0') when (y =  NOC_MESH_LENGTH - 1) else north_data(x, y+1);
+              in_south_ack        <= '0'             when (y =  NOC_MESH_LENGTH - 1) else mesh_verticals(x, y+1).bottom_to_top.ack;
+              in_south_req        <= '0'             when (y =  NOC_MESH_LENGTH - 1) else mesh_verticals(x, y+1).bottom_to_top.req;
+              in_south_data       <= (others => '0') when (y =  NOC_MESH_LENGTH - 1) else mesh_verticals(x, y+1).bottom_to_top.data;
 
-              in_west_ack         <= '0'             when (x = 0) else east_ack(x-1, y);
-              in_west_req         <= '0'             when (x = 0) else east_req(x-1, y);
-              in_west_data        <= (others => '0') when (x = 0) else east_data(x-1, y);
+              in_west_ack         <= '0'             when (x = 0) else mesh_horizontals(x-1, y).left_to_right.ack;
+              in_west_req         <= '0'             when (x = 0) else mesh_horizontals(x-1, y).left_to_right.req;
+              in_west_data        <= (others => '0') when (x = 0) else mesh_horizontals(x-1, y).left_to_right.data;
 
               -- DIAGONAL OUTPUT CHANNELS
-              out_north_west_ack  <= '0'             when ((y = 0) or (x = 0)) else north_west_ack(x, y);
-              out_north_west_req  <= '0'             when ((y = 0) or (x = 0)) else north_west_req(x, y);
-              out_north_west_data <= (others => '0') when ((y = 0) or (x = 0)) else north_west_data(x, y);
+              out_north_west_ack  <= '0'             when ((y = 0) or (x = 0)) else mesh_diagnoals(x, y).bottomright_to_topleft.ack;
+              out_north_west_req  <= '0'             when ((y = 0) or (x = 0)) else mesh_diagnoals(x, y).bottomright_to_topleft.req;
+              out_north_west_data <= (others => '0') when ((y = 0) or (x = 0)) else mesh_diagnoals(x, y).bottomright_to_topleft.data;
 
-              out_north_east_ack  <= '0'             when ((y = 0) or (x = NOC_MESH_LENGTH - 1)) else north_east_ack(x, y);
-              out_north_east_req  <= '0'             when ((y = 0) or (x = NOC_MESH_LENGTH - 1)) else north_east_req(x, y);
-              out_north_east_data <= (others => '0') when ((y = 0) or (x = NOC_MESH_LENGTH - 1)) else north_east_data(x, y);
+              out_north_east_ack  <= '0'             when ((y = 0) or (x = NOC_MESH_LENGTH - 1)) else mesh_diagnoals(x, y).bottomleft_to_topright.ack;
+              out_north_east_req  <= '0'             when ((y = 0) or (x = NOC_MESH_LENGTH - 1)) else mesh_diagnoals(x, y).bottomleft_to_topright.req;
+              out_north_east_data <= (others => '0') when ((y = 0) or (x = NOC_MESH_LENGTH - 1)) else mesh_diagnoals(x, y).bottomleft_to_topright.data;
 
-              out_south_east_ack  <= '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = NOC_MESH_LENGTH - 1)) else south_east_ack(x, y);
-              out_south_east_req  <= '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = NOC_MESH_LENGTH - 1)) else south_east_req(x, y);
-              out_south_east_data <= (others => '0') when ((y = NOC_MESH_LENGTH - 1) or (x = NOC_MESH_LENGTH - 1)) else south_east_data(x, y);
+              out_south_east_ack  <= '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = NOC_MESH_LENGTH - 1)) else mesh_diagnoals(x, y).topleft_to_bottomright.ack;
+              out_south_east_req  <= '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = NOC_MESH_LENGTH - 1)) else mesh_diagnoals(x, y).topleft_to_bottomright.req;
+              out_south_east_data <= (others => '0') when ((y = NOC_MESH_LENGTH - 1) or (x = NOC_MESH_LENGTH - 1)) else mesh_diagnoals(x, y).topleft_to_bottomright.data;
 
-              out_south_west_ack  <= '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = 0)) else south_west_ack(x, y);
-              out_south_west_req  <= '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = 0)) else south_west_req(x, y);
-              out_south_west_data <= (others => '0') when ((y = NOC_MESH_LENGTH - 1) or (x = 0)) else south_west_data(x, y);
+              out_south_west_ack  <= '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = 0)) else mesh_diagnoals(x, y).topright_to_bottomleft.ack;
+              out_south_west_req  <= '0'             when ((y = NOC_MESH_LENGTH - 1) or (x = 0)) else mesh_diagnoals(x, y).topright_to_bottomleft.req;
+              out_south_west_data <= (others => '0') when ((y = NOC_MESH_LENGTH - 1) or (x = 0)) else mesh_diagnoals(x, y).topright_to_bottomleft.data;
 
               -- STRAIGHT OUTPUT CHANNELS
-              out_north_ack       <= '0'             when (y = 0) else north_ack(x, y);
-              out_north_req       <= '0'             when (y = 0) else north_req(x, y);
-              out_north_data      <= (others => '0') when (y = 0) else north_data(x, y);
+              out_north_ack       <= '0'             when (y = 0) else mesh_verticals(x, y).bottom_to_top.ack;
+              out_north_req       <= '0'             when (y = 0) else mesh_verticals(x, y).bottom_to_top.req;
+              out_north_data      <= (others => '0') when (y = 0) else mesh_verticals(x, y).bottom_to_top.data;
 
-              out_east_ack        <= '0'             when (x = NOC_MESH_LENGTH - 1) else east_ack(x, y);
-              out_east_req        <= '0'             when (x = NOC_MESH_LENGTH - 1) else east_req(x, y);
-              out_east_data       <= (others => '0') when (x = NOC_MESH_LENGTH - 1) else east_data(x, y);
+              out_east_ack        <= '0'             when (x = NOC_MESH_LENGTH - 1) else mesh_horizontals(x, y).left_to_right.ack;
+              out_east_req        <= '0'             when (x = NOC_MESH_LENGTH - 1) else mesh_horizontals(x, y).left_to_right.req;
+              out_east_data       <= (others => '0') when (x = NOC_MESH_LENGTH - 1) else mesh_horizontals(x, y).left_to_right.data;
 
-              out_south_ack       <= '0'             when (y =  NOC_MESH_LENGTH - 1) else south_ack(x, y);
-              out_south_req       <= '0'             when (y =  NOC_MESH_LENGTH - 1) else south_req(x, y);
-              out_south_data      <= (others => '0') when (y =  NOC_MESH_LENGTH - 1) else south_data(x, y);
+              out_south_ack       <= '0'             when (y =  NOC_MESH_LENGTH - 1) else mesh_verticals(x, y).top_to_bottom.ack;
+              out_south_req       <= '0'             when (y =  NOC_MESH_LENGTH - 1) else mesh_verticals(x, y).top_to_bottom.req;
+              out_south_data      <= (others => '0') when (y =  NOC_MESH_LENGTH - 1) else mesh_verticals(x, y).top_to_bottom.data;
 
-              out_west_ack        <= '0'             when (x = 0) else west_ack(x, y);
-              out_west_req        <= '0'             when (x = 0) else west_req(x, y);
-              out_west_data       <= (others => '0') when (x = 0) else west_data(x, y);
+              out_west_ack        <= '0'             when (x = 0) else mesh_horizontals(x, y).right_to_left.ack;
+              out_west_req        <= '0'             when (x = 0) else mesh_horizontals(x, y).right_to_left.req;
+              out_west_data       <= (others => '0') when (x = 0) else mesh_horizontals(x, y).right_to_left.data;
 
               mesh_node : entity work.router_rtl(rtl)
               generic map (
-                left => '1' when x = 0 else '0',
-                right => '1' when x = NOC_MESH_LENGTH - 1 else '0',
-                top => '1' when y = 0 else '0',
-                bottom => '1' when y = NOC_MESH_LENGTH - 1 else '0',
+                left => left(x),
+                right => right(x),
+                top => top(y),
+                bottom => bottom(y),
                 address_x => std_logic_vector(to_unsigned(x, NOC_ADDRESS_WIDTH)),
                 address_y => std_logic_vector(to_unsigned(y, NOC_ADDRESS_WIDTH))
               )
@@ -272,14 +273,14 @@ architecture rtl of noc_rtl is
                 out_west_data       => out_west_data,
 
                 -- LOCAL INPUT
-                in_local_ack        => in_local_ack(x, y),
-                in_local_req        => in_local_req(x, y),
-                in_local_data       => in_local_data(x, y),
+                in_local_ack        => in_locals(x, y).ack,
+                in_local_req        => in_locals(x, y).req,
+                in_local_data       => in_locals(x, y).data,
 
                 -- LOCAL OUTPUT
-                out_local_ack        => out_local_ack(x, y),
-                out_local_req        => out_local_req(x, y),
-                out_local_data       => out_local_data(x, y)
+                out_local_ack        => out_locals(x, y).ack,
+                out_local_req        => out_locals(x, y).req,
+                out_local_data       => out_locals(x, y).data
                               );
                             
                 end generate;
