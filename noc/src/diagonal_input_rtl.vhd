@@ -313,6 +313,10 @@ begin
 
     -- generate compare selectors
     stage_compare_x : entity work.compare_address_diff_rtl(rtl)
+        generic
+        map (
+        COMPARE_DELAY => 25
+        )
         port
         map
         (
@@ -328,7 +332,7 @@ begin
     stage_compare_y : entity work.compare_address_diff_rtl(rtl)
         generic
         map (
-        COMPARE_DELAY => 12
+        COMPARE_DELAY => 25
         )
         port
         map
