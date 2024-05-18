@@ -15,9 +15,9 @@ end entity noc_rtl;
 architecture rtl of noc_rtl is
 
 
-    signal mesh_diagnoals : arrif_diagonal_connections_t;
-    signal mesh_horizontals : arrif_horizontal_connections_t;
-    signal mesh_verticals : arrif_vertical_connections_t;
+    signal mesh_diagnoals : arrif_diagonal_connections_t :=  (others => (others => (others => (ack => '0', req => '0', data => (others => '0')))));
+    signal mesh_horizontals : arrif_horizontal_connections_t :=  (others => (others => (others => (ack => '0', req => '0', data => (others => '0')))));
+    signal mesh_verticals : arrif_vertical_connections_t :=  (others => (others => (others => (ack => '0', req => '0', data => (others => '0')))));
 
     function left(x : integer) return std_logic is
     begin
@@ -273,12 +273,12 @@ architecture rtl of noc_rtl is
                 out_west_data       => out_west_data,
 
                 -- LOCAL INPUT
-                in_local_ack        => in_locals(x, y).ack,
+                in_local_ack        => out_locals(x, y).ack,
                 in_local_req        => in_locals(x, y).req,
                 in_local_data       => in_locals(x, y).data,
 
                 -- LOCAL OUTPUT
-                out_local_ack        => out_locals(x, y).ack,
+                out_local_ack        => in_locals(x, y).ack,
                 out_local_req        => out_locals(x, y).req,
                 out_local_data       => out_locals(x, y).data
                               );
