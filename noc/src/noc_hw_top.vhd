@@ -149,18 +149,19 @@ begin
         o_switch => sl_button_bottom_db
 
         );
-    COMPONENT_BTN_CENTER : entity work.debounce_btn(behav)
-        port
-        map
-        (
-
-        clk      => pil_clk,
-        rst      => pil_rst,
-        i_btn    => pil_button_center,
-        o_switch => sl_button_center_db
-
-        );
-
+    sl_button_center_db <= pil_button_center;
+    --   COMPONENT_BTN_CENTER : entity work.debounce_btn(behav)
+    --       port
+    --       map
+    --       (
+    --
+    --       clk      => pil_clk,
+    --       rst      => pil_rst,
+    --       i_btn    => pil_button_center,
+    --       o_switch => sl_button_center_db
+    --
+    --       );
+    --
     COMPONENT_NOC_GEN : for i in 0 to (2 ** NOC_ADDRESS_WIDTH) ** 2 - 1 generate
         COMPONENT_ROUTER_NODE : entity work.router_rtl(rtl)
             generic
@@ -276,7 +277,7 @@ begin
         sarrif_mesh_local(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).local_in.data <= (others => '0');
 
     end generate;
-    pol_seg_light                            <= sarrif_mesh_local(func_int_to_yint(0) + 0, func_int_to_xint(0) + 0).local_in.ack;
+    pol_seg_light                         <= sarrif_mesh_local(func_int_to_yint(0) + 0, func_int_to_xint(0) + 0).local_in.ack;
     sarrif_mesh_local(0, 0).local_in.data <= pil4_switches;
     sarrif_mesh_local(0, 0).local_in.req  <= sl_button_center_db_toggle;
 
@@ -285,7 +286,7 @@ begin
         if rising_edge(pil_clk) then
             if (pil_rst = '1') then
                 slv2_button_center_db_sample <= (others => '0');
-                sl_button_center_db_toggle   <= '1';
+                sl_button_center_db_toggle   <= '0';
 
             else
                 slv2_button_center_db_sample <= slv2_button_center_db_sample(0) & sl_button_center_db;
