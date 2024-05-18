@@ -889,7 +889,7 @@ begin
         --     out_req_local  => south_to_local_req,
         --     out_data_local => south_to_local_data
         --     );
-        south_to_local_ack  <= in_south_ack;
+        in_south_ack        <= south_to_local_ack;
         south_to_local_req  <= in_south_req;
         south_to_local_data <= in_south_data;
         -- Diagonal outputs
@@ -1250,7 +1250,7 @@ begin
         --     out_req_local  => west_to_local_req,
         --     out_data_local => west_to_local_data
         --     );
-        west_to_local_ack  <= in_west_ack;
+        in_west_ack        <= west_to_local_ack;
         west_to_local_req  <= in_west_req;
         west_to_local_data <= in_west_data;
         -- Diagonal outputs
@@ -1612,7 +1612,7 @@ begin
         --     out_req_local  => north_to_local_req,
         --     out_data_local => north_to_local_data
         --     );
-        north_to_local_ack  <= in_north_ack;
+        in_north_ack        <= north_to_local_ack;
         north_to_local_req  <= in_north_req;
         north_to_local_data <= in_north_data;
         -- Diagonal outputs
@@ -1972,7 +1972,7 @@ begin
         --     out_req_local  => east_to_local_req,
         --     out_data_local => east_to_local_data
         --     );
-        east_to_local_ack  <= in_east_ack;
+        in_east_ack        <= east_to_local_ack;
         east_to_local_req  <= in_east_req;
         east_to_local_data <= in_east_data;
         -- Diagonal outputs
@@ -2194,7 +2194,7 @@ begin
         --     out_req_local  => north_west_to_local_req,
         --     out_data_local => north_west_to_local_data
         --     );
-        north_west_to_local_ack  <= in_north_west_ack;
+        in_north_west_ack        <= north_west_to_local_ack;
         north_west_to_local_req  <= in_north_west_req;
         north_west_to_local_data <= in_north_west_data;
         -- Straight inputs
@@ -2220,7 +2220,7 @@ begin
         --     out_req_local  => north_to_local_req,
         --     out_data_local => north_to_local_data
         --     );
-        north_to_local_ack  <= in_north_ack;
+        in_north_ack        <= north_to_local_ack;
         north_to_local_req  <= in_north_req;
         north_to_local_data <= in_north_data;
         -- west_input : entity work.straight_input_rtl(rtl)
@@ -2245,7 +2245,7 @@ begin
         --     out_req_local  => west_to_local_req,
         --     out_data_local => west_to_local_data
         --     );
-        west_to_local_ack  <= in_west_ack;
+        in_west_ack        <= west_to_local_ack;
         west_to_local_req  <= in_west_req;
         west_to_local_data <= in_west_data;
         -- Diagonal outputs
@@ -2424,7 +2424,7 @@ begin
         --     out_req_local  => south_west_to_local_req,
         --     out_data_local => south_west_to_local_data
         --     );
-        south_west_to_local_ack  <= in_south_west_ack;
+        in_south_west_ack        <= south_west_to_local_ack;
         south_west_to_local_req  <= in_south_west_req;
         south_west_to_local_data <= in_south_west_data;
         -- Straight inputs
@@ -2450,7 +2450,7 @@ begin
         --    out_req_local  => west_to_local_req,
         --    out_data_local => west_to_local_data
         --    );
-        west_to_local_ack  <= in_west_ack;
+        in_west_ack        <= west_to_local_ack;
         west_to_local_req  <= in_west_req;
         west_to_local_data <= in_west_data;
         -- south_input : entity work.straight_input_rtl(rtl)
@@ -2475,7 +2475,7 @@ begin
         --     out_req_local  => south_to_local_req,
         --     out_data_local => south_to_local_data
         --     );
-        south_to_local_ack  <= in_south_ack;
+        in_south_ack        <= south_to_local_ack;
         south_to_local_req  <= in_south_req;
         south_to_local_data <= in_south_data;
         -- Diagonal outputs
@@ -2654,7 +2654,7 @@ begin
         --     out_req_local  => south_east_to_local_req,
         --     out_data_local => south_east_to_local_data
         --     );
-        south_east_to_local_ack  <= in_south_east_ack;
+        in_south_east_ack        <= south_east_to_local_ack;
         south_east_to_local_req  <= in_south_east_req;
         south_east_to_local_data <= in_south_east_data;
         -- Straight inputs
@@ -2680,7 +2680,7 @@ begin
         --     out_req_local  => east_to_local_req,
         --     out_data_local => east_to_local_data
         --     );
-        east_to_local_ack  <= in_east_ack;
+        in_east_ack        <= east_to_local_ack;
         east_to_local_req  <= in_east_req;
         east_to_local_data <= in_east_data;
         -- south_input : entity work.straight_input_rtl(rtl)
@@ -2705,7 +2705,7 @@ begin
         --     out_req_local  => south_to_local_req,
         --     out_data_local => south_to_local_data
         --     );
-        south_to_local_ack  <= in_south_ack;
+        in_south_ack        <= south_to_local_ack;
         south_to_local_req  <= in_south_req;
         south_to_local_data <= in_south_data;
         -- Diagonal outputs
@@ -2884,7 +2884,7 @@ begin
         --     out_req_local  => north_east_to_local_req,
         --     out_data_local => north_east_to_local_data
         --     );
-        north_east_to_local_ack  <= in_north_east_ack;
+        in_north_east_ack        <= north_east_to_local_ack;
         north_east_to_local_req  <= in_north_east_req;
         north_east_to_local_data <= in_north_east_data;
         -- Straight inputs
@@ -2910,7 +2910,7 @@ begin
         --     out_req_local  => north_to_local_req,
         --     out_data_local => north_to_local_data
         --     );
-        north_to_local_ack  <= in_north_ack;
+        in_north_ack        <= north_to_local_ack;
         north_to_local_req  <= in_north_req;
         north_to_local_data <= in_north_data;
         -- east_input : entity work.straight_input_rtl(rtl)
@@ -2935,7 +2935,7 @@ begin
         --     out_req_local  => east_to_local_req,
         --     out_data_local => east_to_local_data
         --     );
-        east_to_local_ack  <= in_east_ack;
+        in_east_ack        <= east_to_local_ack;
         east_to_local_req  <= in_east_req;
         east_to_local_data <= in_east_data;
         -- Diagonal outputs
