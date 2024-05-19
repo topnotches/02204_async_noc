@@ -7,7 +7,7 @@ use work.noc_defs_pkg.all;
 entity compare_slv_sign_diff_rtl is
     generic
     (
-        SUBTRACT_LENGTH : natural := 1
+        SUBTRACT_LENGTH : natural := NOC_COMPUTE_SLV_SUBTRACT_DELAY_N
     );
     port
     (

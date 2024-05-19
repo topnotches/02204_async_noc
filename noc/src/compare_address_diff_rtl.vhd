@@ -7,7 +7,7 @@ use work.noc_defs_pkg.all;
 entity compare_address_diff_rtl is
     generic
     (
-        COMPARE_DELAY : natural := 25
+        COMPARE_DELAY : natural := NOC_COMPUTE_SLV_DIFF_DELAY_N
     );
     port
     (
