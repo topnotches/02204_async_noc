@@ -315,7 +315,7 @@ begin
     stage_compare_x : entity work.compare_address_diff_rtl(rtl)
         generic
         map (
-        COMPARE_DELAY => 25
+        COMPARE_DELAY => NOC_COMPUTE_DELTA_X_DELAY_N
         )
         port
         map
@@ -332,7 +332,7 @@ begin
     stage_compare_y : entity work.compare_address_diff_rtl(rtl)
         generic
         map (
-        COMPARE_DELAY => 25
+        COMPARE_DELAY => NOC_COMPUTE_DELTA_Y_DELAY_N
         )
         port
         map
