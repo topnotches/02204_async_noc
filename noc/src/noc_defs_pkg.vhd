@@ -28,7 +28,7 @@ package noc_defs_pkg is
     constant NOC_LONG_LENGTH       : natural := 64;
     -- Define Global NoC Parameters
     constant NOC_ADDRESS_WIDTH : natural := 2;
-    constant NOC_PACKAGE_WIDTH : natural := 4;
+    constant NOC_PACKAGE_WIDTH : natural := 0;
     constant NOC_DATA_WIDTH    : natural := NOC_ADDRESS_WIDTH * 2 + NOC_PACKAGE_WIDTH;
     constant NOC_MESH_LENGTH   : natural := 2 ** NOC_ADDRESS_WIDTH;
 
