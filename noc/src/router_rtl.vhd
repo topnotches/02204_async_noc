@@ -440,6 +440,10 @@ begin
 
         -- Diagonal outputs
         south_east_output : entity work.output_2_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_2_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -458,6 +462,10 @@ begin
             out_data => out_south_east_data
             );
         north_east_output : entity work.output_2_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_2_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -476,6 +484,10 @@ begin
             out_data => out_north_east_data
             );
         north_west_output : entity work.output_2_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_2_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -494,6 +506,10 @@ begin
             out_data => out_north_west_data
             );
         south_west_output : entity work.output_2_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_2_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -514,6 +530,10 @@ begin
 
         -- Straight outputs
         north_output : entity work.output_4_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_4_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -540,6 +560,10 @@ begin
             out_data => out_north_data
             );
         east_output : entity work.output_4_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_4_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -565,6 +589,10 @@ begin
             out_req  => out_east_req,
             out_data => out_east_data);
         south_output : entity work.output_4_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_4_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -591,6 +619,10 @@ begin
             out_data => out_south_data
             );
         west_output : entity work.output_4_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_4_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -894,6 +926,10 @@ begin
         south_to_local_data <= in_south_data;
         -- Diagonal outputs
         south_west_output : entity work.output_1_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -908,6 +944,10 @@ begin
             out_data => out_south_west_data
             );
         south_east_output : entity work.output_1_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -924,6 +964,10 @@ begin
 
         -- Straight outputs
         west_output : entity work.output_3_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -946,6 +990,10 @@ begin
             out_data => out_west_data
             );
         east_output : entity work.output_3_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -968,6 +1016,10 @@ begin
             out_data => out_east_data
             );
         south_output : entity work.output_1_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -1255,6 +1307,10 @@ begin
         west_to_local_data <= in_west_data;
         -- Diagonal outputs
         north_west_output : entity work.output_1_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -1269,6 +1325,10 @@ begin
             out_data => out_north_west_data
             );
         south_west_output : entity work.output_1_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -1285,6 +1345,10 @@ begin
 
         -- Straight outputs
         north_output : entity work.output_3_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -1307,6 +1371,10 @@ begin
             out_data => out_north_data
             );
         south_output : entity work.output_3_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -1329,6 +1397,10 @@ begin
             out_data => out_south_data
             );
         west_output : entity work.output_1_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -1617,6 +1689,10 @@ begin
         north_to_local_data <= in_north_data;
         -- Diagonal outputs
         north_west_output : entity work.output_1_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -1631,6 +1707,10 @@ begin
             out_data => out_north_west_data
             );
         north_east_output : entity work.output_1_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -1647,6 +1727,10 @@ begin
 
         -- Straight outputs
         west_output : entity work.output_3_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -1669,6 +1753,10 @@ begin
             out_data => out_west_data
             );
         east_output : entity work.output_3_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -1691,6 +1779,10 @@ begin
             out_data => out_east_data
             );
         north_output : entity work.output_1_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -1977,6 +2069,10 @@ begin
         east_to_local_data <= in_east_data;
         -- Diagonal outputs
         north_east_output : entity work.output_1_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -1991,6 +2087,10 @@ begin
             out_data => out_north_east_data
             );
         south_east_output : entity work.output_1_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -2007,6 +2107,10 @@ begin
 
         -- Straight outputs
         north_output : entity work.output_3_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -2029,6 +2133,10 @@ begin
             out_data => out_north_data
             );
         south_output : entity work.output_3_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -2051,6 +2159,10 @@ begin
             out_data => out_south_data
             );
         east_output : entity work.output_1_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -2250,6 +2362,10 @@ begin
         west_to_local_data <= in_west_data;
         -- Diagonal outputs
         north_west_output_se_corner : entity work.output_1_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -2266,6 +2382,10 @@ begin
 
         -- Straight outputs
         north_output : entity work.output_1_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -2281,6 +2401,10 @@ begin
             );
 
         west_output : entity work.output_1_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -2480,6 +2604,10 @@ begin
         south_to_local_data <= in_south_data;
         -- Diagonal outputs
         south_west_output : entity work.output_1_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -2496,6 +2624,10 @@ begin
 
         -- Straight outputs
         west_output : entity work.output_1_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -2511,6 +2643,10 @@ begin
             );
 
         south_output : entity work.output_1_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -2710,6 +2846,10 @@ begin
         south_to_local_data <= in_south_data;
         -- Diagonal outputs
         south_east_output : entity work.output_1_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -2726,6 +2866,10 @@ begin
 
         -- Straight outputs
         east_output : entity work.output_1_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -2741,6 +2885,10 @@ begin
             );
 
         south_output : entity work.output_1_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -2940,6 +3088,10 @@ begin
         east_to_local_data <= in_east_data;
         -- Diagonal outputs
         north_east_output : entity work.output_1_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -2956,6 +3108,10 @@ begin
 
         -- Straight outputs
         north_output : entity work.output_1_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
@@ -2971,6 +3127,10 @@ begin
             );
 
         east_output : entity work.output_1_inputs(rtl)
+            generic
+            map(
+                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            )
             port
             map
             (
