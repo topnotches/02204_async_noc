@@ -162,17 +162,17 @@ begin
                 in_north_req  => sarrif_mesh_vertical(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).north_to_south.req,
                 in_north_data => sarrif_mesh_vertical(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).north_to_south.data,
 
-                in_east_ack  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).right_to_left.ack,
-                in_east_req  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).right_to_left.req,
-                in_east_data => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).right_to_left.data,
+                in_east_ack  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).east_to_west.ack,
+                in_east_req  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).east_to_west.req,
+                in_east_data => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).east_to_west.data,
 
                 in_south_ack  => sarrif_mesh_vertical(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).south_to_north.ack,
                 in_south_req  => sarrif_mesh_vertical(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).south_to_north.req,
                 in_south_data => sarrif_mesh_vertical(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).south_to_north.data,
 
-                in_west_ack  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).left_to_right.ack,
-                in_west_req  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).left_to_right.req,
-                in_west_data => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).left_to_right.data,
+                in_west_ack  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).west_to_east.ack,
+                in_west_req  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).west_to_east.req,
+                in_west_data => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).west_to_east.data,
 
                 -- DIAGONAL OUTPUT CHANNELS
                 out_north_west_ack  => sarrif_mesh_diagonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).southeast_to_northwest.ack,
@@ -196,17 +196,17 @@ begin
                 out_north_req  => sarrif_mesh_vertical(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).south_to_north.req,
                 out_north_data => sarrif_mesh_vertical(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).south_to_north.data,
 
-                out_east_ack  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).left_to_right.ack,
-                out_east_req  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).left_to_right.req,
-                out_east_data => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).left_to_right.data,
+                out_east_ack  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).west_to_east.ack,
+                out_east_req  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).west_to_east.req,
+                out_east_data => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 1).west_to_east.data,
 
                 out_south_ack  => sarrif_mesh_vertical(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).north_to_south.ack,
                 out_south_req  => sarrif_mesh_vertical(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).north_to_south.req,
                 out_south_data => sarrif_mesh_vertical(func_int_to_yint(i) + 1, func_int_to_xint(i) + 0).north_to_south.data,
 
-                out_west_ack  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).right_to_left.ack,
-                out_west_req  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).right_to_left.req,
-                out_west_data => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).right_to_left.data,
+                out_west_ack  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).east_to_west.ack,
+                out_west_req  => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).east_to_west.req,
+                out_west_data => sarrif_mesh_horizonal(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).east_to_west.data,
 
                 -- Output to local port
                 out_local_ack  => sarrif_mesh_local(func_int_to_yint(i) + 0, func_int_to_xint(i) + 0).local_out.ack,

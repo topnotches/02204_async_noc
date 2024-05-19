@@ -20,8 +20,8 @@ package noc_connections_pkg is
     end record;
 
     type noc_horizontal_connections_if is record
-        left_to_right : async_bus_if;
-        right_to_left : async_bus_if;
+        west_to_east : async_bus_if;
+        east_to_west : async_bus_if;
     end record;
     type noc_vertical_connections_if is record
         north_to_south : async_bus_if;

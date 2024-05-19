@@ -160,17 +160,17 @@ begin
                     in_north_req  => mesh_verticals(y, x).south_to_north.req,
                     in_north_data => mesh_verticals(y, x).south_to_north.data,
 
-                    in_east_ack  => mesh_horizontals(y, x + 1).left_to_right.ack,
-                    in_east_req  => mesh_horizontals(y, x + 1).left_to_right.req,
-                    in_east_data => mesh_horizontals(y, x + 1).left_to_right.data,
+                    in_east_ack  => mesh_horizontals(y, x + 1).west_to_east.ack,
+                    in_east_req  => mesh_horizontals(y, x + 1).west_to_east.req,
+                    in_east_data => mesh_horizontals(y, x + 1).west_to_east.data,
 
                     in_south_ack  => mesh_verticals(y + 1, x).north_to_south.ack,
                     in_south_req  => mesh_verticals(y + 1, x).north_to_south.req,
                     in_south_data => mesh_verticals(y + 1, x).north_to_south.data,
 
-                    in_west_ack  => mesh_horizontals(y, x).right_to_left.ack,
-                    in_west_req  => mesh_horizontals(y, x).right_to_left.req,
-                    in_west_data => mesh_horizontals(y, x).right_to_left.data,
+                    in_west_ack  => mesh_horizontals(y, x).east_to_west.ack,
+                    in_west_req  => mesh_horizontals(y, x).east_to_west.req,
+                    in_west_data => mesh_horizontals(y, x).east_to_west.data,
 
                     -- DIAGONAL OUTPUT CHANNELS
                     out_north_west_ack  => mesh_diagnoals(y, x).northwest_to_southeast.ack,
@@ -194,17 +194,17 @@ begin
                     out_north_req  => mesh_verticals(y, x).north_to_south.req,
                     out_north_data => mesh_verticals(y, x).north_to_south.data,
 
-                    out_east_ack  => mesh_horizontals(y, x + 1).right_to_left.ack,
-                    out_east_req  => mesh_horizontals(y, x + 1).right_to_left.req,
-                    out_east_data => mesh_horizontals(y, x + 1).right_to_left.data,
+                    out_east_ack  => mesh_horizontals(y, x + 1).east_to_west.ack,
+                    out_east_req  => mesh_horizontals(y, x + 1).east_to_west.req,
+                    out_east_data => mesh_horizontals(y, x + 1).east_to_west.data,
 
                     out_south_ack  => mesh_verticals(y + 1, x).south_to_north.ack,
                     out_south_req  => mesh_verticals(y + 1, x).south_to_north.req,
                     out_south_data => mesh_verticals(y + 1, x).south_to_north.data,
 
-                    out_west_ack  => mesh_horizontals(y, x).left_to_right.ack,
-                    out_west_req  => mesh_horizontals(y, x).left_to_right.req,
-                    out_west_data => mesh_horizontals(y, x).left_to_right.data,
+                    out_west_ack  => mesh_horizontals(y, x).west_to_east.ack,
+                    out_west_req  => mesh_horizontals(y, x).west_to_east.req,
+                    out_west_data => mesh_horizontals(y, x).west_to_east.data,
 
                     -- LOCAL INPUT
                     in_local_ack  => out_locals(y, x).ack,
