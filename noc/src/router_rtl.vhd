@@ -442,7 +442,7 @@ begin
         south_east_output : entity work.output_2_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_2_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_2_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -464,7 +464,7 @@ begin
         north_east_output : entity work.output_2_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_2_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_2_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -486,7 +486,7 @@ begin
         north_west_output : entity work.output_2_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_2_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_2_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -508,7 +508,7 @@ begin
         south_west_output : entity work.output_2_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_2_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_2_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -532,7 +532,7 @@ begin
         north_output : entity work.output_4_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_4_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_4_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -562,7 +562,7 @@ begin
         east_output : entity work.output_4_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_4_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_4_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -591,7 +591,7 @@ begin
         south_output : entity work.output_4_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_4_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_4_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -621,7 +621,7 @@ begin
         west_output : entity work.output_4_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_4_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_4_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -928,7 +928,7 @@ begin
         south_west_output : entity work.output_1_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -946,7 +946,7 @@ begin
         south_east_output : entity work.output_1_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -966,7 +966,7 @@ begin
         west_output : entity work.output_3_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -992,7 +992,7 @@ begin
         east_output : entity work.output_3_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -1018,7 +1018,7 @@ begin
         south_output : entity work.output_1_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -1033,48 +1033,83 @@ begin
             out_req  => out_south_req,
             out_data => out_south_data
             );
+        --        local_output : entity work.local_output_rtl(rtl)
+        --            port
+        --            map (
+        --            rst => rst,
+        --            --Output channel
+        --            out_req  => out_local_req,
+        --            out_data => out_local_data,
+        --            out_ack  => out_local_ack,
+        --            -- Input channel
+        --            out_north_to_local_ack  => north_to_local_ack,
+        --            out_north_to_local_req  => north_to_local_req,
+        --            out_north_to_local_data => north_to_local_data,
+        --
+        --            out_south_to_local_ack  => south_to_local_ack,
+        --            out_south_to_local_req  => south_to_local_req,
+        --            out_south_to_local_data => south_to_local_data,
+        --
+        --            out_east_to_local_ack  => east_to_local_ack,
+        --            out_east_to_local_req  => east_to_local_req,
+        --            out_east_to_local_data => east_to_local_data,
+        --
+        --            out_west_to_local_ack  => west_to_local_ack,
+        --            out_west_to_local_req  => west_to_local_req,
+        --            out_west_to_local_data => west_to_local_data,
+        --
+        --            out_south_east_to_local_ack  => south_east_to_local_ack,
+        --            out_south_east_to_local_req  => south_east_to_local_req,
+        --            out_south_east_to_local_data => south_east_to_local_data,
+        --
+        --            out_south_west_to_local_ack  => south_west_to_local_ack,
+        --            out_south_west_to_local_req  => south_west_to_local_req,
+        --            out_south_west_to_local_data => south_west_to_local_data,
+        --
+        --            out_north_east_to_local_ack  => north_east_to_local_ack,
+        --            out_north_east_to_local_req  => north_east_to_local_req,
+        --            out_north_east_to_local_data => north_east_to_local_data,
+        --
+        --            out_north_west_to_local_ack  => north_west_to_local_ack,
+        --            out_north_west_to_local_req  => north_west_to_local_req,
+        --            out_north_west_to_local_data => north_west_to_local_data);
+        --
         -- Local input and output
-        local_output : entity work.local_output_rtl(rtl)
+
+        local_output : entity work.output_5_inputs(rtl)
+            generic
+            map(
+            buffer_length => NOC_OUTPUT_5_INPUTS_BUFFER_LENGTH
+            )
             port
-            map (
+            map
+            (
             rst => rst,
-            --Output channel
-            out_req  => out_local_req,
-            out_data => out_local_data,
+
+            in_ack_0  => south_to_local_ack,
+            in_req_0  => south_to_local_req,
+            in_data_0 => south_to_local_data,
+
+            in_ack_1  => east_to_local_ack,
+            in_req_1  => east_to_local_req,
+            in_data_1 => east_to_local_data,
+
+            in_ack_2  => west_to_local_ack,
+            in_req_2  => west_to_local_req,
+            in_data_2 => west_to_local_data,
+
+            in_ack_3  => south_east_to_local_ack,
+            in_req_3  => south_east_to_local_req,
+            in_data_3 => south_east_to_local_data,
+
+            in_ack_4  => south_west_to_local_ack,
+            in_req_4  => south_west_to_local_req,
+            in_data_4 => south_west_to_local_data,
+
             out_ack  => out_local_ack,
-            -- Input channel
-            out_north_to_local_ack  => north_to_local_ack,
-            out_north_to_local_req  => north_to_local_req,
-            out_north_to_local_data => north_to_local_data,
-
-            out_south_to_local_ack  => south_to_local_ack,
-            out_south_to_local_req  => south_to_local_req,
-            out_south_to_local_data => south_to_local_data,
-
-            out_east_to_local_ack  => east_to_local_ack,
-            out_east_to_local_req  => east_to_local_req,
-            out_east_to_local_data => east_to_local_data,
-
-            out_west_to_local_ack  => west_to_local_ack,
-            out_west_to_local_req  => west_to_local_req,
-            out_west_to_local_data => west_to_local_data,
-
-            out_south_east_to_local_ack  => south_east_to_local_ack,
-            out_south_east_to_local_req  => south_east_to_local_req,
-            out_south_east_to_local_data => south_east_to_local_data,
-
-            out_south_west_to_local_ack  => south_west_to_local_ack,
-            out_south_west_to_local_req  => south_west_to_local_req,
-            out_south_west_to_local_data => south_west_to_local_data,
-
-            out_north_east_to_local_ack  => north_east_to_local_ack,
-            out_north_east_to_local_req  => north_east_to_local_req,
-            out_north_east_to_local_data => north_east_to_local_data,
-
-            out_north_west_to_local_ack  => north_west_to_local_ack,
-            out_north_west_to_local_req  => north_west_to_local_req,
-            out_north_west_to_local_data => north_west_to_local_data);
-
+            out_req  => out_local_req,
+            out_data => out_local_data
+            );
         local_input : entity work.local_input_rtl(rtl)
             port
             map (
@@ -1309,7 +1344,7 @@ begin
         north_west_output : entity work.output_1_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -1327,7 +1362,7 @@ begin
         south_west_output : entity work.output_1_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -1347,7 +1382,7 @@ begin
         north_output : entity work.output_3_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -1373,7 +1408,7 @@ begin
         south_output : entity work.output_3_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -1399,7 +1434,7 @@ begin
         west_output : entity work.output_1_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -1414,48 +1449,82 @@ begin
             out_req  => out_west_req,
             out_data => out_west_data
             );
-        -- Local input and output
-        local_output : entity work.local_output_rtl(rtl)
+        --        -- Local input and output
+        --        local_output : entity work.local_output_rtl(rtl)
+        --            port
+        --            map (
+        --            rst => rst,
+        --            --Output channel
+        --            out_req  => out_local_req,
+        --            out_data => out_local_data,
+        --            out_ack  => out_local_ack,
+        --            -- Input channel
+        --            out_north_to_local_ack  => north_to_local_ack,
+        --            out_north_to_local_req  => north_to_local_req,
+        --            out_north_to_local_data => north_to_local_data,
+        --
+        --            out_south_to_local_ack  => south_to_local_ack,
+        --            out_south_to_local_req  => south_to_local_req,
+        --            out_south_to_local_data => south_to_local_data,
+        --
+        --            out_east_to_local_ack  => east_to_local_ack,
+        --            out_east_to_local_req  => east_to_local_req,
+        --            out_east_to_local_data => east_to_local_data,
+        --
+        --            out_west_to_local_ack  => west_to_local_ack,
+        --            out_west_to_local_req  => west_to_local_req,
+        --            out_west_to_local_data => west_to_local_data,
+        --
+        --            out_south_east_to_local_ack  => south_east_to_local_ack,
+        --            out_south_east_to_local_req  => south_east_to_local_req,
+        --            out_south_east_to_local_data => south_east_to_local_data,
+        --
+        --            out_south_west_to_local_ack  => south_west_to_local_ack,
+        --            out_south_west_to_local_req  => south_west_to_local_req,
+        --            out_south_west_to_local_data => south_west_to_local_data,
+        --
+        --            out_north_east_to_local_ack  => north_east_to_local_ack,
+        --            out_north_east_to_local_req  => north_east_to_local_req,
+        --            out_north_east_to_local_data => north_east_to_local_data,
+        --
+        --            out_north_west_to_local_ack  => north_west_to_local_ack,
+        --            out_north_west_to_local_req  => north_west_to_local_req,
+        --            out_north_west_to_local_data => north_west_to_local_data);
+        --
+        local_output : entity work.output_5_inputs(rtl)
+            generic
+            map(
+            buffer_length => NOC_OUTPUT_5_INPUTS_BUFFER_LENGTH
+            )
             port
-            map (
+            map
+            (
             rst => rst,
-            --Output channel
-            out_req  => out_local_req,
-            out_data => out_local_data,
+
+            in_ack_0  => north_to_local_ack,
+            in_req_0  => north_to_local_req,
+            in_data_0 => north_to_local_data,
+
+            in_ack_1  => south_to_local_ack,
+            in_req_1  => south_to_local_req,
+            in_data_1 => south_to_local_data,
+
+            in_ack_2  => west_to_local_ack,
+            in_req_2  => west_to_local_req,
+            in_data_2 => west_to_local_data,
+
+            in_ack_3  => south_west_to_local_ack,
+            in_req_3  => south_west_to_local_req,
+            in_data_3 => south_west_to_local_data,
+
+            in_ack_4  => north_west_to_local_ack,
+            in_req_4  => north_west_to_local_req,
+            in_data_4 => north_west_to_local_data,
+
             out_ack  => out_local_ack,
-            -- Input channel
-            out_north_to_local_ack  => north_to_local_ack,
-            out_north_to_local_req  => north_to_local_req,
-            out_north_to_local_data => north_to_local_data,
-
-            out_south_to_local_ack  => south_to_local_ack,
-            out_south_to_local_req  => south_to_local_req,
-            out_south_to_local_data => south_to_local_data,
-
-            out_east_to_local_ack  => east_to_local_ack,
-            out_east_to_local_req  => east_to_local_req,
-            out_east_to_local_data => east_to_local_data,
-
-            out_west_to_local_ack  => west_to_local_ack,
-            out_west_to_local_req  => west_to_local_req,
-            out_west_to_local_data => west_to_local_data,
-
-            out_south_east_to_local_ack  => south_east_to_local_ack,
-            out_south_east_to_local_req  => south_east_to_local_req,
-            out_south_east_to_local_data => south_east_to_local_data,
-
-            out_south_west_to_local_ack  => south_west_to_local_ack,
-            out_south_west_to_local_req  => south_west_to_local_req,
-            out_south_west_to_local_data => south_west_to_local_data,
-
-            out_north_east_to_local_ack  => north_east_to_local_ack,
-            out_north_east_to_local_req  => north_east_to_local_req,
-            out_north_east_to_local_data => north_east_to_local_data,
-
-            out_north_west_to_local_ack  => north_west_to_local_ack,
-            out_north_west_to_local_req  => north_west_to_local_req,
-            out_north_west_to_local_data => north_west_to_local_data);
-
+            out_req  => out_local_req,
+            out_data => out_local_data
+            );
         local_input : entity work.local_input_rtl(rtl)
             port
             map (
@@ -1691,7 +1760,7 @@ begin
         north_west_output : entity work.output_1_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -1709,7 +1778,7 @@ begin
         north_east_output : entity work.output_1_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -1729,7 +1798,7 @@ begin
         west_output : entity work.output_3_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -1755,7 +1824,7 @@ begin
         east_output : entity work.output_3_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -1781,7 +1850,7 @@ begin
         north_output : entity work.output_1_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -1797,47 +1866,80 @@ begin
             out_data => out_north_data
             );
         -- Local input and output
-        local_output : entity work.local_output_rtl(rtl)
+        --     local_output : entity work.local_output_rtl(rtl)
+        --         port
+        --         map (
+        --         rst => rst,
+        --         --Output channel
+        --         out_req  => out_local_req,
+        --         out_data => out_local_data,
+        --         out_ack  => out_local_ack,
+        --         -- Input channel
+        --         out_north_to_local_ack  => north_to_local_ack,
+        --         out_north_to_local_req  => north_to_local_req,
+        --         out_north_to_local_data => north_to_local_data,
+        --
+        --         out_south_to_local_ack  => south_to_local_ack,
+        --         out_south_to_local_req  => south_to_local_req,
+        --         out_south_to_local_data => south_to_local_data,
+        --
+        --         out_east_to_local_ack  => east_to_local_ack,
+        --         out_east_to_local_req  => east_to_local_req,
+        --         out_east_to_local_data => east_to_local_data,
+        --
+        --         out_west_to_local_ack  => west_to_local_ack,
+        --         out_west_to_local_req  => west_to_local_req,
+        --         out_west_to_local_data => west_to_local_data,
+        --
+        --         out_south_east_to_local_ack  => south_east_to_local_ack,
+        --         out_south_east_to_local_req  => south_east_to_local_req,
+        --         out_south_east_to_local_data => south_east_to_local_data,
+        --
+        --         out_south_west_to_local_ack  => south_west_to_local_ack,
+        --         out_south_west_to_local_req  => south_west_to_local_req,
+        --         out_south_west_to_local_data => south_west_to_local_data,
+        --
+        --         out_north_east_to_local_ack  => north_east_to_local_ack,
+        --         out_north_east_to_local_req  => north_east_to_local_req,
+        --         out_north_east_to_local_data => north_east_to_local_data,
+        --
+        --         out_north_west_to_local_ack  => north_west_to_local_ack,
+        --         out_north_west_to_local_req  => north_west_to_local_req,
+        --         out_north_west_to_local_data => north_west_to_local_data);
+        local_output : entity work.output_5_inputs(rtl)
+            generic
+            map(
+            buffer_length => NOC_OUTPUT_5_INPUTS_BUFFER_LENGTH
+            )
             port
-            map (
+            map
+            (
             rst => rst,
-            --Output channel
-            out_req  => out_local_req,
-            out_data => out_local_data,
+
+            in_ack_0  => north_to_local_ack,
+            in_req_0  => north_to_local_req,
+            in_data_0 => north_to_local_data,
+
+            in_ack_1  => east_to_local_ack,
+            in_req_1  => east_to_local_req,
+            in_data_1 => east_to_local_data,
+
+            in_ack_2  => west_to_local_ack,
+            in_req_2  => west_to_local_req,
+            in_data_2 => west_to_local_data,
+
+            in_ack_3  => north_east_to_local_ack,
+            in_req_3  => north_east_to_local_req,
+            in_data_3 => north_east_to_local_data,
+
+            in_ack_4  => north_west_to_local_ack,
+            in_req_4  => north_west_to_local_req,
+            in_data_4 => north_west_to_local_data,
+
             out_ack  => out_local_ack,
-            -- Input channel
-            out_north_to_local_ack  => north_to_local_ack,
-            out_north_to_local_req  => north_to_local_req,
-            out_north_to_local_data => north_to_local_data,
-
-            out_south_to_local_ack  => south_to_local_ack,
-            out_south_to_local_req  => south_to_local_req,
-            out_south_to_local_data => south_to_local_data,
-
-            out_east_to_local_ack  => east_to_local_ack,
-            out_east_to_local_req  => east_to_local_req,
-            out_east_to_local_data => east_to_local_data,
-
-            out_west_to_local_ack  => west_to_local_ack,
-            out_west_to_local_req  => west_to_local_req,
-            out_west_to_local_data => west_to_local_data,
-
-            out_south_east_to_local_ack  => south_east_to_local_ack,
-            out_south_east_to_local_req  => south_east_to_local_req,
-            out_south_east_to_local_data => south_east_to_local_data,
-
-            out_south_west_to_local_ack  => south_west_to_local_ack,
-            out_south_west_to_local_req  => south_west_to_local_req,
-            out_south_west_to_local_data => south_west_to_local_data,
-
-            out_north_east_to_local_ack  => north_east_to_local_ack,
-            out_north_east_to_local_req  => north_east_to_local_req,
-            out_north_east_to_local_data => north_east_to_local_data,
-
-            out_north_west_to_local_ack  => north_west_to_local_ack,
-            out_north_west_to_local_req  => north_west_to_local_req,
-            out_north_west_to_local_data => north_west_to_local_data);
-
+            out_req  => out_local_req,
+            out_data => out_local_data
+            );
         local_input : entity work.local_input_rtl(rtl)
             port
             map (
@@ -2071,7 +2173,7 @@ begin
         north_east_output : entity work.output_1_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -2089,7 +2191,7 @@ begin
         south_east_output : entity work.output_1_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -2109,7 +2211,7 @@ begin
         north_output : entity work.output_3_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -2135,7 +2237,7 @@ begin
         south_output : entity work.output_3_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -2161,7 +2263,7 @@ begin
         east_output : entity work.output_1_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -2177,47 +2279,80 @@ begin
             out_data => out_east_data
             );
         -- Local input and output
-        local_output : entity work.local_output_rtl(rtl)
+        --        local_output : entity work.local_output_rtl(rtl)
+        --            port
+        --            map (
+        --            rst => rst,
+        --            --Output channel
+        --            out_req  => out_local_req,
+        --            out_data => out_local_data,
+        --            out_ack  => out_local_ack,
+        --            -- Input channel
+        --            out_north_to_local_ack  => north_to_local_ack,
+        --            out_north_to_local_req  => north_to_local_req,
+        --            out_north_to_local_data => north_to_local_data,
+        --
+        --            out_south_to_local_ack  => south_to_local_ack,
+        --            out_south_to_local_req  => south_to_local_req,
+        --            out_south_to_local_data => south_to_local_data,
+        --
+        --            out_east_to_local_ack  => east_to_local_ack,
+        --            out_east_to_local_req  => east_to_local_req,
+        --            out_east_to_local_data => east_to_local_data,
+        --
+        --            out_west_to_local_ack  => west_to_local_ack,
+        --            out_west_to_local_req  => west_to_local_req,
+        --            out_west_to_local_data => west_to_local_data,
+        --
+        --            out_south_east_to_local_ack  => south_east_to_local_ack,
+        --            out_south_east_to_local_req  => south_east_to_local_req,
+        --            out_south_east_to_local_data => south_east_to_local_data,
+        --
+        --            out_south_west_to_local_ack  => south_west_to_local_ack,
+        --            out_south_west_to_local_req  => south_west_to_local_req,
+        --            out_south_west_to_local_data => south_west_to_local_data,
+        --
+        --            out_north_east_to_local_ack  => north_east_to_local_ack,
+        --            out_north_east_to_local_req  => north_east_to_local_req,
+        --            out_north_east_to_local_data => north_east_to_local_data,
+        --
+        --            out_north_west_to_local_ack  => north_west_to_local_ack,
+        --            out_north_west_to_local_req  => north_west_to_local_req,
+        --            out_north_west_to_local_data => north_west_to_local_data);
+        local_output : entity work.output_5_inputs(rtl)
+            generic
+            map(
+            buffer_length => NOC_OUTPUT_5_INPUTS_BUFFER_LENGTH
+            )
             port
-            map (
+            map
+            (
             rst => rst,
-            --Output channel
-            out_req  => out_local_req,
-            out_data => out_local_data,
+
+            in_ack_0  => north_to_local_ack,
+            in_req_0  => north_to_local_req,
+            in_data_0 => north_to_local_data,
+
+            in_ack_1  => south_to_local_ack,
+            in_req_1  => south_to_local_req,
+            in_data_1 => south_to_local_data,
+
+            in_ack_2  => south_east_to_local_ack,
+            in_req_2  => south_east_to_local_req,
+            in_data_2 => south_east_to_local_data,
+
+            in_ack_3  => east_to_local_ack,
+            in_req_3  => east_to_local_req,
+            in_data_3 => east_to_local_data,
+
+            in_ack_4  => north_east_to_local_ack,
+            in_req_4  => north_east_to_local_req,
+            in_data_4 => north_east_to_local_data,
+
             out_ack  => out_local_ack,
-            -- Input channel
-            out_north_to_local_ack  => north_to_local_ack,
-            out_north_to_local_req  => north_to_local_req,
-            out_north_to_local_data => north_to_local_data,
-
-            out_south_to_local_ack  => south_to_local_ack,
-            out_south_to_local_req  => south_to_local_req,
-            out_south_to_local_data => south_to_local_data,
-
-            out_east_to_local_ack  => east_to_local_ack,
-            out_east_to_local_req  => east_to_local_req,
-            out_east_to_local_data => east_to_local_data,
-
-            out_west_to_local_ack  => west_to_local_ack,
-            out_west_to_local_req  => west_to_local_req,
-            out_west_to_local_data => west_to_local_data,
-
-            out_south_east_to_local_ack  => south_east_to_local_ack,
-            out_south_east_to_local_req  => south_east_to_local_req,
-            out_south_east_to_local_data => south_east_to_local_data,
-
-            out_south_west_to_local_ack  => south_west_to_local_ack,
-            out_south_west_to_local_req  => south_west_to_local_req,
-            out_south_west_to_local_data => south_west_to_local_data,
-
-            out_north_east_to_local_ack  => north_east_to_local_ack,
-            out_north_east_to_local_req  => north_east_to_local_req,
-            out_north_east_to_local_data => north_east_to_local_data,
-
-            out_north_west_to_local_ack  => north_west_to_local_ack,
-            out_north_west_to_local_req  => north_west_to_local_req,
-            out_north_west_to_local_data => north_west_to_local_data);
-
+            out_req  => out_local_req,
+            out_data => out_local_data
+            );
         local_input : entity work.local_input_rtl(rtl)
             port
             map (
@@ -2364,7 +2499,7 @@ begin
         north_west_output_se_corner : entity work.output_1_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -2384,7 +2519,7 @@ begin
         north_output : entity work.output_1_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -2403,7 +2538,7 @@ begin
         west_output : entity work.output_1_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -2419,47 +2554,72 @@ begin
             out_data => out_west_data
             );
         -- Local input and output
-        local_output : entity work.local_output_rtl(rtl)
+        --     local_output : entity work.local_output_rtl(rtl)
+        --         port
+        --         map (
+        --         rst => rst,
+        --         --Output channel
+        --         out_req  => out_local_req,
+        --         out_data => out_local_data,
+        --         out_ack  => out_local_ack,
+        --         -- Input channel
+        --         out_north_to_local_ack  => north_to_local_ack,
+        --         out_north_to_local_req  => north_to_local_req,
+        --         out_north_to_local_data => north_to_local_data,
+        --
+        --         out_south_to_local_ack  => south_to_local_ack,
+        --         out_south_to_local_req  => south_to_local_req,
+        --         out_south_to_local_data => south_to_local_data,
+        --
+        --         out_east_to_local_ack  => east_to_local_ack,
+        --         out_east_to_local_req  => east_to_local_req,
+        --         out_east_to_local_data => east_to_local_data,
+        --
+        --         out_west_to_local_ack  => west_to_local_ack,
+        --         out_west_to_local_req  => west_to_local_req,
+        --         out_west_to_local_data => west_to_local_data,
+        --
+        --         out_south_east_to_local_ack  => south_east_to_local_ack,
+        --         out_south_east_to_local_req  => south_east_to_local_req,
+        --         out_south_east_to_local_data => south_east_to_local_data,
+        --
+        --         out_south_west_to_local_ack  => south_west_to_local_ack,
+        --         out_south_west_to_local_req  => south_west_to_local_req,
+        --         out_south_west_to_local_data => south_west_to_local_data,
+        --
+        --         out_north_east_to_local_ack  => north_east_to_local_ack,
+        --         out_north_east_to_local_req  => north_east_to_local_req,
+        --         out_north_east_to_local_data => north_east_to_local_data,
+        --
+        --         out_north_west_to_local_ack  => north_west_to_local_ack,
+        --         out_north_west_to_local_req  => north_west_to_local_req,
+        --         out_north_west_to_local_data => north_west_to_local_data);
+        local_output : entity work.output_3_inputs(rtl)
+            generic
+            map(
+            buffer_length => NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH
+            )
             port
-            map (
+            map
+            (
             rst => rst,
-            --Output channel
-            out_req  => out_local_req,
-            out_data => out_local_data,
+
+            in_ack_0  => west_to_local_ack,
+            in_req_0  => west_to_local_req,
+            in_data_0 => west_to_local_data,
+
+            in_ack_1  => north_to_local_ack,
+            in_req_1  => north_to_local_req,
+            in_data_1 => north_to_local_data,
+
+            in_ack_2  => north_west_to_local_ack,
+            in_req_2  => north_west_to_local_req,
+            in_data_2 => north_west_to_local_data,
+
             out_ack  => out_local_ack,
-            -- Input channel
-            out_north_to_local_ack  => north_to_local_ack,
-            out_north_to_local_req  => north_to_local_req,
-            out_north_to_local_data => north_to_local_data,
-
-            out_south_to_local_ack  => south_to_local_ack,
-            out_south_to_local_req  => south_to_local_req,
-            out_south_to_local_data => south_to_local_data,
-
-            out_east_to_local_ack  => east_to_local_ack,
-            out_east_to_local_req  => east_to_local_req,
-            out_east_to_local_data => east_to_local_data,
-
-            out_west_to_local_ack  => west_to_local_ack,
-            out_west_to_local_req  => west_to_local_req,
-            out_west_to_local_data => west_to_local_data,
-
-            out_south_east_to_local_ack  => south_east_to_local_ack,
-            out_south_east_to_local_req  => south_east_to_local_req,
-            out_south_east_to_local_data => south_east_to_local_data,
-
-            out_south_west_to_local_ack  => south_west_to_local_ack,
-            out_south_west_to_local_req  => south_west_to_local_req,
-            out_south_west_to_local_data => south_west_to_local_data,
-
-            out_north_east_to_local_ack  => north_east_to_local_ack,
-            out_north_east_to_local_req  => north_east_to_local_req,
-            out_north_east_to_local_data => north_east_to_local_data,
-
-            out_north_west_to_local_ack  => north_west_to_local_ack,
-            out_north_west_to_local_req  => north_west_to_local_req,
-            out_north_west_to_local_data => north_west_to_local_data);
-
+            out_req  => out_local_req,
+            out_data => out_local_data
+            );
         local_input : entity work.local_input_rtl(rtl)
             port
             map (
@@ -2606,7 +2766,7 @@ begin
         south_west_output : entity work.output_1_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -2626,7 +2786,7 @@ begin
         west_output : entity work.output_1_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -2645,7 +2805,7 @@ begin
         south_output : entity work.output_1_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -2661,47 +2821,73 @@ begin
             out_data => out_south_data
             );
         -- Local input and output
-        local_output : entity work.local_output_rtl(rtl)
+        --     local_output : entity work.local_output_rtl(rtl)
+        --         port
+        --         map (
+        --         rst => rst,
+        --         --Output channel
+        --         out_req  => out_local_req,
+        --         out_data => out_local_data,
+        --         out_ack  => out_local_ack,
+        --         -- Input channel
+        --         out_north_to_local_ack  => north_to_local_ack,
+        --         out_north_to_local_req  => north_to_local_req,
+        --         out_north_to_local_data => north_to_local_data,
+        --
+        --         out_south_to_local_ack  => south_to_local_ack,
+        --         out_south_to_local_req  => south_to_local_req,
+        --         out_south_to_local_data => south_to_local_data,
+        --
+        --         out_east_to_local_ack  => east_to_local_ack,
+        --         out_east_to_local_req  => east_to_local_req,
+        --         out_east_to_local_data => east_to_local_data,
+        --
+        --         out_west_to_local_ack  => west_to_local_ack,
+        --         out_west_to_local_req  => west_to_local_req,
+        --         out_west_to_local_data => west_to_local_data,
+        --
+        --         out_south_east_to_local_ack  => south_east_to_local_ack,
+        --         out_south_east_to_local_req  => south_east_to_local_req,
+        --         out_south_east_to_local_data => south_east_to_local_data,
+        --
+        --         out_south_west_to_local_ack  => south_west_to_local_ack,
+        --         out_south_west_to_local_req  => south_west_to_local_req,
+        --         out_south_west_to_local_data => south_west_to_local_data,
+        --
+        --         out_north_east_to_local_ack  => north_east_to_local_ack,
+        --         out_north_east_to_local_req  => north_east_to_local_req,
+        --         out_north_east_to_local_data => north_east_to_local_data,
+        --
+        --         out_north_west_to_local_ack  => north_west_to_local_ack,
+        --         out_north_west_to_local_req  => north_west_to_local_req,
+        --         out_north_west_to_local_data => north_west_to_local_data);
+
+        local_output : entity work.output_3_inputs(rtl)
+            generic
+            map(
+            buffer_length => NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH
+            )
             port
-            map (
+            map
+            (
             rst => rst,
-            --Output channel
-            out_req  => out_local_req,
-            out_data => out_local_data,
+
+            in_ack_0  => south_west_to_local_ack,
+            in_req_0  => south_west_to_local_req,
+            in_data_0 => south_west_to_local_data,
+
+            in_ack_1  => west_to_local_ack,
+            in_req_1  => west_to_local_req,
+            in_data_1 => west_to_local_data,
+
+            in_ack_2  => south_to_local_ack,
+            in_req_2  => south_to_local_req,
+            in_data_2 => south_to_local_data,
+
             out_ack  => out_local_ack,
-            -- Input channel
-            out_north_to_local_ack  => north_to_local_ack,
-            out_north_to_local_req  => north_to_local_req,
-            out_north_to_local_data => north_to_local_data,
-
-            out_south_to_local_ack  => south_to_local_ack,
-            out_south_to_local_req  => south_to_local_req,
-            out_south_to_local_data => south_to_local_data,
-
-            out_east_to_local_ack  => east_to_local_ack,
-            out_east_to_local_req  => east_to_local_req,
-            out_east_to_local_data => east_to_local_data,
-
-            out_west_to_local_ack  => west_to_local_ack,
-            out_west_to_local_req  => west_to_local_req,
-            out_west_to_local_data => west_to_local_data,
-
-            out_south_east_to_local_ack  => south_east_to_local_ack,
-            out_south_east_to_local_req  => south_east_to_local_req,
-            out_south_east_to_local_data => south_east_to_local_data,
-
-            out_south_west_to_local_ack  => south_west_to_local_ack,
-            out_south_west_to_local_req  => south_west_to_local_req,
-            out_south_west_to_local_data => south_west_to_local_data,
-
-            out_north_east_to_local_ack  => north_east_to_local_ack,
-            out_north_east_to_local_req  => north_east_to_local_req,
-            out_north_east_to_local_data => north_east_to_local_data,
-
-            out_north_west_to_local_ack  => north_west_to_local_ack,
-            out_north_west_to_local_req  => north_west_to_local_req,
-            out_north_west_to_local_data => north_west_to_local_data);
-
+            out_req  => out_local_req,
+            out_data => out_local_data
+            );
         local_input : entity work.local_input_rtl(rtl)
             port
             map (
@@ -2848,7 +3034,7 @@ begin
         south_east_output : entity work.output_1_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -2868,7 +3054,7 @@ begin
         east_output : entity work.output_1_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -2887,7 +3073,7 @@ begin
         south_output : entity work.output_1_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -2902,48 +3088,74 @@ begin
             out_req  => out_south_req,
             out_data => out_south_data
             );
-        -- Local input and output
-        local_output : entity work.local_output_rtl(rtl)
+        --        -- Local input and output
+        --        local_output : entity work.local_output_rtl(rtl)
+        --            port
+        --            map (
+        --            rst => rst,
+        --            --Output channel
+        --            out_req  => out_local_req,
+        --            out_data => out_local_data,
+        --            out_ack  => out_local_ack,
+        --            -- Input channel
+        --            out_north_to_local_ack  => north_to_local_ack,
+        --            out_north_to_local_req  => north_to_local_req,
+        --            out_north_to_local_data => north_to_local_data,
+        --
+        --            out_south_to_local_ack  => south_to_local_ack,
+        --            out_south_to_local_req  => south_to_local_req,
+        --            out_south_to_local_data => south_to_local_data,
+        --
+        --            out_east_to_local_ack  => east_to_local_ack,
+        --            out_east_to_local_req  => east_to_local_req,
+        --            out_east_to_local_data => east_to_local_data,
+        --
+        --            out_west_to_local_ack  => west_to_local_ack,
+        --            out_west_to_local_req  => west_to_local_req,
+        --            out_west_to_local_data => west_to_local_data,
+        --
+        --            out_south_east_to_local_ack  => south_east_to_local_ack,
+        --            out_south_east_to_local_req  => south_east_to_local_req,
+        --            out_south_east_to_local_data => south_east_to_local_data,
+        --
+        --            out_south_west_to_local_ack  => south_west_to_local_ack,
+        --            out_south_west_to_local_req  => south_west_to_local_req,
+        --            out_south_west_to_local_data => south_west_to_local_data,
+        --
+        --            out_north_east_to_local_ack  => north_east_to_local_ack,
+        --            out_north_east_to_local_req  => north_east_to_local_req,
+        --            out_north_east_to_local_data => north_east_to_local_data,
+        --
+        --            out_north_west_to_local_ack  => north_west_to_local_ack,
+        --            out_north_west_to_local_req  => north_west_to_local_req,
+        --            out_north_west_to_local_data => north_west_to_local_data);
+        --
+        local_output : entity work.output_3_inputs(rtl)
+            generic
+            map(
+            buffer_length => NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH
+            )
             port
-            map (
+            map
+            (
             rst => rst,
-            --Output channel
-            out_req  => out_local_req,
-            out_data => out_local_data,
+
+            in_ack_0  => east_to_local_ack,
+            in_req_0  => east_to_local_req,
+            in_data_0 => east_to_local_data,
+
+            in_ack_1  => south_to_local_ack,
+            in_req_1  => south_to_local_req,
+            in_data_1 => south_to_local_data,
+
+            in_ack_2  => south_east_to_local_ack,
+            in_req_2  => south_east_to_local_req,
+            in_data_2 => south_east_to_local_data,
+
             out_ack  => out_local_ack,
-            -- Input channel
-            out_north_to_local_ack  => north_to_local_ack,
-            out_north_to_local_req  => north_to_local_req,
-            out_north_to_local_data => north_to_local_data,
-
-            out_south_to_local_ack  => south_to_local_ack,
-            out_south_to_local_req  => south_to_local_req,
-            out_south_to_local_data => south_to_local_data,
-
-            out_east_to_local_ack  => east_to_local_ack,
-            out_east_to_local_req  => east_to_local_req,
-            out_east_to_local_data => east_to_local_data,
-
-            out_west_to_local_ack  => west_to_local_ack,
-            out_west_to_local_req  => west_to_local_req,
-            out_west_to_local_data => west_to_local_data,
-
-            out_south_east_to_local_ack  => south_east_to_local_ack,
-            out_south_east_to_local_req  => south_east_to_local_req,
-            out_south_east_to_local_data => south_east_to_local_data,
-
-            out_south_west_to_local_ack  => south_west_to_local_ack,
-            out_south_west_to_local_req  => south_west_to_local_req,
-            out_south_west_to_local_data => south_west_to_local_data,
-
-            out_north_east_to_local_ack  => north_east_to_local_ack,
-            out_north_east_to_local_req  => north_east_to_local_req,
-            out_north_east_to_local_data => north_east_to_local_data,
-
-            out_north_west_to_local_ack  => north_west_to_local_ack,
-            out_north_west_to_local_req  => north_west_to_local_req,
-            out_north_west_to_local_data => north_west_to_local_data);
-
+            out_req  => out_local_req,
+            out_data => out_local_data
+            );
         local_input : entity work.local_input_rtl(rtl)
             port
             map (
@@ -3090,7 +3302,7 @@ begin
         north_east_output : entity work.output_1_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -3110,7 +3322,7 @@ begin
         north_output : entity work.output_1_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -3129,7 +3341,7 @@ begin
         east_output : entity work.output_1_inputs(rtl)
             generic
             map(
-                buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
+            buffer_length => NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH
             )
             port
             map
@@ -3145,47 +3357,72 @@ begin
             out_data => out_east_data
             );
         -- Local input and output
-        local_output : entity work.local_output_rtl(rtl)
+        --        local_output : entity work.local_output_rtl(rtl)
+        --            port
+        --            map (
+        --            rst => rst,
+        --            --Output channel
+        --            out_req  => out_local_req,
+        --            out_data => out_local_data,
+        --            out_ack  => out_local_ack,
+        --            -- Input channel
+        --            out_north_to_local_ack  => north_to_local_ack,
+        --            out_north_to_local_req  => north_to_local_req,
+        --            out_north_to_local_data => north_to_local_data,
+        --
+        --            out_south_to_local_ack  => south_to_local_ack,
+        --            out_south_to_local_req  => south_to_local_req,
+        --            out_south_to_local_data => south_to_local_data,
+        --
+        --            out_east_to_local_ack  => east_to_local_ack,
+        --            out_east_to_local_req  => east_to_local_req,
+        --            out_east_to_local_data => east_to_local_data,
+        --
+        --            out_west_to_local_ack  => west_to_local_ack,
+        --            out_west_to_local_req  => west_to_local_req,
+        --            out_west_to_local_data => west_to_local_data,
+        --
+        --            out_south_east_to_local_ack  => south_east_to_local_ack,
+        --            out_south_east_to_local_req  => south_east_to_local_req,
+        --            out_south_east_to_local_data => south_east_to_local_data,
+        --
+        --            out_south_west_to_local_ack  => south_west_to_local_ack,
+        --            out_south_west_to_local_req  => south_west_to_local_req,
+        --            out_south_west_to_local_data => south_west_to_local_data,
+        --
+        --            out_north_east_to_local_ack  => north_east_to_local_ack,
+        --            out_north_east_to_local_req  => north_east_to_local_req,
+        --            out_north_east_to_local_data => north_east_to_local_data,
+        --
+        --            out_north_west_to_local_ack  => north_west_to_local_ack,
+        --            out_north_west_to_local_req  => north_west_to_local_req,
+        --            out_north_west_to_local_data => north_west_to_local_data);
+        local_output : entity work.output_3_inputs(rtl)
+            generic
+            map(
+            buffer_length => NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH
+            )
             port
-            map (
+            map
+            (
             rst => rst,
-            --Output channel
-            out_req  => out_local_req,
-            out_data => out_local_data,
+
+            in_ack_0  => east_to_local_ack,
+            in_req_0  => east_to_local_req,
+            in_data_0 => east_to_local_data,
+
+            in_ack_1  => north_to_local_ack,
+            in_req_1  => north_to_local_req,
+            in_data_1 => north_to_local_data,
+
+            in_ack_2  => north_east_to_local_ack,
+            in_req_2  => north_east_to_local_req,
+            in_data_2 => north_east_to_local_data,
+
             out_ack  => out_local_ack,
-            -- Input channel
-            out_north_to_local_ack  => north_to_local_ack,
-            out_north_to_local_req  => north_to_local_req,
-            out_north_to_local_data => north_to_local_data,
-
-            out_south_to_local_ack  => south_to_local_ack,
-            out_south_to_local_req  => south_to_local_req,
-            out_south_to_local_data => south_to_local_data,
-
-            out_east_to_local_ack  => east_to_local_ack,
-            out_east_to_local_req  => east_to_local_req,
-            out_east_to_local_data => east_to_local_data,
-
-            out_west_to_local_ack  => west_to_local_ack,
-            out_west_to_local_req  => west_to_local_req,
-            out_west_to_local_data => west_to_local_data,
-
-            out_south_east_to_local_ack  => south_east_to_local_ack,
-            out_south_east_to_local_req  => south_east_to_local_req,
-            out_south_east_to_local_data => south_east_to_local_data,
-
-            out_south_west_to_local_ack  => south_west_to_local_ack,
-            out_south_west_to_local_req  => south_west_to_local_req,
-            out_south_west_to_local_data => south_west_to_local_data,
-
-            out_north_east_to_local_ack  => north_east_to_local_ack,
-            out_north_east_to_local_req  => north_east_to_local_req,
-            out_north_east_to_local_data => north_east_to_local_data,
-
-            out_north_west_to_local_ack  => north_west_to_local_ack,
-            out_north_west_to_local_req  => north_west_to_local_req,
-            out_north_west_to_local_data => north_west_to_local_data);
-
+            out_req  => out_local_req,
+            out_data => out_local_data
+            );
         local_input : entity work.local_input_rtl(rtl)
             port
             map (
