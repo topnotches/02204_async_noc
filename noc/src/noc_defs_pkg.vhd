@@ -38,11 +38,12 @@ package noc_defs_pkg is
     constant NOC_LOCAL_OUTPUT_BUFFER_LENGTH : natural := 1;
 
     constant NOC_OUTPUT_1_INPUTS_BUFFER_LENGTH : natural := 1;
-    constant NOC_OUTPUT_2_INPUTS_BUFFER_LENGTH : natural := 2;
-    constant NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH : natural := 3;
-    constant NOC_OUTPUT_4_INPUTS_BUFFER_LENGTH : natural := 4;
+    constant NOC_OUTPUT_2_INPUTS_BUFFER_LENGTH : natural := 1;
+    constant NOC_OUTPUT_3_INPUTS_BUFFER_LENGTH : natural := 30
+    constant NOC_OUTPUT_4_INPUTS_BUFFER_LENGTH : natural := 1;
+    constant NOC_OUTPUT_5_INPUTS_BUFFER_LENGTH : natural := 1;
 
-    constant NOC_COMPUTE_SLV_DIFF_DELAY_N     : natural := 10;
+    constant NOC_COMPUTE_SLV_DIFF_DELAY_N     : natural := 15;
     constant NOC_COMPUTE_SLV_SUBTRACT_DELAY_N : natural := 25;
     constant NOC_COMPUTE_DELTA_X_DELAY_N      : natural := NOC_COMPUTE_SLV_DIFF_DELAY_N;
     constant NOC_COMPUTE_DELTA_Y_DELAY_N      : natural := NOC_COMPUTE_SLV_DIFF_DELAY_N;

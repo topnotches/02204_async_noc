@@ -6,7 +6,7 @@ use work.data_if_pkg.all;
 use work.noc_defs_pkg.all;
 use work.buffer_rtl;
 
-entity output_4_inputs is
+entity output_5_inputs is
     generic
         (buffer_length : integer := 1);
     port
@@ -30,15 +30,22 @@ entity output_4_inputs is
         in_req_2  : in std_logic;
         in_data_2 : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
         in_ack_2  : out std_logic;
-
+        -- SLOW
         in_req_3  : in std_logic;
         in_data_3 : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
-        in_ack_3  : out std_logic
+        in_ack_3  : out std_logic;
+        in_req_4  : in std_logic;
+        in_data_4 : in std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+        in_ack_4  : out std_logic
     );
 end entity;
 
-architecture rtl of output_4_inputs is
+architecture rtl of output_5_inputs is
     -- Stage 0 Signals
+    signal stage_pre_0_req_3  : std_logic;
+    signal stage_pre_0_ack_3  : std_logic;
+    signal stage_pre_0_data_3 : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
+
     signal stage_0_arbiter_1_ack  : std_logic;
     signal stage_0_arbiter_1_req  : std_logic;
     signal stage_0_arbtier_1_data : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
@@ -52,24 +59,44 @@ architecture rtl of output_4_inputs is
     signal stage_1_arbtier_3_data : std_logic_vector(NOC_DATA_WIDTH - 1 downto 0);
 
 begin
-    stage_0_arbiter_1 : entity work.arbiter(impl)
+
+    stage_0_arbiter_0 : entity work.arbiter(impl)
         generic
         map (ARBITER_DATA_WIDTH => NOC_DATA_WIDTH)
         port map
         (
             rst => rst,
             -- Channel A
-            inA_req  => in_req_0,
-            inA_data => in_data_0,
-            inA_ack  => in_ack_0,
+            inA_req  => in_req_3,
+            inA_data => in_data_3,
+            inA_ack  => in_ack_3,
             -- Channel B
-            inB_req  => in_req_1,
-            inB_data => in_data_1,
-            inB_ack  => in_ack_1,
+            inB_req  => in_req_4,
+            inB_data => in_data_4,
+            inB_ack  => in_ack_4,
             -- Output channel
-            outC_req  => stage_0_arbiter_1_req,
-            outC_data => stage_0_arbtier_1_data,
-            outC_ack  => stage_0_arbiter_1_ack);
+            outC_req  => stage_pre_0_req_3,
+            outC_data => stage_pre_0_data_3,
+            outC_ack  => stage_pre_0_ack_3);
+    stage_0_arbiter_1 : entity work.arbiter(impl)
+        generic
+        map (ARBITER_DATA_WIDTH => NOC_DATA_WIDTH)
+        port
+        map
+        (
+        rst => rst,
+        -- Channel A
+        inA_req  => in_req_0,
+        inA_data => in_data_0,
+        inA_ack  => in_ack_0,
+        -- Channel B
+        inB_req  => in_req_1,
+        inB_data => in_data_1,
+        inB_ack  => in_ack_1,
+        -- Output channel
+        outC_req  => stage_0_arbiter_1_req,
+        outC_data => stage_0_arbtier_1_data,
+        outC_ack  => stage_0_arbiter_1_ack);
 
     stage_0_arbiter_2 : entity work.arbiter(impl)
         generic
@@ -82,9 +109,9 @@ begin
         inA_data => in_data_2,
         inA_ack  => in_ack_2,
         -- Channel B
-        inB_req  => in_req_3,
-        inB_data => in_data_3,
-        inB_ack  => in_ack_3,
+        inB_req  => stage_pre_0_req_3,
+        inB_data => stage_pre_0_data_3,
+        inB_ack  => stage_pre_0_ack_3,
         -- Output channel
         outC_req  => stage_0_arbiter_2_req,
         outC_data => stage_0_arbtier_2_data,
