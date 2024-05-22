@@ -74,24 +74,17 @@ BEGIN
     begin
       wait for 100 ns;
       insert_data_package_from_stim_vector(0);
-      wait for 50 ns;
+      wait until out_req_local_signal'event;
+      wait for 10 ns;
+      assert out_data_local_signal = in_data_signal report "Data Mismatch" severity failure;
       out_ack_local_signal <= not out_ack_local_signal;
 
       insert_data_package_from_stim_vector(1);
-      wait for 100 ns;
+      wait until out_req_continue_signal'event;
+      wait for 10 ns;
+      assert out_data_continue_signal = in_data_signal report "Data Mismatch" severity failure;
       out_ack_continue_signal <= not out_ack_continue_signal;
-      wait for 50 ns;
-
-      insert_data_package_from_stim_vector(2);
-      wait for 100 ns;
-      out_ack_local_signal <= not out_ack_local_signal;
-      wait for 50 ns;
-
-      insert_data_package_from_stim_vector(3);
-      wait for 100 ns;
-      out_ack_continue_signal <= not out_ack_continue_signal;
-      wait for 50 ns;
-
+      assert false report "End of Test" severity failure;
     end process;
   end block;
   -- Reset Signal Goes Low

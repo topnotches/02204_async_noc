@@ -75,11 +75,10 @@ architecture behavioral of output_4_inputs_tb is
             
             
             process
-                variable counter : integer := 0;
-                variable data_0 : integer := 0;
-                variable data_1 : integer := 1;
-                variable data_2 : integer := 2;
-                variable data_3 : integer := 3;
+                variable data_0 : integer := 5;
+                variable data_1 : integer := 2;
+                variable data_2 : integer := 6;
+                variable data_3 : integer := 7;
             begin
             
                 wait for time_resolution;
@@ -87,37 +86,41 @@ architecture behavioral of output_4_inputs_tb is
                 wait for 10*time_resolution;
 
                 in_data_0_signal <= std_logic_vector(to_unsigned(data_0,NOC_DATA_WIDTH));
-                data_0 := data_0 + 4;
                 wait for 10*time_resolution;
                 in_req_0_signal <= '1';
                 
-                wait for 50*time_resolution;
+                wait until out_req_signal'event;
+                wait for 3*time_resolution;
+                assert out_data_signal = in_data_0_signal report "Error in data 0" severity error;
                 out_ack_signal <= not(out_ack_signal);
 
                 in_data_1_signal <= std_logic_vector(to_unsigned(data_1,NOC_DATA_WIDTH));
-                data_1 := data_1 + 4;
                 wait for 10*time_resolution;
                 in_req_1_signal <= '1';
 
-                wait for 50*time_resolution;
+                wait until out_req_signal'event;
+                wait for 3*time_resolution;
+                assert out_data_signal = in_data_1_signal report "Error in data 1" severity error;
                 out_ack_signal <= not(out_ack_signal);
 
                 in_data_2_signal <= std_logic_vector(to_unsigned(data_2,NOC_DATA_WIDTH));
-                data_2 := data_2 + 4;
                 wait for 10*time_resolution;
                 in_req_2_signal <= '1';
 
-                wait for 50*time_resolution;
+                wait until out_req_signal'event;
+                wait for 3*time_resolution;
+                assert out_data_signal = in_data_2_signal report "Error in data 2" severity error;
                 out_ack_signal <= not(out_ack_signal);
 
                 in_data_3_signal <= std_logic_vector(to_unsigned(data_3,NOC_DATA_WIDTH));
-                data_3 := data_3 + 4;
                 wait for 10*time_resolution;
                 in_req_3_signal <='1';
 
-                wait for 50*time_resolution;
+                wait until out_req_signal'event;
+                wait for 3*time_resolution;
+                assert out_data_signal = in_data_3_signal report "Error in data 3" severity error;
                 out_ack_signal <= not(out_ack_signal);
-
+                assert false report "End of test" severity failure;
             end process;
             
             

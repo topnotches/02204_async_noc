@@ -459,7 +459,7 @@ architecture behavioral of router_tb is
                 assert out_west_data = in_south_east_data report "south east to west failed" severity failure;
                 wait for 3*time_resolution;
                 out_west_ack <= not(out_west_ack);
-                data := data + 1;
+                assert false report "End of test" severity failure;
             end process;
             
             

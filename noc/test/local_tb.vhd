@@ -135,49 +135,52 @@ begin
             insert_data_package_from_stim_vector(0);
             wait until signal_out_north_west_req'event;
             wait for 10 ns;
+            assert signal_out_north_west_data = signal_in_data report "Data Mismatch" severity failure;
             signal_out_north_west_ack <= not signal_out_north_west_ack;
 
             insert_data_package_from_stim_vector(1);
             wait until signal_out_north_req'event;
             wait for 10 ns;
+            assert signal_out_north_data = signal_in_data report "Data Mismatch" severity failure;
             signal_out_north_ack <= not signal_out_north_ack;
-            wait for 50 ns;
 
             insert_data_package_from_stim_vector(2);
             wait until signal_out_north_east_req'event;
             wait for 10 ns;
+            assert signal_out_north_east_data = signal_in_data report "Data Mismatch" severity failure;
             signal_out_north_east_ack <= not signal_out_north_east_ack;
-            wait for 50 ns;
 
             insert_data_package_from_stim_vector(3);
             wait until signal_out_east_req'event;
             wait for 10 ns;
+            assert signal_out_east_data = signal_in_data report "Data Mismatch" severity failure;
             signal_out_east_ack <= not signal_out_east_ack;
-            wait for 50 ns;
 
             wait for 100 ns;
             insert_data_package_from_stim_vector(4);
             wait until signal_out_south_east_req'event;
             wait for 10 ns;
+            assert signal_out_south_east_data = signal_in_data report "Data Mismatch" severity failure;
             signal_out_south_east_ack <= not signal_out_south_east_ack;
 
             insert_data_package_from_stim_vector(5);
             wait until signal_out_south_req'event;
             wait for 10 ns;
+            assert signal_out_south_data = signal_in_data report "Data Mismatch" severity failure;
             signal_out_south_ack <= not signal_out_south_ack;
-            wait for 50 ns;
 
             insert_data_package_from_stim_vector(6);
             wait until signal_out_south_west_req'event;
             wait for 10 ns;
+            assert signal_out_south_west_data = signal_in_data report "Data Mismatch" severity failure;
             signal_out_south_west_ack <= not signal_out_south_west_ack;
-            wait for 50 ns;
 
             insert_data_package_from_stim_vector(7);
             wait until signal_out_west_req'event;
             wait for 10 ns;
+            assert signal_out_west_data = signal_in_data report "Data Mismatch" severity failure;
             signal_out_west_ack <= not signal_out_west_ack;
-            wait for 50 ns;
+            assert false report "End of Test" severity failure;
 
         end process;
 

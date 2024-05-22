@@ -48,25 +48,22 @@ architecture behavioral of output_1_inputs_tb is
 
         
         TB: block begin
-            
-                 
-            
-            
             process
-                variable counter : integer := 0;
-                variable data : integer := 0;
+                variable data : integer := 5;
             begin
             
                 wait for time_resolution;
                 rst_signal <= '0';
                 wait for 10*time_resolution;
                 in_data_signal <= std_logic_vector(to_unsigned(data,NOC_DATA_WIDTH));
-                data := data + 1;
                 wait for 10*time_resolution;
                 in_req_signal <= not(in_req_signal);
                 
-                wait for 50*time_resolution;
+                wait until out_req_signal'event;
+                wait for 3*time_resolution;
+                assert out_data_signal = in_data_signal report "Data is not equal" severity failure;
                 out_ack_signal <= not(out_ack_signal);
+                assert false report "End of test" severity failure;
             end process;
             
             

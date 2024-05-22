@@ -119,78 +119,85 @@ architecture behavioral of local_output_tb is
                 wait for 10*time_resolution;
                 -- NORTH
                 out_north_to_local_data <= std_logic_vector(to_unsigned(data_north,NOC_DATA_WIDTH));
-                data_north := data_north + 8;
                 wait for 10*time_resolution;
                 out_north_to_local_req <= not(out_north_to_local_req);
                 
-                wait for 50*time_resolution;
+                wait until out_req_signal'event;
+                wait for 10 ns;
                 assert out_data_signal = out_north_to_local_data report "Error in out_north_to_local_data signal" severity failure;
                 out_ack_signal <= not(out_ack_signal);
 
                 -- SOUTH
                 out_south_to_local_data <= std_logic_vector(to_unsigned(data_south,NOC_DATA_WIDTH));
-                data_south := data_south + 8;
                 wait for 10*time_resolution;
                 out_south_to_local_req <= not(out_south_to_local_req);
                 
-                wait for 50*time_resolution;
+                wait until out_req_signal'event;
+                wait for 10 ns;
                 assert out_data_signal = out_south_to_local_data report "Error in out_south_to_local_data signal" severity failure;	
                 out_ack_signal <= not(out_ack_signal);
 
                 -- EAST
                 out_east_to_local_data <= std_logic_vector(to_unsigned(data_east,NOC_DATA_WIDTH));
-                data_east := data_east + 8;
                 wait for 10*time_resolution;
                 out_east_to_local_req <= not(out_east_to_local_req);
                 
-                wait for 50*time_resolution;
+                wait until out_req_signal'event;
+                wait for 10 ns;
                 assert out_data_signal = out_east_to_local_data report "Error in out_east_to_local_data signal" severity failure;
                 out_ack_signal <= not(out_ack_signal);
 
                 -- WEST
                 out_west_to_local_data <= std_logic_vector(to_unsigned(data_west,NOC_DATA_WIDTH));
-                data_west := data_west + 8;
                 wait for 10*time_resolution;
                 out_west_to_local_req <= not(out_west_to_local_req);
                 
-                wait for 50*time_resolution;
+                wait until out_req_signal'event;
+                wait for 10 ns;
                 out_ack_signal <= not(out_ack_signal);
-                
+                assert out_data_signal = out_west_to_local_data report "Error in out_west_to_local_data signal" severity failure;
+
                 -- NORTH WEST
                 out_north_west_to_local_data <= std_logic_vector(to_unsigned(data_north_west,NOC_DATA_WIDTH));
-                data_north_west := data_north_west + 8;
                 wait for 10*time_resolution;
                 out_north_west_to_local_req <= not(out_north_west_to_local_req);
                 
-                wait for 50*time_resolution;
+                wait until out_req_signal'event;
+                wait for 10 ns;
+                assert out_data_signal = out_north_west_to_local_data report "Error in out_north_west_to_local_data signal" severity failure;
                 out_ack_signal <= not(out_ack_signal);
 
                 -- NORTH EAST
                 out_north_east_to_local_data <= std_logic_vector(to_unsigned(data_north_east,NOC_DATA_WIDTH));
-                data_north_east := data_north_east + 8;
                 wait for 10*time_resolution;
                 out_north_east_to_local_req <= not(out_north_east_to_local_req);
                 
-                wait for 50*time_resolution;
+                wait until out_req_signal'event;
+                wait for 10 ns;
+                assert out_data_signal = out_north_east_to_local_data report "Error in out_north_east_to_local_data signal" severity failure;
                 out_ack_signal <= not(out_ack_signal);
 
                 -- SOUTH WEST
                 out_south_west_to_local_data <= std_logic_vector(to_unsigned(data_south_west,NOC_DATA_WIDTH));
-                data_south_west := data_south_west + 8;
                 wait for 10*time_resolution;
                 out_south_west_to_local_req <= not(out_south_west_to_local_req);
                 
-                wait for 50*time_resolution;
+                wait until out_req_signal'event;
+                wait for 10 ns;
+                assert out_data_signal = out_south_west_to_local_data report "Error in out_south_west_to_local_data signal" severity failure;
                 out_ack_signal <= not(out_ack_signal);
 
                 -- SOUTH EAST
                 out_south_east_to_local_data <= std_logic_vector(to_unsigned(data_south_east,NOC_DATA_WIDTH));
-                data_south_east := data_south_east + 8;
                 wait for 10*time_resolution;
-                out_south_east_to_local_req <= not(out_south_west_to_local_req);
+                out_south_east_to_local_req <= not(out_south_east_to_local_req);
                 
-                wait for 50*time_resolution;
+                wait until out_req_signal'event;
+                wait for 10 ns;
+                assert out_data_signal = out_south_east_to_local_data report "Error in out_south_east_to_local_data signal" severity failure;
                 out_ack_signal <= not(out_ack_signal);
+
+                assert false report "End of test" severity failure;
             end process;
             
             

@@ -62,12 +62,26 @@ BEGIN
       insert_data("0101");
       insert_data("1010");
       insert_data("0111");
+      wait for 100 ns;
+      assert out_data_signal = "1111" report "Error in out_data_signal" severity error;
+      out_ack_signal <= not out_ack_signal;
 
-      wait for 100 ns;
-      out_ack_signal <= '1';
-      wait for 100 ns;
-      out_ack_signal <= '0'; 
-      wait;
+      wait until out_req_signal'event;
+      wait for 10 ns;
+      assert out_data_signal = "0101" report "Error in out_data_signal" severity error;
+      out_ack_signal <= not out_ack_signal;
+
+      wait until out_req_signal'event;
+      wait for 10 ns;
+      assert out_data_signal = "1010" report "Error in out_data_signal" severity error;
+      out_ack_signal <= not out_ack_signal;
+
+      wait until out_req_signal'event;
+      wait for 10 ns;
+      assert out_data_signal = "0111" report "Error in out_data_signal" severity error;
+      out_ack_signal <= not out_ack_signal;
+
+      assert false report "End of Testbench" severity FAILURE;
     end process;
   end block;
 END ARCHITECTURE behavioral;

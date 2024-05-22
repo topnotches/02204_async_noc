@@ -84,6 +84,7 @@ begin
             wait until outC_req_signal'event;
             assert outC_data_signal = "0000" report "Error in outC_data_signal" severity error;
             outC_ack_signal <= not outC_ack_signal;
+            assert false report "End of test" severity failure;
         end process;
     end block;
 
