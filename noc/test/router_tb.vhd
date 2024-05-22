@@ -459,7 +459,105 @@ architecture behavioral of router_tb is
                 assert out_west_data = in_south_east_data report "south east to west failed" severity failure;
                 wait for 3*time_resolution;
                 out_west_ack <= not(out_west_ack);
+                data := data + 1;
+            -- LOCAL INPUT
+                -- NORTH WEST PORT
+                in_local_data <= data_if_to_slv(init_data_if(0,0)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+                
+                wait for 10*time_resolution;
+                in_local_req <= not(in_local_req);
+
+                wait until out_noth_west_req'event;
+                assert out_north_west_data = in_local_data report "local to north west failed" severity failure;
+                wait for 3*time_resolution;
+                out_north_west_ack <= not(out_north_west_ack);
+                data := data + 1;
+
+                -- NORTH EAST PORT
+                in_local_data <= data_if_to_slv(init_data_if(0,2)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+
+                wait for 10*time_resolution;
+                in_local_req <= not(in_local_req);
+
+                wait until out_noth_east_req'event;
+                assert out_north_east_data = in_local_data report "local to north east failed" severity failure;
+                wait for 3*time_resolution;
+                out_north_east_ack <= not(out_north_east_ack);
+                data := data + 1;
+
+                -- SOUTH WEST PORT
+                in_local_data <= data_if_to_slv(init_data_if(2,0)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+
+                wait for 10*time_resolution;
+                in_local_req <= not(in_local_req);
+
+                wait until out_south_west_req'event;
+                assert out_south_west_data = in_local_data report "local to south west failed" severity failure;
+                wait for 3*time_resolution;
+                out_south_west_ack <= not(out_south_west_ack);
+                data := data + 1;
+
+                -- SOUTH EAST PORT
+                in_local_data <= data_if_to_slv(init_data_if(2,2)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+                
+                wait for 10*time_resolution;
+                in_local_req <= not(in_local_req);
+
+                wait until out_south_east_req'event;
+                assert out_south_east_data = in_local_data report "local to south east failed" severity failure;
+                wait for 3*time_resolution;
+                out_south_east_ack <= not(out_south_east_ack);
+                data := data + 1;
+
+                -- NORTH PORT
+                in_local_data <= data_if_to_slv(init_data_if(0,1)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+
+                wait for 10*time_resolution;
+                in_local_req <= not(in_local_req);
+
+                wait until out_north_req'event;
+                assert out_north_data = in_local_data report "local to north failed" severity failure;
+                wait for 3*time_resolution;
+                out_north_ack <= not(out_north_ack);
+                data := data + 1;
+
+                -- EAST PORT
+                in_local_data <= data_if_to_slv(init_data_if(1,2)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+
+                wait for 10*time_resolution;
+                in_local_req <= not(in_local_req);
+
+                wait until out_east_req'event;
+                assert out_east_data = in_local_data report "local to east failed" severity failure;
+                wait for 3*time_resolution;
+                out_east_ack <= not(out_east_ack);
+                data := data + 1;
+
+                -- SOUTH PORT
+                in_local_data <= data_if_to_slv(init_data_if(2,1)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+
+                wait for 10*time_resolution;
+                in_local_req <= not(in_local_req);
+
+                wait until out_south_req'event;
+                assert out_south_data = in_local_data report "local to south failed" severity failure;
+                wait for 3*time_resolution;
+                out_south_ack <= not(out_south_ack);
+                data := data + 1;
+
+                -- WEST PORT
+                in_local_data <= data_if_to_slv(init_data_if(1,0)) & std_logic_vector(to_unsigned(data,NOC_PACKAGE_WIDTH));
+                
+                wait for 10*time_resolution;
+                in_local_req <= not(in_local_req);
+
+                wait until out_west_req'event;
+                assert out_west_data = in_local_data report "local to west failed" severity failure;
+                wait for 3*time_resolution;
+                out_west_ack <= not(out_west_ack);
+                
                 assert false report "End of test" severity failure;
+
             end process;
             
             
